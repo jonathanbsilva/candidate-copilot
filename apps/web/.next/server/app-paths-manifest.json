@@ -1,6 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/insight/page": "app/insight/page.js",
-  "/auth/page": "app/auth/page.js",
-  "/comecar/page": "app/comecar/page.js"
-}
