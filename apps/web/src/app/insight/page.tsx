@@ -14,12 +14,16 @@ import {
   type Insight,
 } from '@/lib/insight-engine'
 import type { EntryFlowData } from '@/lib/schemas/entry-flow'
+import { useUser } from '@/hooks/use-user'
+import { saveInsight } from './actions'
 
 export default function InsightPage() {
   const router = useRouter()
+  const { isLoggedIn, loading: authLoading } = useUser()
   const [data, setData] = useState<EntryFlowData | null>(null)
   const [insight, setInsight] = useState<Insight | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [saved, setSaved] = useState(false)
 
   useEffect(() => {
     // Get data from sessionStorage
@@ -45,6 +49,53 @@ export default function InsightPage() {
       router.push('/comecar')
     }
   }, [router])
+
+  // Salvar no sessionStorage para caso de signup posterior
+  useEffect(() => {
+    if (data && insight) {
+      sessionStorage.setItem('pendingInsight', JSON.stringify({
+        cargo: data.cargo,
+        senioridade: data.senioridade,
+        area: data.area,
+        status: data.status,
+        tempoSituacao: data.tempoSituacao,
+        urgencia: data.urgencia,
+        objetivo: data.objetivo,
+        objetivoOutro: data.objetivoOutro,
+        recommendation: insight.recommendation,
+        why: insight.why,
+        risks: insight.risks,
+        nextSteps: insight.nextSteps,
+      }))
+    }
+  }, [data, insight])
+
+  // Se ja logado, salvar no DB imediatamente
+  useEffect(() => {
+    if (isLoggedIn && data && insight && !saved && !authLoading) {
+      saveInsight({
+        cargo: data.cargo,
+        senioridade: data.senioridade,
+        area: data.area,
+        status: data.status,
+        tempoSituacao: data.tempoSituacao,
+        urgencia: data.urgencia,
+        objetivo: data.objetivo,
+        objetivoOutro: data.objetivoOutro,
+        recommendation: insight.recommendation,
+        why: insight.why,
+        risks: insight.risks,
+        nextSteps: insight.nextSteps,
+      }).then((result) => {
+        if (result.success) {
+          setSaved(true)
+          // Limpar sessionStorage ja que salvou no DB
+          sessionStorage.removeItem('pendingInsight')
+          sessionStorage.removeItem('entryFlowData')
+        }
+      })
+    }
+  }, [isLoggedIn, data, insight, saved, authLoading])
 
   const handleStartOver = () => {
     sessionStorage.removeItem('entryFlowData')
@@ -165,24 +216,53 @@ export default function InsightPage() {
 
         {/* CTA Section */}
         <Card className="p-6 sm:p-8 text-center">
-          <h2 className="text-xl font-semibold text-navy mb-2">
-            Quer acompanhar seu progresso?
-          </h2>
-          <p className="text-navy/70 mb-6 max-w-md mx-auto">
-            Crie uma conta gratuita para salvar seus insights, acompanhar suas metas e receber direcionamentos personalizados.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link href="/auth">
-              <Button size="lg">
-                <User className="mr-2 w-5 h-5" />
-                Criar conta gratuita
-              </Button>
-            </Link>
-            <Button variant="ghost" onClick={handleStartOver}>
-              <RefreshCw className="mr-2 w-5 h-5" />
-              Comecar de novo
-            </Button>
-          </div>
+          {isLoggedIn ? (
+            <>
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <CheckCircle className="w-5 h-5 text-teal" />
+                <h2 className="text-xl font-semibold text-navy">
+                  Insight salvo!
+                </h2>
+              </div>
+              <p className="text-navy/70 mb-6 max-w-md mx-auto">
+                Voce pode acessar este e outros insights no seu dashboard.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link href="/dashboard">
+                  <Button size="lg">
+                    <ArrowRight className="mr-2 w-5 h-5" />
+                    Ir para o Dashboard
+                  </Button>
+                </Link>
+                <Button variant="ghost" onClick={handleStartOver}>
+                  <RefreshCw className="mr-2 w-5 h-5" />
+                  Novo insight
+                </Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="text-xl font-semibold text-navy mb-2">
+                Quer salvar e acompanhar?
+              </h2>
+              <p className="text-navy/70 mb-6 max-w-md mx-auto">
+                Crie uma conta gratuita para salvar seus insights e receber 
+                direcionamentos personalizados.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link href="/auth">
+                  <Button size="lg">
+                    <User className="mr-2 w-5 h-5" />
+                    Criar conta gratuita
+                  </Button>
+                </Link>
+                <Button variant="ghost" onClick={handleStartOver}>
+                  <RefreshCw className="mr-2 w-5 h-5" />
+                  Comecar de novo
+                </Button>
+              </div>
+            </>
+          )}
         </Card>
 
         {/* Interview Pro Teaser */}
