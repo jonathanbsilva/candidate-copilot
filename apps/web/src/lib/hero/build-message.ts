@@ -118,7 +118,7 @@ const templates: Record<string, (metadata?: Record<string, unknown>) => HeroData
 }
 
 // Contextos que usam AI para personalizar mensagem
-const aiContexts: HeroContext[] = ['proposal_received', 'interview_soon', 'needs_followup', 'active_summary']
+const aiContexts: HeroContext[] = ['proposal_received', 'interview_soon', 'interview_feedback', 'needs_followup', 'active_summary']
 
 async function generateAIMessage(result: ContextDetectionResult): Promise<HeroData | null> {
   const openai = getOpenAIClient()
@@ -129,6 +129,10 @@ Gere uma mensagem curta (maximo 2 frases) e encorajadora, sugerindo que ele aval
     
     interview_soon: `O usuario tem uma entrevista agendada na empresa "${result.metadata?.company}" para a vaga de "${result.metadata?.title}". 
 Gere uma mensagem curta (maximo 2 frases) motivacional, sugerindo que ele pratique para a entrevista. Seja conciso e direto.`,
+    
+    interview_feedback: `O usuario completou uma entrevista simulada (mock interview) para a vaga de "${result.metadata?.cargo}" e tirou ${result.metadata?.score}/100.
+${result.metadata?.mainTip ? `Uma dica importante foi: "${result.metadata.mainTip}".` : ''}
+Gere uma mensagem curta (maximo 2 frases) comentando o resultado e incentivando-o a explorar o feedback no Copilot para melhorar. Seja encorajador mas direto.`,
     
     needs_followup: `O usuario aplicou para "${result.metadata?.title}" na "${result.metadata?.company}" ha ${result.metadata?.daysSinceUpdate} dias e ainda nao teve retorno.
 Gere uma mensagem curta (maximo 2 frases) sugerindo que ele faca um follow-up. Seja conciso e direto.`,
@@ -176,6 +180,11 @@ function buildHeroDataFromAI(result: ContextDetectionResult, message: string): H
       primaryCta: { label: 'Praticar entrevista', href: '/dashboard/interview-pro' },
       secondaryCta: { label: 'Dicas no Copilot', href: '/dashboard?chat=open' },
     },
+    interview_feedback: {
+      title: '🎯 Feedback da sua entrevista',
+      primaryCta: { label: 'Explorar com Copilot', href: '/dashboard?chat=open&context=interview' },
+      secondaryCta: { label: 'Ver resultado', href: `/dashboard/interview-pro/resultado/${result.metadata?.sessionId}` },
+    },
     needs_followup: {
       title: '📬 Hora do follow-up',
       primaryCta: { label: 'Criar follow-up', href: '/dashboard?chat=open' },
@@ -216,6 +225,13 @@ function getFallbackTemplate(result: ContextDetectionResult): HeroData {
       message: `Sua entrevista na ${result.metadata?.company} esta chegando! Pratique suas respostas e pesquise sobre a empresa.`,
       primaryCta: { label: 'Praticar entrevista', href: '/dashboard/interview-pro' },
       secondaryCta: { label: 'Dicas no Copilot', href: '/dashboard?chat=open' },
+    },
+    interview_feedback: {
+      context: 'interview_feedback',
+      title: '🎯 Feedback da sua entrevista',
+      message: `Voce completou uma entrevista para ${result.metadata?.cargo} e tirou ${result.metadata?.score}/100. Explore o feedback com o Copilot para melhorar suas respostas!`,
+      primaryCta: { label: 'Explorar com Copilot', href: '/dashboard?chat=open&context=interview' },
+      secondaryCta: { label: 'Ver resultado', href: `/dashboard/interview-pro/resultado/${result.metadata?.sessionId}` },
     },
     needs_followup: {
       context: 'needs_followup',

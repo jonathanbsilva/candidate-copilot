@@ -1,36 +1,29 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Button, Card, Badge } from '@ui/components'
-import { Sparkles, ArrowRight, Mic, Briefcase, TrendingUp, Trophy, BarChart3 } from 'lucide-react'
-import { getApplicationStats } from './aplicacoes/actions'
-import { getDashboardMetrics, getHeroData } from './actions'
+import { ArrowRight, Mic, Briefcase, Trophy, TrendingUp, Crown } from 'lucide-react'
+import { getDetailedStats } from './aplicacoes/actions'
+import { getHeroData } from './actions'
+import { getInterviewStats } from './interview-pro/actions'
 import { PendingInsightSaver } from './_components/pending-insight-saver'
-import { MetricsCards } from './_components/metrics-cards'
 import { HeroCard } from './_components/hero-card'
-
-function formatDate(dateString: string) {
-  const date = new Date(dateString)
-  return date.toLocaleDateString('pt-BR', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
-}
+import { StrategyCard } from './_components/strategy-card'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const stats = await getApplicationStats()
-  const metrics = await getDashboardMetrics()
+  const stats = await getDetailedStats()
   const heroData = await getHeroData()
+  const interviewStats = await getInterviewStats()
 
-  // Buscar insights do usuario
-  const { data: insights } = await supabase
+  // Buscar insight mais recente com campos completos
+  const { data: latestInsight } = await supabase
     .from('insights')
-    .select('id, recommendation, objetivo, created_at')
+    .select('id, recommendation, objetivo, cargo, next_steps, created_at')
     .order('created_at', { ascending: false })
-    .limit(5)
+    .limit(1)
+    .single()
 
   return (
     <div className="container-narrow py-8 sm:py-12">
@@ -50,175 +43,175 @@ export default async function DashboardPage() {
         {/* 1. Hero Card - Acao mais importante do momento */}
         {heroData && <HeroCard data={heroData} />}
 
-        {/* 2. Aplicacoes - Core do produto */}
-        <Card variant="elevated" className="p-6">
-          <div className="flex items-start justify-between mb-4">
+        {/* 2. Aplicacoes - Resumo com mini funil */}
+        <Card variant="elevated" className="p-5">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-teal/20 rounded-lg flex items-center justify-center">
                 <Briefcase className="w-5 h-5 text-teal" />
               </div>
               <div>
-                <h2 className="text-xl font-semibold text-navy">
+                <h2 className="text-lg font-semibold text-navy">
                   Suas Aplicacoes
                 </h2>
-                <p className="text-sm text-navy/60">
-                  Acompanhe suas candidaturas
-                </p>
+                {stats.total > 0 ? (
+                  <p className="text-sm text-navy/60">
+                    <span className="font-medium text-navy">{stats.total}</span> aplicacoes
+                    {stats.em_andamento > 0 && (
+                      <> • <span className="text-blue-600">{stats.em_andamento} em andamento</span></>
+                    )}
+                    {stats.propostas > 0 && (
+                      <> • <span className="text-teal">{stats.propostas} proposta{stats.propostas > 1 ? 's' : ''}</span></>
+                    )}
+                  </p>
+                ) : (
+                  <p className="text-sm text-navy/60">
+                    Organize sua busca, aumente suas chances
+                  </p>
+                )}
               </div>
             </div>
             <Link href="/dashboard/aplicacoes">
               <Button size="sm">
-                Ver todas
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-stone/10 rounded-lg p-4 text-center">
-              <div className="text-2xl font-bold text-navy mb-1">{stats.total}</div>
-              <div className="text-xs text-navy/60">Total</div>
-            </div>
-            <div className="bg-blue-50 rounded-lg p-4 text-center">
-              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-blue-700 mb-1">
-                <TrendingUp className="w-5 h-5" />
-                {stats.em_andamento}
-              </div>
-              <div className="text-xs text-blue-600">Em andamento</div>
-            </div>
-            <div className="bg-teal/10 rounded-lg p-4 text-center">
-              <div className="flex items-center justify-center gap-1 text-2xl font-bold text-teal mb-1">
-                <Trophy className="w-5 h-5" />
-                {stats.propostas}
-              </div>
-              <div className="text-xs text-teal">Propostas</div>
-            </div>
-          </div>
-
-          {stats.total === 0 && (
-            <div className="mt-4 pt-4 border-t border-stone/20">
-              <p className="text-sm text-navy/60 mb-3">
-                Comece a rastrear suas candidaturas para ter uma visao clara do seu progresso.
-              </p>
-              <Link href="/dashboard/aplicacoes/nova">
-                <Button variant="secondary" size="sm">
-                  Adicionar primeira aplicacao
-                </Button>
-              </Link>
-            </div>
-          )}
-        </Card>
-
-        {/* 3. Insights - Combinado com CTA de novo insight */}
-        <Card variant="elevated" className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-amber/20 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-amber" />
-              </div>
-              <div>
-                <h2 className="text-xl font-semibold text-navy">
-                  Seus Insights
-                </h2>
-                <p className="text-sm text-navy/60">
-                  Recomendacoes personalizadas
-                </p>
-              </div>
-            </div>
-            <Link href="/comecar">
-              <Button size="sm">
-                Novo insight
+                {stats.total > 0 ? 'Ver todas' : 'Comecar'}
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
             </Link>
           </div>
           
-          {insights && insights.length > 0 ? (
-            <>
-              <ul className="space-y-2">
-                {insights.slice(0, 3).map((insight) => (
-                  <li key={insight.id}>
-                    <Link 
-                      href={`/dashboard/insights/${insight.id}`}
-                      className="flex items-start gap-3 p-3 -mx-3 rounded-lg hover:bg-stone/5 transition-colors"
-                    >
-                      <Sparkles className="w-5 h-5 text-amber flex-shrink-0 mt-0.5" />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-navy font-medium line-clamp-1">{insight.recommendation}</p>
-                        <p className="text-sm text-navy/60">
-                          {formatDate(insight.created_at)}
-                        </p>
+          {/* Mini vertical bars chart */}
+          {stats.total > 0 && (
+            <div className="mt-4 pt-4 border-t border-stone/20">
+              <div className="flex items-end justify-between gap-2 h-12">
+                {[
+                  { key: 'aplicado', label: 'Aplicado', value: stats.aplicado, color: 'bg-stone/40' },
+                  { key: 'emAnalise', label: 'Analise', value: stats.emAnalise, color: 'bg-blue-400' },
+                  { key: 'entrevista', label: 'Entrevista', value: stats.entrevista, color: 'bg-amber' },
+                  { key: 'proposta', label: 'Proposta', value: stats.proposta + stats.aceito, color: 'bg-teal' },
+                ].map((item) => {
+                  const maxValue = Math.max(stats.aplicado, stats.emAnalise, stats.entrevista, stats.proposta + stats.aceito, 1)
+                  const heightPercent = (item.value / maxValue) * 100
+                  return (
+                    <div key={item.key} className="flex-1 flex flex-col items-center gap-1">
+                      <div className="w-full flex flex-col items-center justify-end h-8">
+                        {item.value > 0 && (
+                          <span className="text-[10px] font-medium text-navy/70 mb-0.5">{item.value}</span>
+                        )}
+                        <div 
+                          className={`w-full max-w-8 ${item.color} rounded-t transition-all`}
+                          style={{ height: item.value > 0 ? `${Math.max(heightPercent, 15)}%` : '0%' }}
+                        />
                       </div>
-                      <ArrowRight className="w-4 h-4 text-navy/30 flex-shrink-0 mt-1" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              {insights.length > 3 && (
-                <div className="mt-3 pt-3 border-t border-stone/20 text-center">
-                  <Link href="/dashboard/insights">
-                    <Button variant="ghost" size="sm">
-                      Ver todos os {insights.length} insights
-                      <ArrowRight className="ml-2 w-4 h-4" />
-                    </Button>
-                  </Link>
+                      <span className="text-[10px] text-navy/50">{item.label}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </Card>
+
+        {/* 3. Estrategia - Insight ativo com proximos passos */}
+        <StrategyCard insight={latestInsight} />
+
+        {/* 4. Interview Pro - Contextual */}
+        {interviewStats.plan === 'pro' && interviewStats.totalSessions > 0 ? (
+          // Pro com sessoes - mostrar stats
+          <Card variant="elevated" className="p-5">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-teal/20 rounded-lg flex items-center justify-center">
+                  <Mic className="w-5 h-5 text-teal" />
                 </div>
-              )}
-            </>
-          ) : (
-            <div className="text-center py-4">
-              <p className="text-navy/60 text-sm mb-3">
-                Responda algumas perguntas e receba recomendacoes personalizadas para sua carreira.
-              </p>
-              <Link href="/comecar">
-                <Button variant="secondary" size="sm">
-                  Gerar primeiro insight
+                <div>
+                  <h2 className="text-lg font-semibold text-navy">
+                    Interview Pro
+                  </h2>
+                  <p className="text-sm text-navy/60">
+                    {interviewStats.totalSessions} treino{interviewStats.totalSessions > 1 ? 's' : ''} realizado{interviewStats.totalSessions > 1 ? 's' : ''}
+                  </p>
+                </div>
+              </div>
+              <Link href="/dashboard/interview-pro">
+                <Button size="sm">
+                  Treinar
+                  <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>
             </div>
-          )}
-        </Card>
-
-        {/* 4. Metricas - Contexto sobre a busca */}
-        <Card className="p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-navy">Sua busca</h2>
-            <Link href="/dashboard/metricas">
-              <Button variant="ghost" size="sm">
-                <BarChart3 className="w-4 h-4 mr-2" />
-                Ver mais
-              </Button>
-            </Link>
-          </div>
-          <MetricsCards metrics={metrics} />
-          {metrics.total === 0 && (
-            <p className="text-sm text-navy/60 mt-4 text-center">
-              Adicione suas primeiras aplicacoes para ver metricas
-            </p>
-          )}
-        </Card>
-
-        {/* 5. Interview Pro - Upsell */}
-        <Card className="p-6 border-teal/30 bg-teal/5">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-teal/20 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Mic className="w-5 h-5 text-teal" />
+            
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-teal/10 rounded-lg p-3 text-center">
+                <div className="flex items-center justify-center gap-1 text-xl font-bold text-teal mb-0.5">
+                  <Trophy className="w-4 h-4" />
+                  {interviewStats.averageScore || '-'}
+                </div>
+                <div className="text-[10px] text-teal/80">Score medio</div>
+              </div>
+              <div className="bg-stone/10 rounded-lg p-3 text-center">
+                <div className="flex items-center justify-center gap-1 text-xl font-bold text-navy mb-0.5">
+                  <TrendingUp className="w-4 h-4" />
+                  {interviewStats.lastScore || '-'}
+                </div>
+                <div className="text-[10px] text-navy/60">Ultimo treino</div>
+              </div>
             </div>
-            <div className="flex-1">
-              <Badge className="mb-2 bg-teal/20 text-teal">Pro</Badge>
-              <h3 className="text-lg font-semibold text-navy mb-1">
-                Interview Pro
-              </h3>
-              <p className="text-navy/70 text-sm mb-3">
-                Mock interviews com IA. Pratique e receba feedback instantaneo.
-              </p>
-              <Link href="/dashboard/interview-pro" className="text-sm font-medium text-teal hover:text-teal/80 transition-colors">
-                Treinar entrevistas →
+          </Card>
+        ) : interviewStats.plan === 'pro' ? (
+          // Pro sem sessoes - CTA para comecar
+          <Card className="p-5 border-teal/30 bg-teal/5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-teal/20 rounded-lg flex items-center justify-center">
+                  <Mic className="w-5 h-5 text-teal" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-navy">
+                    Interview Pro
+                  </h2>
+                  <p className="text-sm text-navy/60">
+                    Pratique e ganhe confianca
+                  </p>
+                </div>
+              </div>
+              <Link href="/dashboard/interview-pro">
+                <Button size="sm">
+                  Comecar primeiro treino
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
               </Link>
             </div>
-          </div>
-        </Card>
+          </Card>
+        ) : (
+          // Free - Upsell
+          <Card className="p-5 border-amber/30 bg-amber/5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-amber/20 rounded-lg flex items-center justify-center">
+                  <Mic className="w-5 h-5 text-amber" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <h2 className="text-lg font-semibold text-navy">
+                      Interview Pro
+                    </h2>
+                    <Badge className="bg-amber/20 text-amber text-[10px]">Pro</Badge>
+                  </div>
+                  <p className="text-sm text-navy/60">
+                    Mock interviews com IA e feedback instantaneo
+                  </p>
+                </div>
+              </div>
+              <Link href="/dashboard/plano">
+                <Button size="sm" variant="secondary">
+                  <Crown className="w-4 h-4 mr-2" />
+                  Upgrade
+                </Button>
+              </Link>
+            </div>
+          </Card>
+        )}
       </div>
     </div>
   )

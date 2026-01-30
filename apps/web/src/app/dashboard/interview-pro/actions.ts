@@ -308,6 +308,61 @@ export async function getLastInsightData(): Promise<{
   return data
 }
 
+// Obter stats de entrevistas para o dashboard
+export async function getInterviewStats(): Promise<{
+  plan: 'free' | 'pro'
+  totalSessions: number
+  averageScore: number | null
+  lastScore: number | null
+  lastSessionDate: string | null
+}> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (!user) {
+    return { plan: 'free', totalSessions: 0, averageScore: null, lastScore: null, lastSessionDate: null }
+  }
+
+  // Verificar plano
+  const { data: profile } = await supabase
+    .from('user_profiles')
+    .select('plan')
+    .eq('user_id', user.id)
+    .single()
+
+  const plan = (profile?.plan as 'free' | 'pro') || 'free'
+
+  // Se nao for pro, retornar sem buscar sessoes
+  if (plan !== 'pro') {
+    return { plan, totalSessions: 0, averageScore: null, lastScore: null, lastSessionDate: null }
+  }
+
+  // Buscar sessoes completadas
+  const { data: sessions } = await supabase
+    .from('interview_sessions')
+    .select('overall_score, completed_at')
+    .eq('user_id', user.id)
+    .eq('status', 'completed')
+    .order('completed_at', { ascending: false })
+
+  if (!sessions || sessions.length === 0) {
+    return { plan, totalSessions: 0, averageScore: null, lastScore: null, lastSessionDate: null }
+  }
+
+  const scores = sessions.map(s => s.overall_score).filter((s): s is number => s !== null)
+  const averageScore = scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null
+  const lastScore = sessions[0]?.overall_score || null
+  const lastSessionDate = sessions[0]?.completed_at || null
+
+  return {
+    plan,
+    totalSessions: sessions.length,
+    averageScore,
+    lastScore,
+    lastSessionDate,
+  }
+}
+
 // Abandonar sessao
 export async function abandonSession(sessionId: string): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient()

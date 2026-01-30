@@ -2,12 +2,13 @@
 
 import { 
   TrendingUp, Clock, Target, Lightbulb, 
-  Sparkles, HelpCircle, AlertTriangle, ListChecks 
+  Sparkles, HelpCircle, AlertTriangle, ListChecks,
+  Mic
 } from 'lucide-react'
 import type { SuggestedQuestion } from '@/lib/copilot/types'
 import type { LucideIcon } from 'lucide-react'
-import type { InsightContext, HeroContext } from '@/hooks/use-copilot-drawer'
-import { insightSuggestedQuestions, heroSuggestedQuestions } from './insight-messages'
+import type { InsightContext, HeroContext, InterviewContext } from '@/hooks/use-copilot-drawer'
+import { insightSuggestedQuestions, heroSuggestedQuestions, interviewSuggestedQuestions } from './insight-messages'
 
 interface ExtendedQuestion extends SuggestedQuestion {
   icon: LucideIcon
@@ -74,11 +75,40 @@ const defaultQuestions: ExtendedQuestion[] = [
   },
 ]
 
+// Perguntas de Interview Pro (so aparecem para usuarios Pro)
+const interviewQuestions: ExtendedQuestion[] = [
+  {
+    id: 'ultima-entrevista',
+    label: 'Como foi minha ultima entrevista simulada?',
+    category: 'interview',
+    icon: Mic,
+  },
+  {
+    id: 'evolucao-treinos',
+    label: 'Qual minha evolucao nos treinos?',
+    category: 'interview',
+    icon: TrendingUp,
+  },
+  {
+    id: 'perguntas-praticar',
+    label: 'Que perguntas devo praticar mais?',
+    category: 'interview',
+    icon: Target,
+  },
+  {
+    id: 'melhorar-entrevista',
+    label: 'Me ajuda a melhorar meus pontos fracos',
+    category: 'interview',
+    icon: Lightbulb,
+  },
+]
+
 const categoryLabels: Record<string, string> = {
   metricas: 'Metricas',
   proximos_passos: 'Proximos Passos',
   insights: 'Seus Insights',
   analise: 'Analise',
+  interview: 'Mock Interview',
 }
 
 interface SuggestedQuestionsProps {
@@ -87,6 +117,9 @@ interface SuggestedQuestionsProps {
   categories?: string[]
   insightContext?: InsightContext | null
   heroContext?: HeroContext | null
+  interviewContext?: InterviewContext | null
+  isPro?: boolean
+  hasInterviewHistory?: boolean
 }
 
 export function SuggestedQuestions({ 
@@ -94,10 +127,15 @@ export function SuggestedQuestions({
   compact = false,
   categories,
   insightContext,
-  heroContext
+  heroContext,
+  interviewContext,
+  isPro = false,
+  hasInterviewHistory = false
 }: SuggestedQuestionsProps) {
-  // If there's insight or hero context, show context-specific questions
-  const contextQuestions = insightContext 
+  // If there's interview, insight, or hero context, show context-specific questions
+  const contextQuestions = interviewContext
+    ? interviewSuggestedQuestions
+    : insightContext 
     ? insightSuggestedQuestions[insightContext.tipo] || insightSuggestedQuestions.default
     : heroContext
     ? heroSuggestedQuestions[heroContext.context] || heroSuggestedQuestions.active_summary
@@ -146,10 +184,15 @@ export function SuggestedQuestions({
     )
   }
   
+  // Incluir perguntas de interview para usuarios Pro com historico
+  const allQuestions = isPro && hasInterviewHistory
+    ? [...defaultQuestions, ...interviewQuestions]
+    : defaultQuestions
+  
   // Filtrar por categorias se especificado
   const questions = categories 
-    ? defaultQuestions.filter(q => categories.includes(q.category))
-    : defaultQuestions
+    ? allQuestions.filter(q => categories.includes(q.category))
+    : allQuestions
   
   if (compact) {
     // Modo compacto: apenas 4 perguntas principais

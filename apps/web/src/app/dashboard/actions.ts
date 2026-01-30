@@ -159,10 +159,21 @@ export async function getHeroData(hasPendingInsight: boolean = false): Promise<H
     .order('created_at', { ascending: false })
     .limit(10)
 
+  // Buscar entrevista simulada recente (Pro users)
+  const { data: recentInterview } = await supabase
+    .from('interview_sessions')
+    .select('id, cargo, area, overall_score, feedback, completed_at')
+    .eq('user_id', user.id)
+    .eq('status', 'completed')
+    .order('completed_at', { ascending: false })
+    .limit(1)
+    .single()
+
   const userData: UserDataForHero = {
     applications: (applications || []) as Application[],
     insights: insights || [],
     hasPendingInsight,
+    recentInterviewSession: recentInterview || null,
   }
 
   // Detectar contexto e construir mensagem

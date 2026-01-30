@@ -1,13 +1,15 @@
 import Link from 'next/link'
 import { Button, Card, Badge } from '@ui/components'
-import { Plus, Briefcase, ArrowLeft, Crown } from 'lucide-react'
+import { Plus, Briefcase, ArrowLeft, Crown, TrendingUp, Trophy } from 'lucide-react'
 import { ApplicationCard } from './_components/application-card'
-import { getApplications, checkApplicationAccess } from './actions'
+import { ApplicationFunnel } from './_components/application-funnel'
+import { getApplications, checkApplicationAccess, getDetailedStats } from './actions'
 import type { Application } from '@/lib/types/application'
 
 export default async function AplicacoesPage() {
   const { data: applications, error } = await getApplications()
   const accessCheck = await checkApplicationAccess()
+  const stats = await getDetailedStats()
 
   const canAdd = accessCheck?.allowed ?? true
   const isFree = accessCheck?.plan === 'free'
@@ -49,6 +51,37 @@ export default async function AplicacoesPage() {
           </Link>
         )}
       </div>
+
+      {/* Stats boxes */}
+      {stats.total > 0 && (
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="bg-stone/10 rounded-lg p-4 text-center">
+            <div className="text-2xl font-bold text-navy mb-1">{stats.total}</div>
+            <div className="text-xs text-navy/60">Total</div>
+          </div>
+          <div className="bg-blue-50 rounded-lg p-4 text-center">
+            <div className="flex items-center justify-center gap-1 text-2xl font-bold text-blue-700 mb-1">
+              <TrendingUp className="w-5 h-5" />
+              {stats.em_andamento}
+            </div>
+            <div className="text-xs text-blue-600">Em andamento</div>
+          </div>
+          <div className="bg-teal/10 rounded-lg p-4 text-center">
+            <div className="flex items-center justify-center gap-1 text-2xl font-bold text-teal mb-1">
+              <Trophy className="w-5 h-5" />
+              {stats.propostas}
+            </div>
+            <div className="text-xs text-teal">Propostas</div>
+          </div>
+        </div>
+      )}
+
+      {/* Funnel visualization */}
+      {stats.total > 0 && (
+        <div className="mb-6">
+          <ApplicationFunnel data={stats} />
+        </div>
+      )}
 
       {/* Limit indicator for free users */}
       {isFree && accessCheck && (

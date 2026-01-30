@@ -50,6 +50,9 @@ export interface UserContext {
     status: string
     objetivo: string
   } | null
+  
+  // Historico de entrevistas simuladas (Interview Pro)
+  interviewHistory?: InterviewHistoryData | null
 }
 
 export interface ChatMessage {
@@ -62,7 +65,22 @@ export interface ChatMessage {
 export interface SuggestedQuestion {
   id: string
   label: string
-  category: 'metricas' | 'proximos_passos' | 'insights' | 'analise'
+  category: 'metricas' | 'proximos_passos' | 'insights' | 'analise' | 'interview'
+}
+
+// Historico de entrevistas simuladas para contexto do Copilot
+export interface InterviewHistoryData {
+  totalSessions: number
+  averageScore: number | null
+  lastScore: number | null
+  lastSessionDate: string | null
+  recentSessions: {
+    cargo: string
+    score: number
+    completedAt: string
+    mainStrengths: string[]
+    mainImprovements: string[]
+  }[]
 }
 
 export interface InsightContextData {
@@ -79,4 +97,15 @@ export interface HeroContextData {
   message: string // A dica/mensagem exibida no Hero Card
   company?: string
   title?: string
+}
+
+export interface InterviewContextData {
+  sessionId: string
+  cargo: string
+  area?: string
+  score: number
+  summary: string
+  strengths: string[]
+  improvements: string[]
+  tips: string[]
 }

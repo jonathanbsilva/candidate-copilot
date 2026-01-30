@@ -7,7 +7,7 @@ import { getAIProvider } from '@/lib/ai'
 import { validateInput, checkTopic } from '@/lib/ai/security'
 import { canUseCopilot } from '@/lib/subscription/check-access'
 import { incrementCopilotUsage } from '@/lib/subscription/actions'
-import type { UserContext, ChatMessage, InsightContextData, HeroContextData } from '@/lib/copilot/types'
+import type { UserContext, ChatMessage, InsightContextData, HeroContextData, InterviewContextData, InterviewHistoryData } from '@/lib/copilot/types'
 
 export async function getUserContext(): Promise<UserContext> {
   const supabase = await createClient()
@@ -31,7 +31,52 @@ export async function getUserContext(): Promise<UserContext> {
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
   
-  return buildUserContext(applications, insights)
+  // Buscar historico de entrevistas simuladas (Interview Pro)
+  const { data: interviewSessions } = await supabase
+    .from('interview_sessions')
+    .select('cargo, area, overall_score, feedback, completed_at')
+    .eq('user_id', user.id)
+    .eq('status', 'completed')
+    .order('completed_at', { ascending: false })
+    .limit(10)
+  
+  // Processar historico de entrevistas
+  let interviewHistory: InterviewHistoryData | null = null
+  if (interviewSessions && interviewSessions.length > 0) {
+    const scores = interviewSessions
+      .map(s => s.overall_score)
+      .filter((s): s is number => s !== null)
+    
+    interviewHistory = {
+      totalSessions: interviewSessions.length,
+      averageScore: scores.length > 0 ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null,
+      lastScore: interviewSessions[0]?.overall_score || null,
+      lastSessionDate: interviewSessions[0]?.completed_at || null,
+      recentSessions: interviewSessions.slice(0, 3).map(session => {
+        const feedback = session.feedback as { per_question?: Array<{ strengths?: string[], improvements?: string[] }> } | null
+        const allStrengths: string[] = []
+        const allImprovements: string[] = []
+        
+        feedback?.per_question?.forEach(q => {
+          if (q.strengths) allStrengths.push(...q.strengths)
+          if (q.improvements) allImprovements.push(...q.improvements)
+        })
+        
+        return {
+          cargo: session.cargo,
+          score: session.overall_score || 0,
+          completedAt: session.completed_at ? new Date(session.completed_at).toLocaleDateString('pt-BR') : '',
+          mainStrengths: [...new Set(allStrengths)].slice(0, 2),
+          mainImprovements: [...new Set(allImprovements)].slice(0, 2),
+        }
+      })
+    }
+  }
+  
+  const context = buildUserContext(applications, insights)
+  context.interviewHistory = interviewHistory
+  
+  return context
 }
 
 export interface ChatResponse {
@@ -56,11 +101,27 @@ export async function checkCopilotAccess(): Promise<CopilotAccessInfo | null> {
   return canUseCopilot(user.id)
 }
 
+export async function checkInterviewHistory(): Promise<boolean> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (!user) return false
+  
+  const { count } = await supabase
+    .from('interview_sessions')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user.id)
+    .eq('status', 'completed')
+  
+  return (count ?? 0) > 0
+}
+
 export async function sendChatMessage(
   question: string,
   _history: ChatMessage[],
   insightContext?: InsightContextData | null,
-  heroContext?: HeroContextData | null
+  heroContext?: HeroContextData | null,
+  interviewContext?: InterviewContextData | null
 ): Promise<ChatResponse> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -121,7 +182,7 @@ export async function sendChatMessage(
   
   // Query complexa - usar AI provider
   const provider = getAIProvider()
-  const systemPrompt = buildSystemPrompt(context, insightContext, heroContext)
+  const systemPrompt = buildSystemPrompt(context, insightContext, heroContext, interviewContext)
   
   const aiResponse = await provider.complete([
     { role: 'system', content: systemPrompt },

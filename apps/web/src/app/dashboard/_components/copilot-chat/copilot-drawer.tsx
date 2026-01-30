@@ -6,11 +6,11 @@ import { Button, Badge } from '@ui/components'
 import { ChatMessages } from './chat-messages'
 import { WelcomeState } from './welcome-state'
 import { SuggestedQuestions } from './suggested-questions'
-import { sendChatMessage, checkCopilotAccess, type CopilotAccessInfo } from './actions'
+import { sendChatMessage, checkCopilotAccess, checkInterviewHistory, type CopilotAccessInfo } from './actions'
 import type { ChatMessage } from '@/lib/copilot/types'
 import Link from 'next/link'
-import { useCopilotDrawer, type InsightContext, type HeroContext } from '@/hooks/use-copilot-drawer'
-import { insightInitialMessages, heroInitialMessages } from './insight-messages'
+import { useCopilotDrawer, type InsightContext, type HeroContext, type InterviewContext } from '@/hooks/use-copilot-drawer'
+import { insightInitialMessages, heroInitialMessages, getInterviewInitialMessage } from './insight-messages'
 
 interface CopilotDrawerProps {
   isOpen: boolean
@@ -19,9 +19,10 @@ interface CopilotDrawerProps {
 }
 
 export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: CopilotDrawerProps) {
-  const { insightContext: storeContext, heroContext: storeHeroContext, clearContext } = useCopilotDrawer()
+  const { insightContext: storeContext, heroContext: storeHeroContext, interviewContext: storeInterviewContext, clearContext } = useCopilotDrawer()
   const insightContext = propContext || storeContext
   const heroContext = storeHeroContext
+  const interviewContext = storeInterviewContext
   
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
@@ -29,6 +30,7 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
   const [accessInfo, setAccessInfo] = useState<CopilotAccessInfo | null>(null)
   const [limitReached, setLimitReached] = useState(false)
   const [hasShownInitialMessage, setHasShownInitialMessage] = useState(false)
+  const [hasInterviewHistory, setHasInterviewHistory] = useState(false)
 
   // Fechar com Escape
   useEffect(() => {
@@ -54,24 +56,31 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
     }
   }, [isOpen])
 
-  // Check copilot access when drawer opens
+  // Check copilot access and interview history when drawer opens
   useEffect(() => {
     if (isOpen) {
       checkCopilotAccess().then((info) => {
         if (info) {
           setAccessInfo(info)
           setLimitReached(!info.allowed)
+          
+          // If user is Pro, check if they have interview history
+          if (info.plan === 'pro') {
+            checkInterviewHistory().then(setHasInterviewHistory)
+          }
         }
       })
     }
   }, [isOpen])
 
-  // Show initial message when opening with insight or hero context
+  // Show initial message when opening with insight, hero, or interview context
   useEffect(() => {
     if (isOpen && !hasShownInitialMessage && messages.length === 0) {
       let initialMessage: string | null = null
       
-      if (insightContext) {
+      if (interviewContext) {
+        initialMessage = getInterviewInitialMessage(interviewContext.cargo, interviewContext.score)
+      } else if (insightContext) {
         initialMessage = insightInitialMessages[insightContext.tipo] || insightInitialMessages.default
       } else if (heroContext) {
         const heroMsg = heroInitialMessages[heroContext.context]
@@ -94,7 +103,7 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
         setHasShownInitialMessage(true)
       }
     }
-  }, [isOpen, insightContext, heroContext, hasShownInitialMessage, messages.length])
+  }, [isOpen, insightContext, heroContext, interviewContext, hasShownInitialMessage, messages.length])
 
   const handleSubmit = useCallback(async (question: string) => {
     if (!question.trim() || isLoading || limitReached) return
@@ -130,7 +139,19 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
         title: heroContext.title,
       } : null
       
-      const response = await sendChatMessage(question, messages, contextData, heroContextData)
+      // Convert InterviewContext to InterviewContextData for the server action
+      const interviewContextData = interviewContext ? {
+        sessionId: interviewContext.sessionId,
+        cargo: interviewContext.cargo,
+        area: interviewContext.area,
+        score: interviewContext.score,
+        summary: interviewContext.summary,
+        strengths: interviewContext.strengths,
+        improvements: interviewContext.improvements,
+        tips: interviewContext.tips,
+      } : null
+      
+      const response = await sendChatMessage(question, messages, contextData, heroContextData, interviewContextData)
       
       // Check if limit was reached
       if (response.limitReached) {
@@ -174,7 +195,7 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
     } finally {
       setIsLoading(false)
     }
-  }, [isLoading, messages, limitReached, accessInfo, insightContext, heroContext])
+  }, [isLoading, messages, limitReached, accessInfo, insightContext, heroContext, interviewContext])
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -254,7 +275,11 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4">
           {messages.length === 0 ? (
-            <WelcomeState onSelectQuestion={handleQuestionSelect} />
+            <WelcomeState 
+              onSelectQuestion={handleQuestionSelect}
+              isPro={accessInfo?.plan === 'pro'}
+              hasInterviewHistory={hasInterviewHistory}
+            />
           ) : (
             <>
               <ChatMessages messages={messages} isLoading={isLoading} />
@@ -268,6 +293,9 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
                     compact
                     insightContext={insightContext}
                     heroContext={heroContext}
+                    interviewContext={interviewContext}
+                    isPro={accessInfo?.plan === 'pro'}
+                    hasInterviewHistory={hasInterviewHistory}
                   />
                 </div>
               )}

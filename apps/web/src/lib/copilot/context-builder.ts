@@ -1,4 +1,4 @@
-import type { UserContext, InsightContextData, HeroContextData } from './types'
+import type { UserContext, InsightContextData, HeroContextData, InterviewContextData, InterviewHistoryData } from './types'
 import type { Application } from '@/lib/types/application'
 
 interface InsightFromDB {
@@ -127,7 +127,8 @@ export function buildUserContext(
 export function buildSystemPrompt(
   context: UserContext, 
   insightContext?: InsightContextData | null,
-  heroContext?: HeroContextData | null
+  heroContext?: HeroContextData | null,
+  interviewContext?: InterviewContextData | null
 ): string {
   const contextStr = formatContextForPrompt(context)
   
@@ -148,12 +149,32 @@ ${insightContext.next_steps.length > 0 ? `Proximos passos sugeridos: ${insightCo
 Ajude o usuario a aprofundar este tema e tomar uma decisao.`
   }
 
+  // Add interview context if available (mock interview feedback)
+  if (interviewContext) {
+    prompt += `
+
+CONTEXTO DA ENTREVISTA SIMULADA:
+O usuario acabou de fazer uma entrevista simulada (mock interview) e esta analisando o feedback.
+
+Detalhes da entrevista:
+- Cargo: ${interviewContext.cargo}${interviewContext.area ? ` (${interviewContext.area})` : ''}
+- Score: ${interviewContext.score}/100
+- Resumo: ${interviewContext.summary}
+- Pontos fortes: ${interviewContext.strengths.join(', ')}
+- O que melhorar: ${interviewContext.improvements.join(', ')}
+- Dicas: ${interviewContext.tips.join(', ')}
+
+IMPORTANTE: Ajude o usuario a melhorar suas habilidades de entrevista baseado neste feedback especifico.
+Seja encorajador mas pratico. Ofereca exemplos concretos e tecnicas como o metodo STAR.`
+  }
+
   // Add hero context if available (dica do dia ou contexto especifico)
   if (heroContext) {
     const heroContextLabels: Record<string, string> = {
       pending_insight: 'O usuario tem um insight pendente para revisar',
       proposal_received: `O usuario recebeu uma proposta${heroContext.company ? ` da ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
       interview_soon: `O usuario tem uma entrevista${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
+      interview_feedback: `O usuario completou uma entrevista simulada`,
       needs_followup: `A aplicacao${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''} precisa de follow-up`,
       stale_apps: 'O usuario tem varias aplicacoes sem atualizacao',
       low_activity: 'O usuario esta com baixa atividade de aplicacoes',
@@ -238,6 +259,34 @@ APLICACOES RECENTES:`
     ctx.recentApplications.slice(0, 5).forEach(app => {
       prompt += `\n- ${app.company} (${app.title}) - ${app.status} - ${app.daysSinceApplied} dias`
     })
+  }
+
+  // Interview history (Interview Pro)
+  if (ctx.interviewHistory && ctx.interviewHistory.totalSessions > 0) {
+    const ih = ctx.interviewHistory
+    prompt += `
+
+HISTORICO DE ENTREVISTAS SIMULADAS (Interview Pro):
+- Total de treinos: ${ih.totalSessions}
+- Score medio: ${ih.averageScore || 'N/A'}/100
+- Ultimo score: ${ih.lastScore || 'N/A'}/100`
+
+    if (ih.recentSessions.length > 0) {
+      prompt += `
+- Sessoes recentes:`
+      ih.recentSessions.slice(0, 3).forEach(session => {
+        prompt += `
+  * ${session.cargo} - ${session.score}/100 (${session.completedAt})`
+        if (session.mainStrengths.length > 0) {
+          prompt += `
+    Pontos fortes: ${session.mainStrengths.join(', ')}`
+        }
+        if (session.mainImprovements.length > 0) {
+          prompt += `
+    Melhorar: ${session.mainImprovements.join(', ')}`
+        }
+      })
+    }
   }
 
   return prompt

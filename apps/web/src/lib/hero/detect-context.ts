@@ -12,14 +12,15 @@ function daysSince(dateString: string): number {
  * 1. pending_insight - localStorage tem insight pendente
  * 2. proposal_received - App com status "proposta"
  * 3. interview_soon - App com status "entrevista"
- * 4. needs_followup - App sem update 7+ dias
- * 5. stale_apps - 3+ apps paradas 14+ dias
- * 6. low_activity - Sem app nova 7+ dias
- * 7. new_user - 0 apps, 0 insights
- * 8. active_summary - Default
+ * 4. interview_feedback - Mock interview completada nas ultimas 24h
+ * 5. needs_followup - App sem update 7+ dias
+ * 6. stale_apps - 3+ apps paradas 14+ dias
+ * 7. low_activity - Sem app nova 7+ dias
+ * 8. new_user - 0 apps, 0 insights
+ * 9. active_summary - Default
  */
 export function detectContext(userData: UserDataForHero): ContextDetectionResult {
-  const { applications, insights, hasPendingInsight } = userData
+  const { applications, insights, hasPendingInsight, recentInterviewSession } = userData
 
   // 1. Insight pendente (prioridade maxima)
   if (hasPendingInsight) {
@@ -43,6 +44,23 @@ export function detectContext(userData: UserDataForHero): ContextDetectionResult
       context: 'interview_soon', 
       relevantApp: interviewApp,
       metadata: { company: interviewApp.company, title: interviewApp.title }
+    }
+  }
+
+  // 4. Mock interview completada recentemente (24h)
+  if (recentInterviewSession && recentInterviewSession.completed_at) {
+    const hoursSinceCompletion = (Date.now() - new Date(recentInterviewSession.completed_at).getTime()) / (1000 * 60 * 60)
+    if (hoursSinceCompletion <= 24) {
+      return {
+        context: 'interview_feedback',
+        interviewSession: recentInterviewSession,
+        metadata: {
+          sessionId: recentInterviewSession.id,
+          cargo: recentInterviewSession.cargo,
+          score: recentInterviewSession.overall_score,
+          mainTip: recentInterviewSession.feedback?.general_tips?.[0] || null
+        }
+      }
     }
   }
 

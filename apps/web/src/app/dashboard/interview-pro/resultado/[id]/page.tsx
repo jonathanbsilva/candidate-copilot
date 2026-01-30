@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { Button, Card, Badge, Progress } from '@ui/components'
-import { ArrowLeft, RotateCcw, History, CheckCircle, AlertTriangle, Lightbulb } from 'lucide-react'
+import { ArrowLeft, RotateCcw, History, CheckCircle, AlertTriangle, Lightbulb, MessageSquare } from 'lucide-react'
 import { getSession, type InterviewFeedback } from '../../actions'
+import { CopilotButton } from './copilot-button'
 
 type Props = {
   params: Promise<{ id: string }>
@@ -191,6 +192,24 @@ export default async function ResultadoPage({ params }: Props) {
           </div>
         </Card>
       )}
+
+      {/* Copilot CTA */}
+      <Card className="mb-6 p-6 bg-teal/5 border-teal/30">
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 bg-teal/20 rounded-xl flex items-center justify-center flex-shrink-0">
+            <MessageSquare className="w-6 h-6 text-teal" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-navy mb-1">
+              Quer explorar mais esse feedback?
+            </h3>
+            <p className="text-navy/70 text-sm mb-4">
+              Converse com o Copilot sobre como melhorar suas respostas e se preparar para proximas entrevistas.
+            </p>
+            <CopilotButton session={session} />
+          </div>
+        </div>
+      </Card>
 
       {/* Actions */}
       <Card className="p-6">

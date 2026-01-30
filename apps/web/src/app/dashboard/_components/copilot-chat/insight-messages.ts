@@ -122,3 +122,25 @@ export function mapObjetivoToTipo(objetivo: string): string {
   }
   return mapping[objetivo] || 'default'
 }
+
+// Mensagens iniciais para contexto de entrevista simulada
+export function getInterviewInitialMessage(cargo: string, score: number): string {
+  if (score >= 80) {
+    return `Parabens pela entrevista para ${cargo}! Voce tirou ${score}/100, um otimo resultado. Quer conversar sobre como manter esse nivel ou melhorar ainda mais?`
+  } else if (score >= 60) {
+    return `Vi sua entrevista para ${cargo} - voce tirou ${score}/100. Bom desempenho! Vamos explorar juntos como melhorar nos pontos que foram sinalizados?`
+  } else {
+    return `Entendi que a entrevista para ${cargo} foi desafiadora - voce tirou ${score}/100. Nao desanime! Vamos trabalhar juntos nos pontos de melhoria. O que voce achou mais dificil?`
+  }
+}
+
+export const interviewSuggestedQuestions: string[] = [
+  'Como estruturar melhor minhas respostas?',
+  'Me de exemplos de respostas usando o metodo STAR',
+  'Quais perguntas comportamentais devo praticar?',
+  'Como demonstrar lideranca nas respostas?',
+  'O que posso fazer para melhorar minha comunicacao?',
+  'Quais erros comuns devo evitar em entrevistas?',
+  'Como lidar com perguntas dificeis?',
+  'Como falar sobre pontos fracos de forma positiva?',
+]

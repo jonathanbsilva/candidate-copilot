@@ -290,6 +290,76 @@ export async function getApplicationStats() {
   return { total, em_andamento, propostas }
 }
 
+export interface DetailedStats {
+  total: number
+  aplicado: number
+  emAnalise: number
+  entrevista: number
+  proposta: number
+  aceito: number
+  rejeitado: number
+  desistencia: number
+  em_andamento: number
+  propostas: number
+}
+
+export async function getDetailedStats(): Promise<DetailedStats> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const defaultStats: DetailedStats = {
+    total: 0,
+    aplicado: 0,
+    emAnalise: 0,
+    entrevista: 0,
+    proposta: 0,
+    aceito: 0,
+    rejeitado: 0,
+    desistencia: 0,
+    em_andamento: 0,
+    propostas: 0,
+  }
+
+  if (!user) {
+    return defaultStats
+  }
+
+  const { data, error } = await supabase
+    .from('applications')
+    .select('status')
+    .eq('user_id', user.id)
+
+  if (error || !data) {
+    return defaultStats
+  }
+
+  const statusCounts = data.reduce((acc, app) => {
+    acc[app.status] = (acc[app.status] || 0) + 1
+    return acc
+  }, {} as Record<string, number>)
+
+  const aplicado = statusCounts['aplicado'] || 0
+  const emAnalise = statusCounts['em_analise'] || 0
+  const entrevista = statusCounts['entrevista'] || 0
+  const proposta = statusCounts['proposta'] || 0
+  const aceito = statusCounts['aceito'] || 0
+  const rejeitado = statusCounts['rejeitado'] || 0
+  const desistencia = statusCounts['desistencia'] || 0
+
+  return {
+    total: data.length,
+    aplicado,
+    emAnalise,
+    entrevista,
+    proposta,
+    aceito,
+    rejeitado,
+    desistencia,
+    em_andamento: aplicado + emAnalise + entrevista,
+    propostas: proposta + aceito,
+  }
+}
+
 export async function checkApplicationAccess() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

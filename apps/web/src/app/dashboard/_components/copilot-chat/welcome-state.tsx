@@ -5,9 +5,11 @@ import { SuggestedQuestions } from './suggested-questions'
 
 interface WelcomeStateProps {
   onSelectQuestion: (question: string) => void
+  isPro?: boolean
+  hasInterviewHistory?: boolean
 }
 
-export function WelcomeState({ onSelectQuestion }: WelcomeStateProps) {
+export function WelcomeState({ onSelectQuestion, isPro = false, hasInterviewHistory = false }: WelcomeStateProps) {
   return (
     <div className="space-y-6">
       {/* Hero */}
@@ -28,7 +30,11 @@ export function WelcomeState({ onSelectQuestion }: WelcomeStateProps) {
         <p className="text-xs text-navy/50 uppercase tracking-wide mb-3">
           Perguntas sugeridas
         </p>
-        <SuggestedQuestions onSelect={onSelectQuestion} />
+        <SuggestedQuestions 
+          onSelect={onSelectQuestion} 
+          isPro={isPro}
+          hasInterviewHistory={hasInterviewHistory}
+        />
       </div>
     </div>
   )
