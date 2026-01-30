@@ -239,8 +239,8 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-stone/30">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-amber rounded-lg flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-navy" />
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-white" />
             </div>
             <span className="font-semibold text-navy">Copilot</span>
             {accessInfo && accessInfo.plan === 'free' && (

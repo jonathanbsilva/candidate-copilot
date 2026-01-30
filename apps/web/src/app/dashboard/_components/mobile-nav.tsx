@@ -140,12 +140,14 @@ export function MobileNav({ email, plan = 'free' }: MobileNavProps) {
             onClick={openCopilot}
             className="
               flex items-center h-12 px-4 mx-2 rounded-lg w-[calc(100%-1rem)]
-              text-navy/70 hover:bg-amber/10 hover:text-amber transition-colors duration-150
+              text-navy/70 hover:bg-purple-50 hover:text-purple-600 transition-colors duration-150
             "
           >
-            <MessageCircle className="w-5 h-5 flex-shrink-0" />
+            <div className="w-5 h-5 rounded bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 flex items-center justify-center flex-shrink-0">
+              <Sparkles className="w-3 h-3 text-white" />
+            </div>
             <span className="ml-3 text-sm font-medium">Copilot</span>
-            <Badge className="ml-auto text-xs bg-teal/20 text-teal">
+            <Badge className="ml-auto text-xs bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white">
               AI
             </Badge>
           </button>

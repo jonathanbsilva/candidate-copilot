@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Sidebar } from './_components/sidebar'
 import { MobileNav } from './_components/mobile-nav'
 import { AuthTracker } from './_components/auth-tracker'
+import { CopilotFAB } from './_components/copilot-fab'
 import { getUserProfile } from '@/lib/subscription/check-access'
 
 export default async function DashboardLayout({
@@ -39,6 +40,9 @@ export default async function DashboardLayout({
       <main className="md:ml-52 pt-14 md:pt-0">
         {children}
       </main>
+      
+      {/* Copilot FAB - Desktop only */}
+      <CopilotFAB />
     </div>
   )
 }

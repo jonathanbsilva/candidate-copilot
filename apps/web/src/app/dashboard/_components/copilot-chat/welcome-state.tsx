@@ -14,8 +14,10 @@ export function WelcomeState({ onSelectQuestion, isPro = false, hasInterviewHist
     <div className="space-y-6">
       {/* Hero */}
       <div className="text-center py-8">
-        <div className="w-16 h-16 bg-amber/10 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Sparkles className="w-8 h-8 text-amber" />
+        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-500/20 via-purple-500/20 to-fuchsia-500/20 flex items-center justify-center mx-auto mb-4">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 flex items-center justify-center">
+            <Sparkles className="w-6 h-6 text-white" />
+          </div>
         </div>
         <h3 className="text-lg font-semibold text-navy mb-2">
           Ola! Sou seu Copilot
