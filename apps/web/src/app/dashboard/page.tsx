@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { Button, Card, Badge } from '@ui/components'
-import { ArrowRight, Mic, Briefcase, Trophy, TrendingUp, Crown } from 'lucide-react'
+import { ArrowRight, Mic, Briefcase, Trophy, TrendingUp, Crown, Gift } from 'lucide-react'
 import { getDetailedStats } from './aplicacoes/actions'
 import { getHeroData } from './actions'
 import { getInterviewStats } from './interview-pro/actions'
+import { canUseInterviewPro } from '@/lib/subscription/check-access'
 import { PendingInsightSaver } from './_components/pending-insight-saver'
 import { HeroCard } from './_components/hero-card'
 import { StrategyCard } from './_components/strategy-card'
@@ -16,6 +17,7 @@ export default async function DashboardPage() {
   const stats = await getDetailedStats()
   const heroData = await getHeroData()
   const interviewStats = await getInterviewStats()
+  const interviewAccess = user ? await canUseInterviewPro(user.id) : null
 
   // Buscar insight mais recente com campos completos
   const { data: latestInsight } = await supabase
@@ -43,18 +45,21 @@ export default async function DashboardPage() {
         {/* 1. Hero Card - Acao mais importante do momento */}
         {heroData && <HeroCard data={heroData} />}
 
-        {/* 2. Aplicacoes - Resumo com mini funil */}
-        <Card variant="elevated" className="p-5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-teal/20 rounded-lg flex items-center justify-center">
-                <Briefcase className="w-5 h-5 text-teal" />
-              </div>
-              <div>
-                <h2 className="text-lg font-semibold text-navy">
-                  Suas Aplicacoes
-                </h2>
-                {stats.total > 0 ? (
+        {/* 2. Estrategia - Insight ativo com proximos passos */}
+        <StrategyCard insight={latestInsight} />
+
+        {/* 3. Aplicacoes - Resumo com mini funil */}
+        {stats.total > 0 ? (
+          <Card variant="elevated" className="p-5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-teal/20 rounded-lg flex items-center justify-center">
+                  <Briefcase className="w-5 h-5 text-teal" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-navy">
+                    Suas Aplicacoes
+                  </h2>
                   <p className="text-sm text-navy/60">
                     <span className="font-medium text-navy">{stats.total}</span> aplicacoes
                     {stats.em_andamento > 0 && (
@@ -64,23 +69,17 @@ export default async function DashboardPage() {
                       <> • <span className="text-teal">{stats.propostas} proposta{stats.propostas > 1 ? 's' : ''}</span></>
                     )}
                   </p>
-                ) : (
-                  <p className="text-sm text-navy/60">
-                    Organize sua busca, aumente suas chances
-                  </p>
-                )}
+                </div>
               </div>
+              <Link href="/dashboard/aplicacoes">
+                <Button size="sm">
+                  Ver todas
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
             </div>
-            <Link href="/dashboard/aplicacoes">
-              <Button size="sm">
-                {stats.total > 0 ? 'Ver todas' : 'Comecar'}
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
-          </div>
-          
-          {/* Mini vertical bars chart */}
-          {stats.total > 0 && (
+            
+            {/* Mini vertical bars chart */}
             <div className="mt-4 pt-4 border-t border-stone/20">
               <div className="flex items-end justify-between gap-2 h-12">
                 {[
@@ -108,15 +107,58 @@ export default async function DashboardPage() {
                 })}
               </div>
             </div>
-          )}
-        </Card>
-
-        {/* 3. Estrategia - Insight ativo com proximos passos */}
-        <StrategyCard insight={latestInsight} />
+          </Card>
+        ) : (
+          <Card className="p-6 border-teal/30 bg-teal/5">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 bg-teal/20 rounded-xl flex items-center justify-center">
+                <Briefcase className="w-6 h-6 text-teal" />
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-navy">
+                  Comece a organizar sua busca
+                </h2>
+                <p className="text-navy/60">
+                  Acompanhe suas aplicacoes e aumente suas chances
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-white/60 rounded-lg p-4 mb-4">
+              <div className="flex items-center gap-6 text-sm text-navy/70">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-stone/40" />
+                  <span>Aplicado</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-blue-400" />
+                  <span>Em analise</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-amber" />
+                  <span>Entrevista</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-teal" />
+                  <span>Proposta</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-end">
+              <Link href="/dashboard/aplicacoes/nova" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto">
+                  Adicionar primeira vaga
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+          </Card>
+        )}
 
         {/* 4. Interview Pro - Contextual */}
-        {interviewStats.plan === 'pro' && interviewStats.totalSessions > 0 ? (
-          // Pro com sessoes - mostrar stats
+        {interviewStats.totalSessions > 0 ? (
+          // Usuario com sessoes (Pro ou Free que usou trial) - mostrar stats
           <Card variant="elevated" className="p-5">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -134,7 +176,7 @@ export default async function DashboardPage() {
               </div>
               <Link href="/dashboard/interview-pro">
                 <Button size="sm">
-                  Treinar
+                  {interviewAccess?.allowed ? 'Treinar' : 'Ver resultado'}
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>
@@ -157,6 +199,18 @@ export default async function DashboardPage() {
                 <div className="text-[10px] text-navy/60">Ultimo treino</div>
               </div>
             </div>
+            
+            {/* Upsell para Free que usou trial */}
+            {interviewStats.plan === 'free' && !interviewAccess?.isTrialAvailable && (
+              <div className="mt-3 pt-3 border-t border-stone/20">
+                <Link href="/dashboard/plano">
+                  <Button size="sm" variant="ghost" className="w-full text-amber hover:text-amber">
+                    <Crown className="w-4 h-4 mr-2" />
+                    Upgrade para treinos ilimitados
+                  </Button>
+                </Link>
+              </div>
+            )}
           </Card>
         ) : interviewStats.plan === 'pro' ? (
           // Pro sem sessoes - CTA para comecar
@@ -183,8 +237,60 @@ export default async function DashboardPage() {
               </Link>
             </div>
           </Card>
+        ) : interviewAccess?.isTrialAvailable ? (
+          // Free com trial disponivel - CTA para experimentar
+          <Card className="p-6 border-teal/30 bg-gradient-to-r from-teal/5 to-amber/5">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 bg-teal/20 rounded-xl flex items-center justify-center">
+                <Mic className="w-6 h-6 text-teal" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 mb-0.5">
+                  <h2 className="text-xl font-semibold text-navy">
+                    Interview Pro
+                  </h2>
+                  <Badge className="bg-teal/20 text-teal text-[10px] flex items-center gap-1">
+                    <Gift className="w-3 h-3" />
+                    1 gratis
+                  </Badge>
+                </div>
+                <p className="text-navy/60">
+                  Treine para entrevistas com IA e ganhe confianca
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-white/60 rounded-lg p-4 mb-4">
+              <p className="text-sm text-navy/70 mb-2">
+                Sua entrevista gratuita inclui:
+              </p>
+              <ul className="space-y-1 text-sm text-navy/70">
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal" />
+                  3 perguntas personalizadas para sua area
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal" />
+                  Feedback detalhado de cada resposta
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-teal" />
+                  Score e dicas de melhoria
+                </li>
+              </ul>
+            </div>
+            
+            <div className="flex justify-end">
+              <Link href="/dashboard/interview-pro" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto">
+                  Fazer minha entrevista gratis
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+          </Card>
         ) : (
-          // Free - Upsell
+          // Free sem trial - Upsell
           <Card className="p-5 border-amber/30 bg-amber/5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">

@@ -42,27 +42,44 @@ export function StrategyCard({ insight }: StrategyCardProps) {
   // Empty state
   if (!insight) {
     return (
-      <Card variant="elevated" className="p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-amber/20 rounded-lg flex items-center justify-center">
-            <Target className="w-5 h-5 text-amber" />
+      <Card className="p-6 border-amber/30 bg-amber/5">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-12 h-12 bg-amber/20 rounded-xl flex items-center justify-center">
+            <Target className="w-6 h-6 text-amber" />
           </div>
           <div>
             <h2 className="text-xl font-semibold text-navy">
-              Sua Estrategia
+              Defina sua estrategia de carreira
             </h2>
-            <p className="text-sm text-navy/60">
-              Defina seu proximo passo
+            <p className="text-navy/60">
+              Receba um direcionamento personalizado para sua situacao
             </p>
           </div>
         </div>
         
-        <div className="text-center py-6">
-          <p className="text-navy/60 text-sm mb-4">
-            Responda algumas perguntas e receba uma estrategia personalizada para sua carreira.
+        <div className="bg-white/60 rounded-lg p-4 mb-4">
+          <p className="text-sm text-navy/70">
+            Responda 3 perguntas rapidas sobre seu momento profissional e receba:
           </p>
-          <Link href="/comecar">
-            <Button>
+          <ul className="mt-2 space-y-1 text-sm text-navy/70">
+            <li className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber" />
+              Analise do seu contexto atual
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber" />
+              Recomendacao principal
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber" />
+              Proximos passos claros
+            </li>
+          </ul>
+        </div>
+        
+        <div className="flex justify-end">
+          <Link href="/comecar" className="w-full sm:w-auto">
+            <Button className="w-full sm:w-auto">
               <Sparkles className="w-4 h-4 mr-2" />
               Criar minha estrategia
             </Button>
