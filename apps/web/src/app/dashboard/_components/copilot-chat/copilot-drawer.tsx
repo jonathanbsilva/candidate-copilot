@@ -92,13 +92,10 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
         if (info) {
           setAccessInfo(info)
           setLimitReached(!info.allowed)
-          
-          // If user is Pro, check if they have interview history
-          if (info.plan === 'pro') {
-            checkInterviewHistory().then(setHasInterviewHistory)
-          }
         }
       })
+      // Check interview history for all users (Free users can have trial history)
+      checkInterviewHistory().then(setHasInterviewHistory)
     }
   }, [isOpen])
 
@@ -306,7 +303,6 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
           {messages.length === 0 ? (
             <WelcomeState 
               onSelectQuestion={handleQuestionSelect}
-              isPro={accessInfo?.plan === 'pro'}
               hasInterviewHistory={hasInterviewHistory}
             />
           ) : (
@@ -323,7 +319,6 @@ export function CopilotDrawer({ isOpen, onClose, insightContext: propContext }: 
                     insightContext={insightContext}
                     heroContext={heroContext}
                     interviewContext={interviewContext}
-                    isPro={accessInfo?.plan === 'pro'}
                     hasInterviewHistory={hasInterviewHistory}
                   />
                 </div>

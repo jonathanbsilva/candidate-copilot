@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { FREE_INSIGHTS_LIMIT, FREE_APPLICATIONS_LIMIT, FREE_COPILOT_DAILY_LIMIT, type ProFeature } from './limits'
+import { FREE_INSIGHTS_LIMIT, FREE_APPLICATIONS_LIMIT, FREE_COPILOT_DAILY_LIMIT, FREE_INTERVIEWS_LIMIT, type ProFeature } from './limits'
 
 export type UserProfile = {
   plan: 'free' | 'pro'
@@ -202,5 +202,59 @@ export async function canUseCopilot(userId: string): Promise<{
     used: currentCount,
     limit: FREE_COPILOT_DAILY_LIMIT,
     plan: 'free'
+  }
+}
+
+export async function canUseInterviewPro(userId: string): Promise<{
+  allowed: boolean
+  used: number
+  limit: number
+  plan: 'free' | 'pro'
+  isTrialAvailable: boolean
+}> {
+  const supabase = await createClient()
+  
+  // Check coupon expiration first
+  await checkCouponExpiration(userId)
+  
+  // Get profile with interviews_used
+  const { data: profile } = await supabase
+    .from('user_profiles')
+    .select('plan, interviews_used')
+    .eq('user_id', userId)
+    .single()
+  
+  if (!profile) {
+    return { 
+      allowed: true, 
+      used: 0, 
+      limit: FREE_INTERVIEWS_LIMIT, 
+      plan: 'free',
+      isTrialAvailable: true 
+    }
+  }
+
+  const used = profile.interviews_used || 0
+
+  // Pro users: unlimited access
+  if (profile.plan === 'pro') {
+    return { 
+      allowed: true, 
+      used, 
+      limit: Infinity, 
+      plan: 'pro',
+      isTrialAvailable: false 
+    }
+  }
+
+  // Free users: 1 trial vitalicio
+  const isTrialAvailable = used < FREE_INTERVIEWS_LIMIT
+
+  return {
+    allowed: isTrialAvailable,
+    used,
+    limit: FREE_INTERVIEWS_LIMIT,
+    plan: 'free',
+    isTrialAvailable
   }
 }

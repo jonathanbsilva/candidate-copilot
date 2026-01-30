@@ -5,6 +5,8 @@ import { getAIProvider } from '@/lib/ai'
 import { InterviewContextBuilder, FeedbackContextBuilder } from '@/lib/ai/context/interview'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { canUseInterviewPro } from '@/lib/subscription/check-access'
+import { incrementInterviewUsage } from '@/lib/subscription/actions'
 
 // Types
 export type InterviewSession = {
@@ -79,15 +81,11 @@ export async function createInterviewSession(data: {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Not authenticated' }
 
-  // Verificar acesso Pro
-  const { data: profile } = await supabase
-    .from('user_profiles')
-    .select('plan')
-    .eq('user_id', user.id)
-    .single()
+  // Verificar acesso (Pro ilimitado ou Free com trial disponivel)
+  const access = await canUseInterviewPro(user.id)
 
-  if (profile?.plan !== 'pro') {
-    return { error: 'Interview Pro requires Pro plan' }
+  if (!access.allowed) {
+    return { error: 'Voce ja usou sua entrevista de teste. Faca upgrade para Pro.' }
   }
 
   // Gerar primeira pergunta
@@ -228,6 +226,9 @@ async function generateFeedback(
     })
     .eq('id', sessionId)
 
+  // Incrementar contador de entrevistas usadas (para controle do trial)
+  await incrementInterviewUsage()
+
   revalidatePath(`/interview-pro/resultado/${sessionId}`)
 
   return { completed: true, feedback }
@@ -270,20 +271,18 @@ export async function getInterviewHistory(): Promise<InterviewSession[]> {
 export async function checkInterviewAccess(): Promise<{
   allowed: boolean
   plan: 'free' | 'pro' | null
+  isTrialAvailable: boolean
 }> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { allowed: false, plan: null }
+  if (!user) return { allowed: false, plan: null, isTrialAvailable: false }
 
-  const { data: profile } = await supabase
-    .from('user_profiles')
-    .select('plan')
-    .eq('user_id', user.id)
-    .single()
+  const access = await canUseInterviewPro(user.id)
 
   return {
-    allowed: profile?.plan === 'pro',
-    plan: profile?.plan || 'free'
+    allowed: access.allowed,
+    plan: access.plan,
+    isTrialAvailable: access.isTrialAvailable
   }
 }
 
@@ -332,12 +331,7 @@ export async function getInterviewStats(): Promise<{
 
   const plan = (profile?.plan as 'free' | 'pro') || 'free'
 
-  // Se nao for pro, retornar sem buscar sessoes
-  if (plan !== 'pro') {
-    return { plan, totalSessions: 0, averageScore: null, lastScore: null, lastSessionDate: null }
-  }
-
-  // Buscar sessoes completadas
+  // Buscar sessoes completadas (todos usuarios, incluindo Free com trial)
   const { data: sessions } = await supabase
     .from('interview_sessions')
     .select('overall_score, completed_at')

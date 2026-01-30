@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Button, Card, Badge } from '@ui/components'
 import { Sparkles, Target, Clock, ArrowRight, Mic } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
+import { CopilotShowcase } from './_components/copilot-showcase'
 
 export default async function HomePage() {
   const supabase = await createClient()
@@ -144,6 +145,9 @@ export default async function HomePage() {
           </div>
         </section>
 
+        {/* Copilot Showcase */}
+        <CopilotShowcase />
+
         {/* Interview Pro Teaser */}
         <section className="py-16 bg-white">
           <div className="container-narrow text-center">
@@ -185,6 +189,7 @@ export default async function HomePage() {
                   <li>✓ 3 insights por mes</li>
                   <li>✓ 5 vagas para acompanhar</li>
                   <li>✓ 5 perguntas/dia no Copilot</li>
+                  <li>✓ 1 entrevista simulada gratis</li>
                 </ul>
                 <Link href="/comecar">
                   <Button variant="secondary" className="w-full">Comecar gratis</Button>
@@ -201,7 +206,7 @@ export default async function HomePage() {
                 </div>
                 <ul className="space-y-2 text-sm text-navy/70 mb-6">
                   <li>✓ Tudo ilimitado</li>
-                  <li>✓ Interview Pro com IA</li>
+                  <li>✓ Entrevistas ilimitadas com IA</li>
                   <li>✓ Career Coach IA</li>
                 </ul>
                 <Link href="/pricing">

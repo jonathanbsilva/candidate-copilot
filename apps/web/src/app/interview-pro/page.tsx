@@ -36,17 +36,17 @@ export default async function InterviewProPage() {
         {/* Hero Section */}
         <section className="py-16 sm:py-24">
           <div className="container-narrow text-center">
-            <Badge className="mb-4 bg-teal/20 text-teal">Pro</Badge>
+            <Badge className="mb-4 bg-teal/20 text-teal">1 entrevista gratis</Badge>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-navy leading-tight tracking-tight">
               Treine para entrevistas com IA
             </h1>
             <p className="mt-6 text-lg sm:text-xl text-navy/70 max-w-2xl mx-auto">
-              Pratique por texto ou simule uma ligacao real. Feedback instantaneo, sem julgamento.
+              Pratique por texto ou simule uma ligacao real. Feedback instantaneo, sem julgamento. Sua primeira entrevista e gratis!
             </p>
             <div className="mt-8">
               <Link href="/auth">
                 <Button size="lg">
-                  Comecar agora
+                  Fazer minha entrevista gratis
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
@@ -192,15 +192,16 @@ export default async function InterviewProPage() {
         {/* CTA Section */}
         <section className="py-16 bg-white">
           <div className="container-narrow text-center">
+            <Badge className="mb-4 bg-teal/20 text-teal">1 entrevista gratis</Badge>
             <h2 className="text-2xl sm:text-3xl font-semibold text-navy mb-3">
               Pronto para treinar?
             </h2>
             <p className="text-navy/70 mb-8 max-w-xl mx-auto">
-              Crie uma conta gratuita e faca upgrade para o plano Pro para acessar o Interview Pro.
+              Crie uma conta gratuita e experimente o Interview Pro. Sua primeira entrevista e por nossa conta!
             </p>
             <Link href="/auth">
               <Button size="lg">
-                Criar conta gratuita
+                Comecar minha entrevista gratis
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>

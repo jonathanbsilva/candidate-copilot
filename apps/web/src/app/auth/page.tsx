@@ -129,8 +129,8 @@ function AuthContent() {
               </p>
             </div>
 
-            {/* Google OAuth Button */}
-            <Button
+            {/* Google OAuth Button - hidden for now, enable when ready */}
+            {/* <Button
               type="button"
               variant="secondary"
               className="w-full mb-4"
@@ -165,7 +165,7 @@ function AuthContent() {
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-navy/50">ou</span>
               </div>
-            </div>
+            </div> */}
 
             {/* Magic Link Form */}
             <form onSubmit={handleMagicLink} className="space-y-4">

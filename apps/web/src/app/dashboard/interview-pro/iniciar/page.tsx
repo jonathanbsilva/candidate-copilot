@@ -3,11 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Button, Card, Input } from '@ui/components'
-import { ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
+import { Button, Card, Input, Badge } from '@ui/components'
+import { ArrowLeft, ArrowRight, Loader2, Gift, Crown } from 'lucide-react'
 import { createInterviewSession, getLastInsightData, checkInterviewAccess } from '../actions'
 import { track } from '@/lib/analytics/track'
-import { UpgradePrompt } from '@/components/upgrade-prompt'
 
 const senioridadeOptions = [
   { value: 'estagio', label: 'Estagio' },
@@ -29,6 +28,12 @@ const areaOptions = [
   { value: 'outro', label: 'Outro' },
 ]
 
+type AccessInfo = {
+  allowed: boolean
+  plan: 'free' | 'pro' | null
+  isTrialAvailable: boolean
+}
+
 export default function IniciarPage() {
   const router = useRouter()
   const [cargo, setCargo] = useState('')
@@ -37,13 +42,13 @@ export default function IniciarPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [isLoadingData, setIsLoadingData] = useState(true)
   const [error, setError] = useState('')
-  const [hasAccess, setHasAccess] = useState<boolean | null>(null)
+  const [accessInfo, setAccessInfo] = useState<AccessInfo | null>(null)
 
   useEffect(() => {
     async function loadData() {
       // Check access
       const access = await checkInterviewAccess()
-      setHasAccess(access.allowed)
+      setAccessInfo(access)
       
       if (!access.allowed) {
         setIsLoadingData(false)
@@ -110,14 +115,30 @@ export default function IniciarPage() {
     )
   }
 
-  if (hasAccess === false) {
+  if (accessInfo && !accessInfo.allowed) {
     return (
       <div className="container-narrow py-8 sm:py-12">
         <Link href="/dashboard/interview-pro" className="inline-flex items-center text-navy/70 hover:text-navy mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" />
           Voltar
         </Link>
-        <UpgradePrompt remaining={0} limit={0} feature="interview_pro" />
+        <Card className="p-6 text-center max-w-lg mx-auto">
+          <div className="w-12 h-12 bg-amber/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Crown className="w-6 h-6 text-amber" />
+          </div>
+          <h3 className="text-lg font-semibold text-navy mb-2">
+            Voce ja usou sua entrevista de teste
+          </h3>
+          <p className="text-navy/70 mb-6">
+            Faca upgrade para o plano Pro e tenha entrevistas ilimitadas.
+          </p>
+          <Link href="/dashboard/plano">
+            <Button>
+              <Crown className="w-5 h-5 mr-2" />
+              Fazer upgrade para Pro
+            </Button>
+          </Link>
+        </Card>
       </div>
     )
   }
@@ -131,12 +152,22 @@ export default function IniciarPage() {
 
       <Card variant="elevated" className="max-w-lg mx-auto">
         <div className="p-6 border-b border-stone/30">
-          <h1 className="text-2xl font-semibold text-navy mb-2">
-            Configurar entrevista
-          </h1>
-          <p className="text-navy/70">
-            Informe a vaga para perguntas personalizadas.
-          </p>
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-2xl font-semibold text-navy mb-2">
+                Configurar entrevista
+              </h1>
+              <p className="text-navy/70">
+                Informe a vaga para perguntas personalizadas.
+              </p>
+            </div>
+            {accessInfo?.plan === 'free' && accessInfo.isTrialAvailable && (
+              <Badge className="bg-teal/20 text-teal flex items-center gap-1">
+                <Gift className="w-3 h-3" />
+                Trial
+              </Badge>
+            )}
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-5">

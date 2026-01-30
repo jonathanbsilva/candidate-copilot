@@ -95,3 +95,24 @@ export async function getCurrentUserProfile() {
 
   return profile
 }
+
+export async function incrementInterviewUsage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not authenticated')
+
+  // Get current value and increment
+  const { data: profile } = await supabase
+    .from('user_profiles')
+    .select('interviews_used')
+    .eq('user_id', user.id)
+    .single()
+
+  await supabase
+    .from('user_profiles')
+    .update({
+      interviews_used: (profile?.interviews_used || 0) + 1,
+      updated_at: new Date().toISOString()
+    })
+    .eq('user_id', user.id)
+}

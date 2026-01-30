@@ -75,7 +75,7 @@ const defaultQuestions: ExtendedQuestion[] = [
   },
 ]
 
-// Perguntas de Interview Pro (so aparecem para usuarios Pro)
+// Perguntas de Interview Pro (aparecem para todos usuarios com historico de entrevista)
 const interviewQuestions: ExtendedQuestion[] = [
   {
     id: 'ultima-entrevista',
@@ -118,7 +118,6 @@ interface SuggestedQuestionsProps {
   insightContext?: InsightContext | null
   heroContext?: HeroContext | null
   interviewContext?: InterviewContext | null
-  isPro?: boolean
   hasInterviewHistory?: boolean
 }
 
@@ -129,7 +128,6 @@ export function SuggestedQuestions({
   insightContext,
   heroContext,
   interviewContext,
-  isPro = false,
   hasInterviewHistory = false
 }: SuggestedQuestionsProps) {
   // If there's interview, insight, or hero context, show context-specific questions
@@ -184,8 +182,8 @@ export function SuggestedQuestions({
     )
   }
   
-  // Incluir perguntas de interview para usuarios Pro com historico
-  const allQuestions = isPro && hasInterviewHistory
+  // Incluir perguntas de interview para todos usuarios com historico de entrevista
+  const allQuestions = hasInterviewHistory
     ? [...defaultQuestions, ...interviewQuestions]
     : defaultQuestions
   
