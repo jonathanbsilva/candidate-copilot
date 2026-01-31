@@ -21,7 +21,7 @@ export default async function InterviewProPage() {
       <div className="container-narrow py-8 sm:py-12">
         <div className="mb-8">
           <h1 className="text-2xl sm:text-3xl font-semibold text-navy mb-2">
-            Interview Pro
+            Entrevista IA
           </h1>
           <p className="text-navy/70">
             Treine para entrevistas com IA e receba feedback instantâneo.
@@ -94,7 +94,7 @@ export default async function InterviewProPage() {
             </div>
             <div className="flex-1">
               <p className="font-medium text-navy">
-                Experimente o Interview Pro!
+                Experimente a Entrevista IA!
               </p>
               <p className="text-sm text-navy/70">
                 Você tem 1 entrevista gratuita para testar. Aproveite!
@@ -109,7 +109,7 @@ export default async function InterviewProPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl sm:text-3xl font-semibold text-navy mb-2">
-            Interview Pro
+            Entrevista IA
           </h1>
           <p className="text-navy/70">
             Treine para entrevistas com IA e receba feedback instantâneo.

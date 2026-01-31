@@ -13,7 +13,7 @@ Copilot de carreira que ajuda profissionais a tomar decisoes de emprego com clar
 - Entry flow → Insights de carreira (sem cadastro)
 - Tracking de aplicacoes (CRUD + timeline)
 - Copilot chat contextual
-- Interview Pro (mock interviews com IA)
+- Entrevista IA (mock interviews com IA)
 - Hero Card adaptativo
 - Planos Free/Pro com Stripe
 - Analytics (PostHog + GA4)

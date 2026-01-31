@@ -50,8 +50,8 @@ export const heroSuggestedQuestions: Record<string, string[]> = {
   ],
   low_activity: [
     'Me ajuda a encontrar vagas',
-    'Como melhorar meu curriculo?',
-    'Quais empresas estao contratando?',
+    'Como melhorar meu currículo?',
+    'Quais empresas estão contratando?',
   ],
   new_user: [
     'Como funciona o Copilot?',
@@ -83,7 +83,7 @@ export const insightSuggestedQuestions: Record<string, string[]> = {
     'Qual seu salário atual?',
     'Quanto você quer pedir?',
     'Você tem outras propostas?',
-    'Quando e a conversa?'
+    'Quando é a conversa?'
   ],
   transicao_carreira: [
     'Para qual área quer ir?',
@@ -95,7 +95,7 @@ export const insightSuggestedQuestions: Record<string, string[]> = {
     'Qual cargo você almeja?',
     'Quais habilidades precisa desenvolver?',
     'Sua empresa atual oferece oportunidades?',
-    'Ja conversou com seu gestor sobre isso?'
+    'Já conversou com seu gestor sobre isso?'
   ],
   estabilidade: [
     'O que significa estabilidade para você?',
@@ -126,7 +126,7 @@ export function mapObjetivoToTipo(objetivo: string): string {
 // Mensagens iniciais para contexto de entrevista simulada
 export function getInterviewInitialMessage(cargo: string, score: number): string {
   if (score >= 80) {
-    return `Parabens pela entrevista para ${cargo}! Voce tirou ${score}/100, um otimo resultado. Quer conversar sobre como manter esse nivel ou melhorar ainda mais?`
+    return `Parabéns pela entrevista para ${cargo}! Você tirou ${score}/100, um ótimo resultado. Quer conversar sobre como manter esse nível ou melhorar ainda mais?`
   } else if (score >= 60) {
     return `Vi sua entrevista para ${cargo} - você tirou ${score}/100. Bom desempenho! Vamos explorar juntos como melhorar nos pontos que foram sinalizados?`
   } else {
@@ -136,12 +136,12 @@ export function getInterviewInitialMessage(cargo: string, score: number): string
 
 export const interviewSuggestedQuestions: string[] = [
   'Como estruturar melhor minhas respostas?',
-  'Me de exemplos de respostas usando o metodo STAR',
+  'Me dê exemplos de respostas usando o método STAR',
   'Quais perguntas comportamentais devo praticar?',
-  'Como demonstrar lideranca nas respostas?',
-  'O que posso fazer para melhorar minha comunicacao?',
+'Como demonstrar liderança nas respostas?',
+    'O que posso fazer para melhorar minha comunicação?',
   'Quais erros comuns devo evitar em entrevistas?',
-  'Como lidar com perguntas dificeis?',
+  'Como lidar com perguntas difíceis?',
   'Como falar sobre pontos fracos de forma positiva?',
 ]
 

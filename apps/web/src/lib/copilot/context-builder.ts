@@ -294,12 +294,12 @@ APLICAÇÕES RECENTES:`
     })
   }
 
-  // Interview history (Interview Pro)
+  // Interview history (Entrevista IA)
   if (ctx.interviewHistory && ctx.interviewHistory.totalSessions > 0) {
     const ih = ctx.interviewHistory
     prompt += `
 
-HISTÓRICO DE ENTREVISTAS SIMULADAS (Interview Pro):
+HISTÓRICO DE ENTREVISTAS SIMULADAS (Entrevista IA):
 - Total de treinos: ${ih.totalSessions}
 - Score médio: ${ih.averageScore || 'N/A'}/100
 - Último score: ${ih.lastScore || 'N/A'}/100`

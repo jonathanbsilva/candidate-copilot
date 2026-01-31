@@ -188,7 +188,7 @@ export function CouponInput() {
                 ? 'Gratis' 
                 : `R$ ${validatedCoupon.discounted_price.toFixed(0)}`}
             </span>
-            <span className="text-navy/60 text-sm">/mes</span>
+            <span className="text-navy/60 text-sm">/mês</span>
           </div>
 
           <p className="text-xs sm:text-sm text-navy/60 mb-4">

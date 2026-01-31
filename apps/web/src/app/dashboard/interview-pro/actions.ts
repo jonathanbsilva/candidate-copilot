@@ -306,7 +306,7 @@ export async function getInterviewHistory(): Promise<InterviewSession[]> {
   return data || []
 }
 
-// Verificar acesso ao Interview Pro
+// Verificar acesso à Entrevista IA
 export async function checkInterviewAccess(): Promise<{
   allowed: boolean
   plan: 'free' | 'pro' | null

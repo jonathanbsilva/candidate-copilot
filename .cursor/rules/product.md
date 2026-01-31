@@ -36,5 +36,5 @@
 
 ### Pro (R$ 19/mes)
 - Tudo ilimitado
-- Interview Pro completo
+- Entrevista IA completo
 - Career Coach AI (futuro)

@@ -179,7 +179,7 @@ export default function EditarAplicacaoPage() {
               </Button>
             </Link>
             <Button type="submit" isLoading={isPending}>
-              Salvar alteracoes
+              Salvar alterações
             </Button>
           </div>
         </form>

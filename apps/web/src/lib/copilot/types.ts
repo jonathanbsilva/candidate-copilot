@@ -51,7 +51,7 @@ export interface UserContext {
     objetivo: string
   } | null
   
-  // Historico de entrevistas simuladas (Interview Pro)
+  // Historico de entrevistas simuladas (Entrevista IA)
   interviewHistory?: InterviewHistoryData | null
 }
 

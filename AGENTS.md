@@ -107,7 +107,7 @@ packages/
 - Respostas diretas do DB quando possivel (economia de tokens)
 - Limites: Free 5/dia, Pro ilimitado
 
-### Interview Pro
+### Entrevista IA
 - Mock interviews com IA (modo texto)
 - Free: 1 trial vitalicio
 - Pro: ilimitado
@@ -165,7 +165,7 @@ RLS habilitado em todas as tabelas.
 
 1. **Server Components por padrao** - Client apenas quando necessario
 2. **Server Actions para mutacoes** - Nao usar API routes
-3. **Interview Pro Trial** - Free users tem 1 entrevista gratis
+3. **Entrevista IA Trial** - Free users tem 1 entrevista gratis
 4. **Copilot sem restricoes Pro** - Todo usuario pode usar contexto de entrevista
 5. **Hero Card hibrido** - Deteccao por regras, mensagens por templates/IA
 6. **UUID validation obrigatorio** - Sempre validar antes de queries

@@ -110,7 +110,7 @@ export function ApplicationsCardSkeleton() {
 }
 
 /**
- * Skeleton do card de Interview Pro no dashboard
+ * Skeleton do card de Entrevista IA no dashboard
  */
 export function InterviewCardSkeleton() {
   return (

@@ -310,7 +310,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
                 </li>
                 <li className="flex items-start sm:items-center gap-2.5 sm:gap-3">
                   <Check className="w-4 h-4 sm:w-5 sm:h-5 text-teal flex-shrink-0 mt-0.5 sm:mt-0" />
-                  <span className="text-navy text-sm sm:text-base">Interview Pro - treino de entrevistas com IA</span>
+                  <span className="text-navy text-sm sm:text-base">Entrevista IA - treino de entrevistas com IA</span>
                 </li>
                 <li className="flex items-start sm:items-center gap-2.5 sm:gap-3">
                   <Check className="w-4 h-4 sm:w-5 sm:h-5 text-teal flex-shrink-0 mt-0.5 sm:mt-0" />

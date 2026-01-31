@@ -118,7 +118,7 @@
 
 ### Por Que Candidatos Primeiro
 
-- **Produto standalone**: candidato ja recebe valor (insight, Interview Pro, Copilot) sem precisar de vagas de empresa.
+- **Produto standalone**: candidato ja recebe valor (insight, Entrevista IA, Copilot) sem precisar de vagas de empresa.
 - **Pitch B2B**: "temos 10k candidatos que praticam entrevistas e recebem insights de carreira" e mais convincente que "temos plataforma nova".
 - **Dados para Match Score**: quanto mais candidatos com perfil/CV, melhor o score e a comparacao.
 
@@ -178,7 +178,7 @@
 - Landing + Entry flow (insight sem cadastro)
 - Tracking de aplicacoes (CRUD + timeline)
 - Copilot contextual (insight/hero/interview)
-- Interview Pro funcional + trial (1 free)
+- Entrevista IA funcional + trial (1 free)
 - Assinatura Free/Pro (Stripe)
 - Analytics basico (PostHog + GA4)
 

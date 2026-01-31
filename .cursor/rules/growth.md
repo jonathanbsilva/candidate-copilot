@@ -12,7 +12,7 @@ Com base solida, o pitch para empresas fica forte: "temos X mil candidatos prepa
 
 ## Por Que Candidatos Primeiro
 
-- Produto standalone: candidato ja recebe valor (insight, Interview Pro, Copilot) sem vagas de empresa
+- Produto standalone: candidato ja recebe valor (insight, Entrevista IA, Copilot) sem vagas de empresa
 - Pitch B2B: base de usuarios qualificados e mais convincente que "plataforma nova"
 - Dados para Match Score: mais candidatos = melhor score e comparacao
 

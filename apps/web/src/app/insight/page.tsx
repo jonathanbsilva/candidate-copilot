@@ -212,7 +212,7 @@ export default function InsightPage() {
         {isLoggedIn && accessCheck && accessCheck.plan === 'free' && accessCheck.remaining !== null && (
           <div className="mb-6 p-3 bg-amber/10 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:justify-between">
             <p className="text-sm text-navy/70">
-              <span className="font-medium text-navy">{accessCheck.remaining}</span> de {accessCheck.limit} insights restantes este mes
+              <span className="font-medium text-navy">{accessCheck.remaining}</span> de {accessCheck.limit} insights restantes este mês
             </p>
             <Link href="/dashboard/plano" className="text-sm font-medium text-amber hover:text-amber/80">
               Upgrade →
@@ -284,7 +284,7 @@ export default function InsightPage() {
           {/* Next Steps Section */}
           <div className="p-4 sm:p-6">
             <h2 className="text-sm font-semibold text-navy/70 uppercase tracking-wide mb-3">
-              Proximos passos
+              Próximos passos
             </h2>
             <ol className="space-y-3">
               {insight.nextSteps.map((step, index) => (
@@ -310,7 +310,7 @@ export default function InsightPage() {
                 </h2>
               </div>
               <p className="text-navy/70 mb-6 max-w-md mx-auto">
-                Voce pode acessar este e outros insights no seu dashboard.
+                Você pode acessar este e outros insights no seu dashboard.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Link href="/dashboard">

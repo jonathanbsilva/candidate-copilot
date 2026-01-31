@@ -36,17 +36,17 @@ export default async function InterviewProPage() {
         {/* Hero Section */}
         <section className="py-16 sm:py-24">
           <div className="container-narrow text-center">
-            <Badge className="mb-4 bg-teal/20 text-teal">1 entrevista gratis</Badge>
+            <Badge className="mb-4 bg-teal/20 text-teal">1 entrevista grátis</Badge>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-navy leading-tight tracking-tight">
               Treine para entrevistas com IA
             </h1>
             <p className="mt-6 text-lg sm:text-xl text-navy/70 max-w-2xl mx-auto">
-              Pratique por texto ou simule uma ligacao real. Feedback instantaneo, sem julgamento. Sua primeira entrevista e gratis!
+              Pratique por texto ou simule uma ligação real. Feedback instantâneo, sem julgamento. Sua primeira entrevista é grátis!
             </p>
             <div className="mt-8">
               <Link href="/auth">
                 <Button size="lg">
-                  Fazer minha entrevista gratis
+                  Fazer minha entrevista grátis
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
@@ -69,7 +69,7 @@ export default async function InterviewProPage() {
                     <MessageSquare className="w-6 h-6 text-teal" />
                   </div>
                   <div>
-                    <Badge className="mb-2 bg-teal/20 text-teal">Disponivel</Badge>
+                    <Badge className="mb-2 bg-teal/20 text-teal">Disponível</Badge>
                     <h3 className="text-xl font-semibold text-navy">
                       Modo Texto
                     </h3>
@@ -81,11 +81,11 @@ export default async function InterviewProPage() {
                 <ul className="space-y-2 text-sm text-navy/70">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-teal rounded-full" />
-                    3 perguntas por sessao (~5 min)
+                    3 perguntas por sessão (~5 min)
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-teal rounded-full" />
-                    Mix comportamental + tecnico
+                    Mix comportamental + técnico
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-teal rounded-full" />
@@ -105,12 +105,12 @@ export default async function InterviewProPage() {
                   </div>
                   <div>
                     <h3 className="text-xl font-semibold text-navy mt-2">
-                      Modo Audio
+                      Modo Áudio
                     </h3>
                   </div>
                 </div>
                 <p className="text-navy/70 mb-6">
-                  Simule uma ligacao real com IA. Treine sua comunicacao verbal e tempo de resposta.
+                  Simule uma ligação real com IA. Treine sua comunicação verbal e tempo de resposta.
                 </p>
                 <ul className="space-y-2 text-sm text-navy/70">
                   <li className="flex items-center gap-2">
@@ -123,7 +123,7 @@ export default async function InterviewProPage() {
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-amber rounded-full" />
-                    Gravacao para revisao
+                    Gravação para revisão
                   </li>
                 </ul>
               </Card>
@@ -155,10 +155,10 @@ export default async function InterviewProPage() {
                   <Phone className="w-6 h-6 text-amber" />
                 </div>
                 <h3 className="text-lg font-semibold text-navy mb-2">
-                  Texto ou Ligacao
+                  Texto ou Ligação
                 </h3>
                 <p className="text-navy/70 text-sm">
-                  Prefere digitar? Ou quer treinar como numa ligacao real? Voce escolhe.
+                  Prefere digitar? Ou quer treinar como numa ligação real? Você escolhe.
                 </p>
               </Card>
 
@@ -167,10 +167,10 @@ export default async function InterviewProPage() {
                   <BarChart3 className="w-6 h-6 text-teal" />
                 </div>
                 <h3 className="text-lg font-semibold text-navy mb-2">
-                  Feedback instantaneo
+                  Feedback instantâneo
                 </h3>
                 <p className="text-navy/70 text-sm">
-                  Receba analise detalhada de conteudo, tom e estrutura da sua resposta.
+                  Receba análise detalhada de conteúdo, tom e estrutura da sua resposta.
                 </p>
               </Card>
 
@@ -179,10 +179,10 @@ export default async function InterviewProPage() {
                   <TrendingUp className="w-6 h-6 text-navy" />
                 </div>
                 <h3 className="text-lg font-semibold text-navy mb-2">
-                  Evolucao visivel
+                  Evolução visível
                 </h3>
                 <p className="text-navy/70 text-sm">
-                  Acompanhe seu progresso e veja sua confianca crescer entrevista apos entrevista.
+                  Acompanhe seu progresso e veja sua confiança crescer entrevista após entrevista.
                 </p>
               </Card>
             </div>
@@ -192,17 +192,17 @@ export default async function InterviewProPage() {
         {/* CTA Section */}
         <section className="py-16 bg-white">
           <div className="container-narrow text-center">
-            <Badge className="mb-4 bg-teal/20 text-teal">1 entrevista gratis</Badge>
+            <Badge className="mb-4 bg-teal/20 text-teal">1 entrevista grátis</Badge>
             <h2 className="text-2xl sm:text-3xl font-semibold text-navy mb-3">
               Pronto para treinar?
             </h2>
             <p className="text-navy/70 mb-8 max-w-xl mx-auto">
-              Crie uma conta gratuita e experimente o Interview Pro. Sua primeira entrevista e por nossa conta!
+              Crie uma conta gratuita e experimente a Entrevista IA. Sua primeira entrevista é por nossa conta!
             </p>
             <Link href="/auth">
               <Button size="lg">
-                <span className="sm:hidden">Comecar gratis</span>
-                <span className="hidden sm:inline">Comecar minha entrevista gratis</span>
+                <span className="sm:hidden">Começar grátis</span>
+                <span className="hidden sm:inline">Começar minha entrevista grátis</span>
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
@@ -234,7 +234,7 @@ export default async function InterviewProPage() {
           </div>
           <nav className="flex items-center gap-6 text-sm text-navy/60">
             <Link href="/" className="hover:text-navy transition-colors">
-              Inicio
+              Início
             </Link>
             <Link href="#" className="hover:text-navy transition-colors">
               Privacidade

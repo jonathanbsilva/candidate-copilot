@@ -46,7 +46,7 @@ const CONVERSATIONS: ConversationContext[] = [
       },
       {
         role: 'assistant',
-        content: 'Vi que você aplicou para PM na TechCorp. Baseado no histórico deles:\n\n1. Prepare cases de produto\n2. Estude métricas de sucesso\n3. Pratique no Interview Pro\n\nQuer simular uma entrevista agora?'
+        content: 'Vi que você aplicou para PM na TechCorp. Baseado no histórico deles:\n\n1. Prepare cases de produto\n2. Estude métricas de sucesso\n3. Pratique na Entrevista IA\n\nQuer simular uma entrevista agora?'
       }
     ]
   },

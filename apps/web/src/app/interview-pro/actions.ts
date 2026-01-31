@@ -87,7 +87,7 @@ export async function createInterviewSession(data: {
     .single()
 
   if (profile?.plan !== 'pro') {
-    return { error: 'Interview Pro requires Pro plan' }
+    return { error: 'Entrevista IA requer plano Pro' }
   }
 
   // Gerar primeira pergunta
@@ -266,7 +266,7 @@ export async function getInterviewHistory(): Promise<InterviewSession[]> {
   return data || []
 }
 
-// Verificar acesso ao Interview Pro
+// Verificar acesso à Entrevista IA
 export async function checkInterviewAccess(): Promise<{
   allowed: boolean
   plan: 'free' | 'pro' | null

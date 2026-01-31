@@ -94,12 +94,12 @@ function hasRecentInsight(userContext: UserContext): boolean {
 export function detectCTA(input: CTADetectorInput): CopilotCTA | null {
   const { question, userContext, hasInterviewContext, hasInsightContext } = input
   
-  // CTA Interview Pro
+  // CTA Entrevista IA
   // Condicao: Fala de entrevista e NAO esta no contexto de entrevista
   if (containsKeyword(question, INTERVIEW_KEYWORDS) && !hasInterviewContext) {
     return {
       type: 'interview_pro',
-      label: 'Treinar com Interview Pro',
+      label: 'Treinar com Entrevista IA',
       href: '/dashboard/interview-pro',
       icon: 'video',
     }
@@ -127,7 +127,7 @@ export function detectCTA(input: CTADetectorInput): CopilotCTA | null {
     }
   }
   
-  // CTA Interview Pro por taxa baixa
+  // CTA Entrevista IA por taxa baixa
   // Condicao: Taxa de conversao abaixo de 10% e tem pelo menos 5 aplicacoes
   if (
     containsKeyword(question, APPLICATION_KEYWORDS) &&

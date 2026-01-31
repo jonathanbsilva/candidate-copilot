@@ -22,7 +22,7 @@ export const PLANS = {
       'Insights ilimitados',
       'Tracking manual ilimitado',
       'Copilot avancado',
-      'Interview Pro',
+      'Entrevista IA',
       'Career Coach IA',
     ],
   },

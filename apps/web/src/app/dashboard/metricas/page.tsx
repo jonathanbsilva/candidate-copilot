@@ -33,10 +33,10 @@ export default async function MetricsPage() {
       {metrics.total === 0 ? (
         <Card className="p-4 sm:p-6">
           <p className="text-navy/70 mb-4">
-            Adicione suas primeiras aplicacoes para ver metricas da sua busca.
+            Adicione suas primeiras aplicações para ver métricas da sua busca.
           </p>
           <Link href="/dashboard/aplicacoes/nova">
-            <Button>Adicionar primeira aplicacao</Button>
+            <Button>Adicionar primeira aplicação</Button>
           </Link>
         </Card>
       ) : (

@@ -10,7 +10,7 @@
 
 ### Fluxo de Valor
 ```
-Insight gratuito → Conta opcional → Tracking → Interview Pro
+Insight gratuito → Conta opcional → Tracking → Entrevista IA
 ```
 
 ## Copy & Tone (pt-BR)

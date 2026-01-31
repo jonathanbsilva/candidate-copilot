@@ -177,7 +177,7 @@ async function InterviewSection() {
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-semibold text-navy">
-                Interview Pro
+                Entrevista IA
               </h2>
               <p className="text-xs sm:text-sm text-navy/60">
                 {interviewStats.totalSessions} treino{interviewStats.totalSessions > 1 ? 's' : ''} realizado{interviewStats.totalSessions > 1 ? 's' : ''}
@@ -236,7 +236,7 @@ async function InterviewSection() {
             </div>
             <div>
               <h2 className="text-base sm:text-lg font-semibold text-navy">
-                Interview Pro
+                Entrevista IA
               </h2>
               <p className="text-xs sm:text-sm text-navy/60">
                 Pratique e ganhe confiança
@@ -265,7 +265,7 @@ async function InterviewSection() {
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-0.5">
               <h2 className="text-lg sm:text-xl font-semibold text-navy">
-                Interview Pro
+                Entrevista IA
               </h2>
               <Badge className="bg-teal/20 text-teal text-xs flex items-center gap-1">
                 <Gift className="w-3 h-3" />
@@ -321,7 +321,7 @@ async function InterviewSection() {
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-0.5">
               <h2 className="text-base sm:text-lg font-semibold text-navy">
-                Interview Pro
+                Entrevista IA
               </h2>
               <Badge className="bg-amber/20 text-amber text-xs">Pro</Badge>
             </div>
@@ -379,7 +379,7 @@ export default async function DashboardPage() {
           <ApplicationsSection />
         </Suspense>
 
-        {/* 4. Interview Pro - Contextual */}
+        {/* 4. Entrevista IA - Contextual */}
         <Suspense fallback={<InterviewCardSkeleton />}>
           <InterviewSection />
         </Suspense>

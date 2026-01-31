@@ -332,7 +332,7 @@ export function CopilotDrawer() {
             <>
               <ChatMessages messages={messages} isLoading={isLoading} />
               
-              {/* Perguntas sugeridas apos conversa */}
+              {/* Perguntas sugeridas após conversa */}
               {!isLoading && messages.length > 0 && (
                 <div className="mt-6 pt-4 border-t border-stone/20">
                   <p className="text-xs text-navy/50 mb-3">Perguntar mais:</p>
@@ -356,7 +356,7 @@ export function CopilotDrawer() {
           {limitReached && accessInfo?.plan === 'free' ? (
             <div className="text-center">
               <p className="text-sm text-navy/70 mb-3">
-                Voce usou suas {accessInfo.limit} perguntas de hoje.
+                Você usou suas {accessInfo.limit} perguntas de hoje.
               </p>
               <Link href="/dashboard/plano" onClick={onClose}>
                 <Button size="sm">

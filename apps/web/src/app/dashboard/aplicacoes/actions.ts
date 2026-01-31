@@ -19,7 +19,7 @@ import { logger } from '@/lib/logger'
 export async function createApplication(data: CreateApplicationInput) {
   const validated = createApplicationSchema.safeParse(data)
   if (!validated.success) {
-    return { error: validated.error.errors[0]?.message || 'Dados invalidos' }
+    return { error: validated.error.errors[0]?.message || 'Dados inválidos' }
   }
 
   const { supabase, user, error: authError } = await getAuthenticatedUser()
@@ -95,7 +95,7 @@ export async function createApplication(data: CreateApplicationInput) {
 export async function updateApplication(data: UpdateApplicationInput) {
   const validated = updateApplicationSchema.safeParse(data)
   if (!validated.success) {
-    return { error: validated.error.errors[0]?.message || 'Dados invalidos' }
+    return { error: validated.error.errors[0]?.message || 'Dados inválidos' }
   }
 
   const { supabase, user, error: authError } = await getAuthenticatedUser()
@@ -168,7 +168,7 @@ export async function deleteApplication(id: string) {
 export async function changeStatus(data: ChangeStatusInput) {
   const validated = changeStatusSchema.safeParse(data)
   if (!validated.success) {
-    return { error: validated.error.errors[0]?.message || 'Dados invalidos' }
+    return { error: validated.error.errors[0]?.message || 'Dados inválidos' }
   }
 
   const { supabase, user, error: authError } = await getAuthenticatedUser()

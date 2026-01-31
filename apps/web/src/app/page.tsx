@@ -79,7 +79,7 @@ export default async function HomePage() {
                   Conte seu contexto
                 </h3>
                 <p className="text-navy/70">
-                  Responda 3 perguntas simples sobre sua situacao profissional atual e o que voce quer resolver.
+                  Responda 3 perguntas simples sobre sua situação profissional atual e o que você quer resolver.
                 </p>
               </Card>
 
@@ -100,10 +100,10 @@ export default async function HomePage() {
                   <span className="text-2xl font-bold text-navy">3</span>
                 </div>
                 <h3 className="text-lg font-semibold text-navy mb-2">
-                  Tome decisoes melhores
+                  Tome decisões melhores
                 </h3>
                 <p className="text-navy/70">
-                  Use os insights para tomar decisoes de carreira com mais confianca e menos ansiedade.
+                  Use os insights para tomar decisões de carreira com mais confiança e menos ansiedade.
                 </p>
               </Card>
             </div>
@@ -116,14 +116,14 @@ export default async function HomePage() {
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-semibold text-navy mb-6">
-                  Para quem esta pensando em...
+                  Para quem está pensando em...
                 </h2>
                 <ul className="space-y-4">
                   {[
                     'Avaliar uma proposta de emprego',
                     'Conseguir mais entrevistas',
-                    'Mudar de area ou carreira',
-                    'Negociar salario atual',
+                    'Mudar de área ou carreira',
+                    'Negociar salário atual',
                     'Entender o mercado atual',
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-3">
@@ -135,7 +135,7 @@ export default async function HomePage() {
               </div>
               <Card variant="elevated" className="p-6 sm:p-8">
                 <blockquote className="text-base sm:text-lg text-navy/80 italic">
-                  "Em vez de ficar dias remoendo uma decisao, tive clareza em minutos sobre o que fazia sentido pra mim."
+                  "Em vez de ficar dias remoendo uma decisão, tive clareza em minutos sobre o que fazia sentido pra mim."
                 </blockquote>
                 <div className="mt-4 text-sm text-navy/60">
                   — Profissional de tecnologia
@@ -148,7 +148,7 @@ export default async function HomePage() {
         {/* Copilot Showcase */}
         <CopilotShowcase />
 
-        {/* Interview Pro Teaser */}
+        {/* Entrevista IA Teaser */}
         <section className="py-16 bg-white">
           <div className="container-narrow text-center">
             <Badge className="mb-4 bg-amber/20 text-amber">Pro</Badge>
@@ -156,7 +156,7 @@ export default async function HomePage() {
               Treine para entrevistas com IA
             </h2>
             <p className="text-navy/70 mb-6 max-w-xl mx-auto">
-              Mock interviews personalizadas com feedback instantaneo. Pratique sem julgamento e evolua a cada sessao.
+              Mock interviews personalizadas com feedback instantâneo. Pratique sem julgamento e evolua a cada sessão.
             </p>
             <Link href="/interview-pro">
               <Button variant="secondary">
@@ -175,7 +175,7 @@ export default async function HomePage() {
                 Planos simples
               </h2>
               <p className="text-navy/70">
-                Comece gratis. Faca upgrade quando precisar.
+                Comece grátis. Faça upgrade quando precisar.
               </p>
             </div>
             <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -183,16 +183,16 @@ export default async function HomePage() {
                 <h3 className="text-lg font-semibold text-navy mb-2">Free</h3>
                 <div className="flex items-baseline gap-1 mb-4">
                   <span className="text-3xl font-bold text-navy">R$ 0</span>
-                  <span className="text-navy/60">/mes</span>
+                  <span className="text-navy/60">/mês</span>
                 </div>
                 <ul className="space-y-2 text-sm text-navy/70 mb-6">
-                  <li>✓ 3 insights por mes</li>
+                  <li>✓ 3 insights por mês</li>
                   <li>✓ 5 vagas para acompanhar</li>
                   <li>✓ 5 perguntas/dia no Copilot</li>
-                  <li>✓ 1 entrevista simulada gratis</li>
+                  <li>✓ 1 entrevista simulada grátis</li>
                 </ul>
                 <Link href="/comecar">
-                  <Button variant="secondary" className="w-full">Comecar gratis</Button>
+                  <Button variant="secondary" className="w-full">Começar grátis</Button>
                 </Link>
               </Card>
               <Card className="p-4 sm:p-6 border-amber border-2 relative">
@@ -202,7 +202,7 @@ export default async function HomePage() {
                 <h3 className="text-lg font-semibold text-navy mb-2">Pro</h3>
                 <div className="flex items-baseline gap-1 mb-4">
                   <span className="text-3xl font-bold text-navy">R$ 19</span>
-                  <span className="text-navy/60">/mes</span>
+                  <span className="text-navy/60">/mês</span>
                 </div>
                 <ul className="space-y-2 text-sm text-navy/70 mb-6">
                   <li>✓ Tudo ilimitado</li>
@@ -228,7 +228,7 @@ export default async function HomePage() {
             </p>
             <Link href="/comecar">
               <Button size="lg" className="bg-amber hover:bg-amber/90 text-navy">
-                Comecar agora
+                Começar agora
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>

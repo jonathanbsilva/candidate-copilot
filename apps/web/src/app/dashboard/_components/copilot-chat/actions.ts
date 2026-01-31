@@ -37,7 +37,7 @@ export async function getUserContext(): Promise<UserContext> {
       .select('*')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false }),
-    // Buscar historico de entrevistas simuladas (Interview Pro)
+    // Buscar historico de entrevistas simuladas (Entrevista IA)
     supabase
       .from('interview_sessions')
       .select('cargo, area, overall_score, feedback, completed_at')
@@ -169,7 +169,7 @@ export async function sendChatMessage(
   const access = await canUseCopilot(user.id)
   if (!access.allowed) {
     return {
-      message: 'Voce atingiu o limite de 5 perguntas por dia. Faca upgrade para o Pro para perguntas ilimitadas.',
+      message: 'Você atingiu o limite de 5 perguntas por dia. Faça upgrade para o Pro para perguntas ilimitadas.',
       isDirect: true,
       limitReached: true,
     }

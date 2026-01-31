@@ -133,7 +133,7 @@ function AuthContent() {
             className="inline-flex items-center text-sm text-navy/60 hover:text-navy mb-6"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
-            Voltar para inicio
+            Voltar para início
           </Link>
 
           <Card variant="elevated" className="p-6 sm:p-8">

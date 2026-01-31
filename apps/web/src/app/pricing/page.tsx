@@ -18,10 +18,10 @@ export default async function PricingPage() {
     {
       name: 'Free',
       price: 'R$ 0',
-      period: '/mes',
-      description: 'Para quem esta comecando a explorar',
+      period: '/mês',
+      description: 'Para quem está começando a explorar',
       features: [
-        { name: '3 insights por mes', included: true },
+        { name: '3 insights por mês', included: true },
         { name: '5 vagas para acompanhar', included: true },
         { name: '5 perguntas/dia no Copilot', included: true },
         { name: '1 entrevista simulada (trial)', included: true },
@@ -35,8 +35,8 @@ export default async function PricingPage() {
     {
       name: 'Pro',
       price: 'R$ 19',
-      period: '/mes',
-      description: 'Para quem leva a carreira a serio',
+      period: '/mês',
+      description: 'Para quem leva a carreira a sério',
       features: [
         { name: 'Insights ilimitados', included: true },
         { name: 'Vagas ilimitadas', included: true },
@@ -44,7 +44,7 @@ export default async function PricingPage() {
         { name: 'Entrevistas ilimitadas', included: true },
         { name: 'Career Coach IA', included: true },
       ],
-      cta: currentPlan === 'pro' ? 'Voce ja e Pro!' : 'Fazer upgrade',
+      cta: currentPlan === 'pro' ? 'Você já é Pro!' : 'Fazer upgrade',
       href: currentPlan === 'pro' ? '/dashboard' : '/dashboard/plano',
       current: currentPlan === 'pro',
       highlighted: true,
@@ -81,7 +81,7 @@ export default async function PricingPage() {
               Planos simples, sem surpresas
             </h1>
             <p className="text-lg text-navy/70 max-w-2xl mx-auto">
-              Comece gratuitamente e faca upgrade quando precisar de mais poder para sua carreira.
+              Comece gratuitamente e faça upgrade quando precisar de mais poder para sua carreira.
             </p>
           </div>
 

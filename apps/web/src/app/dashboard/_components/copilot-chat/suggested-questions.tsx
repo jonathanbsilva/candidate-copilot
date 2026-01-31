@@ -75,7 +75,7 @@ const defaultQuestions: ExtendedQuestion[] = [
   },
 ]
 
-// Perguntas de Interview Pro (aparecem para todos usuarios com historico de entrevista)
+// Perguntas de Entrevista IA (aparecem para todos usuarios com historico de entrevista)
 const interviewQuestions: ExtendedQuestion[] = [
   {
     id: 'ultima-entrevista',

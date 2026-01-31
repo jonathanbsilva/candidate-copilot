@@ -27,7 +27,7 @@ export function UpgradePrompt({ remaining, limit, feature = 'insights' }: Upgrad
       subtitle: `${used} de ${limit} perguntas usadas hoje`
     },
     interview_pro: {
-      title: 'Interview Pro é exclusivo do plano Pro',
+      title: 'Entrevista IA é exclusiva do plano Pro',
       subtitle: 'Faça upgrade para treinar entrevistas com IA'
     },
     career_coach: {
@@ -59,7 +59,7 @@ export function UpgradePrompt({ remaining, limit, feature = 'insights' }: Upgrad
             <Check className="w-4 h-4 text-teal" /> Copilot ilimitado
           </li>
           <li className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-teal" /> Interview Pro (mock interviews)
+            <Check className="w-4 h-4 text-teal" /> Entrevista IA (mock interviews)
           </li>
           <li className="flex items-center gap-2">
             <Check className="w-4 h-4 text-teal" /> Career Coach IA

@@ -20,7 +20,7 @@ const navItems = [
   { icon: Home, label: 'Inicio', href: '/dashboard' },
   { icon: ClipboardList, label: 'Minhas Vagas', href: '/dashboard/aplicacoes' },
   { icon: Lightbulb, label: 'Insights', href: '/dashboard/insights' },
-  { icon: Mic, label: 'Interview Pro', href: '/dashboard/interview-pro', badge: 'Pro' },
+  { icon: Mic, label: 'Entrevista IA', href: '/dashboard/interview-pro', badge: 'Pro' },
 ]
 
 interface SidebarProps {
