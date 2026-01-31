@@ -16,7 +16,7 @@
     "@ui/components": "*",
     "clsx": "^2.1.0",
     "lucide-react": "^0.311.0",
-    "next": "14.2.20",
+    "next": "16.1.5",
     "openai": "^6.17.0",
     "posthog-js": "^1.336.4",
     "react": "^18.2.0",
