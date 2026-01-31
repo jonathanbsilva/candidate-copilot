@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { Sparkles, User } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 import type { ChatMessage } from '@/lib/copilot/types'
 
 interface ChatMessagesProps {
@@ -58,15 +59,19 @@ function MessageBubble({ message }: { message: ChatMessage }) {
           : 'bg-stone/10 text-navy'
         }
       `}>
-        <div 
-          className={`
-            text-sm leading-relaxed whitespace-pre-wrap
-            ${isUser ? '' : 'prose prose-sm prose-navy max-w-none'}
-          `}
-          dangerouslySetInnerHTML={{ 
-            __html: isUser ? message.content : formatMarkdown(message.content) 
-          }}
-        />
+        {isUser ? (
+          <p className="text-sm leading-relaxed whitespace-pre-wrap">
+            {message.content}
+          </p>
+        ) : (
+          <div className="text-sm leading-relaxed prose prose-sm prose-navy max-w-none 
+            prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0
+            prose-headings:text-navy prose-strong:text-navy">
+            <ReactMarkdown>
+              {message.content}
+            </ReactMarkdown>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -106,13 +111,3 @@ function ShimmerBar({ width }: { width: string }) {
   )
 }
 
-// Formatar markdown simples para HTML
-function formatMarkdown(text: string): string {
-  return text
-    // Bold **text**
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    // Italic _text_
-    .replace(/_(.+?)_/g, '<em>$1</em>')
-    // Line breaks
-    .replace(/\n/g, '<br />')
-}

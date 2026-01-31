@@ -12,6 +12,46 @@ import { createClient } from '@/lib/supabase/client'
 const supabase = createClient()
 ```
 
+## UUID Validation (OBRIGATORIO)
+
+Sempre validar UUIDs antes de queries no banco para evitar erros e ataques.
+
+```typescript
+import { validateUUID } from '@/lib/schemas/uuid'
+
+export async function getItem(id: string) {
+  // SEMPRE validar UUID antes da query
+  const uuidValidation = validateUUID(id)
+  if (!uuidValidation.success) {
+    return { error: uuidValidation.error, data: null }
+  }
+
+  const { data } = await supabase
+    .from('items')
+    .select('*')
+    .eq('id', uuidValidation.data) // usar o valor validado
+    .single()
+  
+  return { data }
+}
+```
+
+## Rate Limiting (API Routes)
+
+```typescript
+import { rateLimitMiddleware, RATE_LIMITS } from '@/lib/rate-limit'
+
+export async function POST(req: Request) {
+  // Rate limiting no inicio da rota
+  const { response: rateLimitResponse } = rateLimitMiddleware(req, RATE_LIMITS.chat)
+  if (rateLimitResponse) {
+    return rateLimitResponse
+  }
+  
+  // ... resto da logica
+}
+```
+
 ## Server Action Completa
 
 ```typescript
@@ -265,4 +305,80 @@ export function MyForm() {
     </form>
   )
 }
+```
+
+## Markdown Rendering (react-markdown)
+
+IMPORTANTE: react-markdown v9+ NAO aceita `className` diretamente. Usar wrapper div.
+
+```typescript
+// ERRADO - vai dar erro
+<ReactMarkdown className="prose prose-sm">
+  {content}
+</ReactMarkdown>
+
+// CERTO - wrapper div com className
+<div className="prose prose-sm prose-navy max-w-none">
+  <ReactMarkdown>
+    {content}
+  </ReactMarkdown>
+</div>
+```
+
+## Modal com Focus Trap (Acessibilidade)
+
+```typescript
+import { useFocusTrap } from '@/hooks/use-focus-trap'
+
+export function MyModal({ isOpen, onClose }) {
+  const containerRef = useFocusTrap(isOpen)
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-navy/50" onClick={onClose} aria-hidden="true" />
+      <div 
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+        className="relative bg-white rounded-lg p-6"
+      >
+        <h2 id="modal-title">Titulo</h2>
+        {/* conteudo */}
+      </div>
+    </div>
+  )
+}
+```
+
+## Open Graph Metadata
+
+SEMPRE definir metadataBase no layout para evitar warnings de build.
+
+```typescript
+// app/layout.tsx
+export const metadata: Metadata = {
+  metadataBase: new URL('https://copilot.gohire.work'),
+  title: 'GoHire Copilot',
+  description: '...',
+  openGraph: {
+    title: '...',
+    description: '...',
+    images: ['/og-image.png'],
+    locale: 'pt_BR',
+    type: 'website',
+  },
+}
+```
+
+## Links Externos/Legais
+
+Links de Termos e Privacidade devem abrir em nova aba.
+
+```typescript
+<Link href="/termos" target="_blank" className="text-teal hover:underline">
+  Termos de Uso
+</Link>
 ```

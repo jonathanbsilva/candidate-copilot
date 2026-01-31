@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Card, Badge, Button } from '@ui/components'
 import { ArrowLeft, CheckCircle, AlertTriangle, MessageSquare } from 'lucide-react'
 import { ContinueConversationButton } from './continue-button'
+import { validateUUID } from '@/lib/schemas/uuid'
 
 function formatDate(dateString: string) {
   const date = new Date(dateString)
@@ -15,12 +16,18 @@ function formatDate(dateString: string) {
 }
 
 async function getInsight(id: string) {
+  // Validar UUID antes da query
+  const uuidValidation = validateUUID(id)
+  if (!uuidValidation.success) {
+    return null
+  }
+
   const supabase = await createClient()
   
   const { data: insight, error } = await supabase
     .from('insights')
     .select('*')
-    .eq('id', id)
+    .eq('id', uuidValidation.data)
     .single()
   
   if (error || !insight) {

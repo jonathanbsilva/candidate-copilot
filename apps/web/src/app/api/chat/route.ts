@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getAIProvider } from '@/lib/ai'
 import { ChatContextBuilder } from '@/lib/ai/context/chat'
 import { validateInput, checkTopic } from '@/lib/ai/security'
+import { rateLimitMiddleware, RATE_LIMITS } from '@/lib/rate-limit'
 
 function calculateMetrics(applications: Array<{ status: string; created_at: string }>) {
   const total = applications.length
@@ -26,6 +27,15 @@ function calculateMetrics(applications: Array<{ status: string; created_at: stri
 }
 
 export async function POST(request: NextRequest) {
+  // Rate limiting
+  const { response: rateLimitResponse, headers: rateLimitHeaders } = rateLimitMiddleware(
+    request,
+    RATE_LIMITS.chat
+  )
+  if (rateLimitResponse) {
+    return rateLimitResponse
+  }
+
   try {
     const { message } = await request.json()
 
@@ -121,6 +131,7 @@ export async function POST(request: NextRequest) {
       headers: { 
         'Content-Type': 'text/plain; charset=utf-8',
         'Cache-Control': 'no-cache',
+        ...Object.fromEntries(rateLimitHeaders),
       },
     })
   } catch (error) {

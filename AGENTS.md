@@ -154,6 +154,29 @@ RLS habilitado em todas as tabelas.
 3. **Interview Pro Trial** - Free users tem 1 entrevista gratis
 4. **Copilot sem restricoes Pro** - Todo usuario pode usar contexto de entrevista
 5. **Hero Card hibrido** - Deteccao por regras, mensagens por templates/IA
+6. **UUID validation obrigatorio** - Sempre validar antes de queries
+7. **Rate limiting em API routes** - Usar `@/lib/rate-limit`
+8. **Focus trap em modais** - Usar `useFocusTrap` para acessibilidade
+
+---
+
+## Seguranca e Compliance
+
+### Utilitarios Disponiveis
+- `validateUUID(id)` - Validacao de UUID (lib/schemas/uuid.ts)
+- `rateLimitMiddleware(req, config)` - Rate limiting (lib/rate-limit.ts)
+- `useFocusTrap(isOpen)` - Focus trap para modais (hooks/use-focus-trap.ts)
+- `CookieConsentBanner` - Banner de cookies LGPD (components/cookie-consent-banner.tsx)
+
+### Paginas Legais
+- `/privacidade` - Politica de Privacidade
+- `/termos` - Termos de Uso
+
+### react-markdown
+IMPORTANTE: v9+ nao aceita `className`. Usar wrapper div:
+```typescript
+<div className="prose"><ReactMarkdown>{content}</ReactMarkdown></div>
+```
 
 ---
 

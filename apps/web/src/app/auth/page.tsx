@@ -10,11 +10,28 @@ import { createClient } from '@/lib/supabase/client'
 function AuthContent() {
   const searchParams = useSearchParams()
   const redirect = searchParams.get('redirect') || '/dashboard'
+  const errorFromUrl = searchParams.get('error')
+  const errorMessage = searchParams.get('message')
   
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [isSuccess, setIsSuccess] = useState(false)
+  
+  // Map error codes to user-friendly messages
+  const getErrorMessage = (code: string | null, message: string | null): string | null => {
+    if (!code) return null
+    
+    const errorMessages: Record<string, string> = {
+      'auth_failed': 'Link expirado ou inválido. Solicite um novo link.',
+      'access_denied': 'Acesso negado. Tente novamente.',
+      'otp_expired': 'O link expirou. Solicite um novo link de acesso.',
+    }
+    
+    return errorMessages[code] || message || 'Ocorreu um erro na autenticação. Tente novamente.'
+  }
+  
+  const urlErrorMessage = getErrorMessage(errorFromUrl, errorMessage)
 
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -167,6 +184,13 @@ function AuthContent() {
               </div>
             </div> */}
 
+            {/* Error from URL */}
+            {urlErrorMessage && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-700">{urlErrorMessage}</p>
+              </div>
+            )}
+
             {/* Magic Link Form */}
             <form onSubmit={handleMagicLink} className="space-y-4">
               <Input
@@ -191,11 +215,11 @@ function AuthContent() {
 
             <p className="mt-6 text-center text-sm text-navy/50">
               Ao continuar, você concorda com nossos{' '}
-              <Link href="#" className="text-teal hover:underline">
+              <Link href="/termos" target="_blank" className="text-teal hover:underline">
                 Termos de Uso
               </Link>{' '}
               e{' '}
-              <Link href="#" className="text-teal hover:underline">
+              <Link href="/privacidade" target="_blank" className="text-teal hover:underline">
                 Política de Privacidade
               </Link>
             </p>

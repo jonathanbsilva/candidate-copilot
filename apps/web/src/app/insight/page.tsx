@@ -344,11 +344,11 @@ export default function InsightPage() {
                   <div className="bg-white rounded-lg rounded-tl-none p-3 shadow-sm">
                     <p className="text-navy text-sm">
                       {data.objetivo === 'avaliar_proposta' && 'Qual salário devo pedir na negociação?'}
-                      {data.objetivo === 'conseguir_entrevistas' && 'Como posso melhorar meu currículo para essa vaga?'}
+                      {data.objetivo === 'mais_entrevistas' && 'Como posso melhorar meu currículo para essa vaga?'}
                       {data.objetivo === 'mudar_area' && 'Quais skills preciso desenvolver primeiro?'}
                       {data.objetivo === 'negociar_salario' && 'Como devo abordar a conversa de aumento?'}
                       {data.objetivo === 'entender_mercado' && 'Qual a faixa salarial para meu perfil?'}
-                      {!['avaliar_proposta', 'conseguir_entrevistas', 'mudar_area', 'negociar_salario', 'entender_mercado'].includes(data.objetivo) && 'O que você recomenda como próximo passo?'}
+                      {!['avaliar_proposta', 'mais_entrevistas', 'mudar_area', 'negociar_salario', 'entender_mercado'].includes(data.objetivo) && 'O que você recomenda como próximo passo?'}
                     </p>
                   </div>
                 </div>
