@@ -4,7 +4,7 @@ overview: Correções de alta prioridade em Performance, Estado, Observabilidade
 todos:
   - id: perf-parallel
     content: Paralelizar queries com Promise.all() no dashboard e actions
-    status: pending
+    status: completed
   - id: perf-suspense
     content: Adicionar Suspense boundaries nas páginas principais
     status: pending
@@ -65,6 +65,7 @@ Este plano cobre itens que devem ser resolvidos **logo após os críticos**, par
 **Arquivos afetados:**
 
 #### Dashboard principal (`apps/web/src/app/dashboard/page.tsx`)
+
 ```typescript
 // Antes (sequencial)
 const { data: { user } } = await supabase.auth.getUser()
@@ -84,6 +85,7 @@ const [stats, heroData, interviewStats, access] = await Promise.all([
 ```
 
 #### getHeroData (`apps/web/src/app/dashboard/actions.ts`)
+
 ```typescript
 // Paralelizar as 3 queries internas
 const [applications, insights, recentInterview] = await Promise.all([
@@ -94,6 +96,7 @@ const [applications, insights, recentInterview] = await Promise.all([
 ```
 
 #### getUserContext (`apps/web/src/app/dashboard/_components/copilot-chat/actions.ts`)
+
 ```typescript
 // Paralelizar as 3 queries
 const [applications, insights, interviewSessions] = await Promise.all([
@@ -106,6 +109,7 @@ const [applications, insights, interviewSessions] = await Promise.all([
 ### 1.2 Adicionar Suspense Boundaries
 
 **Arquivos afetados:**
+
 - `apps/web/src/app/dashboard/page.tsx`
 - `apps/web/src/app/dashboard/aplicacoes/page.tsx`
 
@@ -215,11 +219,13 @@ export async function sendChatMessage(
 ### 3.1 Implementar Sentry
 
 **Instalar:**
+
 ```bash
 npx @sentry/wizard@latest -i nextjs
 ```
 
 **Arquivos a criar/configurar:**
+
 - `apps/web/sentry.client.config.ts`
 - `apps/web/sentry.server.config.ts`
 - `apps/web/sentry.edge.config.ts`
@@ -279,6 +285,7 @@ export const logger = {
 ```
 
 **Substituir console.log/error** nos arquivos críticos:
+
 - `apps/web/src/app/api/stripe/webhook/route.ts`
 - `apps/web/src/app/dashboard/aplicacoes/actions.ts`
 - `apps/web/src/app/dashboard/interview-pro/actions.ts`
@@ -370,6 +377,7 @@ export async function getAuthenticatedUser() {
 ```
 
 **Refatorar arquivos que repetem o padrão:**
+
 - `apps/web/src/app/dashboard/aplicacoes/actions.ts`
 - `apps/web/src/app/dashboard/interview-pro/actions.ts`
 - `apps/web/src/lib/subscription/actions.ts`
@@ -390,6 +398,7 @@ if (error) return { error }
 ### 4.2 Adicionar Error Handling em Operações Críticas
 
 **Arquivos afetados:**
+
 - `apps/web/src/app/dashboard/aplicacoes/actions.ts` (linhas 72, 195)
 - `apps/web/src/lib/subscription/actions.ts`
 
@@ -480,6 +489,7 @@ export async function trackAIUsage(
 ```
 
 **Usar após chamadas de IA:**
+
 - `apps/web/src/app/dashboard/_components/copilot-chat/actions.ts`
 - `apps/web/src/lib/hero/build-message.ts`
 - `apps/web/src/app/dashboard/interview-pro/actions.ts`
@@ -514,6 +524,7 @@ export default function DashboardLayout({ children }) {
 ### 6.2 Adicionar aria-label em Botões de Ícone
 
 **Arquivos afetados:**
+
 - `apps/web/src/app/dashboard/_components/copilot-chat/copilot-drawer.tsx`
 - `apps/web/src/app/dashboard/aplicacoes/_components/change-status-modal.tsx`
 - `apps/web/src/app/dashboard/aplicacoes/_components/delete-confirm-modal.tsx`
@@ -534,6 +545,7 @@ export default function DashboardLayout({ children }) {
 ### 6.3 Adicionar role="alert" em Mensagens de Erro
 
 **Arquivos afetados:**
+
 - `apps/web/src/app/dashboard/aplicacoes/nova/form-flow.tsx`
 - `apps/web/src/app/dashboard/aplicacoes/_components/change-status-modal.tsx`
 - `apps/web/src/app/dashboard/aplicacoes/_components/delete-confirm-modal.tsx`
@@ -554,16 +566,16 @@ export default function DashboardLayout({ children }) {
 2. **Performance 1.1** - Paralelizar queries
 3. **Performance 1.2** - Suspense boundaries
 4. **Estado 2.1** - Corrigir estado duplicado
-6. **Estado 2.2** - revalidatePath dashboard
-7. **Estado 2.3** - Otimizar getUserContext
-8. **Observabilidade 3.1** - Sentry
-9. **Observabilidade 3.2** - Logger estruturado
-10. **Observabilidade 3.3** - Error Boundaries
-11. **Qualidade 4.2** - Error handling
-12. **Custos IA 5.1** - Tracking de tokens
-13. **Acessibilidade 6.1** - Skip link
-14. **Acessibilidade 6.2** - aria-labels
-15. **Acessibilidade 6.3** - role="alert"
+5. **Estado 2.2** - revalidatePath dashboard
+6. **Estado 2.3** - Otimizar getUserContext
+7. **Observabilidade 3.1** - Sentry
+8. **Observabilidade 3.2** - Logger estruturado
+9. **Observabilidade 3.3** - Error Boundaries
+10. **Qualidade 4.2** - Error handling
+11. **Custos IA 5.1** - Tracking de tokens
+12. **Acessibilidade 6.1** - Skip link
+13. **Acessibilidade 6.2** - aria-labels
+14. **Acessibilidade 6.3** - role="alert"
 
 ---
 
@@ -572,3 +584,4 @@ export default function DashboardLayout({ children }) {
 ```bash
 npx @sentry/wizard@latest -i nextjs
 ```
+

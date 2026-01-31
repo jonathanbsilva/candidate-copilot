@@ -14,18 +14,19 @@ export default async function DashboardPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const stats = await getDetailedStats()
-  const heroData = await getHeroData()
-  const interviewStats = await getInterviewStats()
-  const interviewAccess = user ? await canUseInterviewPro(user.id) : null
-
-  // Buscar insight mais recente com campos completos
-  const { data: latestInsight } = await supabase
-    .from('insights')
-    .select('id, recommendation, objetivo, cargo, next_steps, created_at')
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single()
+  // Paralelizar todas as queries independentes para reduzir latência
+  const [stats, heroData, interviewStats, interviewAccess, { data: latestInsight }] = await Promise.all([
+    getDetailedStats(),
+    getHeroData(),
+    getInterviewStats(),
+    user ? canUseInterviewPro(user.id) : Promise.resolve(null),
+    supabase
+      .from('insights')
+      .select('id, recommendation, objetivo, cargo, next_steps, created_at')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single(),
+  ])
 
   return (
     <div className="container-narrow py-8 sm:py-12">

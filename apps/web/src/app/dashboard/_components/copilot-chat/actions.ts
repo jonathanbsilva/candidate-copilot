@@ -17,28 +17,33 @@ export async function getUserContext(): Promise<UserContext> {
     throw new Error('Nao autenticado')
   }
   
-  // Buscar aplicacoes
-  const { data: applications } = await supabase
-    .from('applications')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-  
-  // Buscar insights (todos para ter historico)
-  const { data: insights } = await supabase
-    .from('insights')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-  
-  // Buscar historico de entrevistas simuladas (Interview Pro)
-  const { data: interviewSessions } = await supabase
-    .from('interview_sessions')
-    .select('cargo, area, overall_score, feedback, completed_at')
-    .eq('user_id', user.id)
-    .eq('status', 'completed')
-    .order('completed_at', { ascending: false })
-    .limit(10)
+  // Paralelizar as 3 queries independentes para reduzir latência
+  const [
+    { data: applications },
+    { data: insights },
+    { data: interviewSessions },
+  ] = await Promise.all([
+    // Buscar aplicacoes
+    supabase
+      .from('applications')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }),
+    // Buscar insights (todos para ter historico)
+    supabase
+      .from('insights')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }),
+    // Buscar historico de entrevistas simuladas (Interview Pro)
+    supabase
+      .from('interview_sessions')
+      .select('cargo, area, overall_score, feedback, completed_at')
+      .eq('user_id', user.id)
+      .eq('status', 'completed')
+      .order('completed_at', { ascending: false })
+      .limit(10),
+  ])
   
   // Processar historico de entrevistas
   let interviewHistory: InterviewHistoryData | null = null

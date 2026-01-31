@@ -144,30 +144,35 @@ export async function getHeroData(hasPendingInsight: boolean = false): Promise<H
     return null
   }
 
-  // Buscar aplicacoes do usuario
-  const { data: applications } = await supabase
-    .from('applications')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('updated_at', { ascending: false })
-
-  // Buscar insights do usuario
-  const { data: insights } = await supabase
-    .from('insights')
-    .select('id, created_at')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(10)
-
-  // Buscar entrevista simulada recente (Pro users)
-  const { data: recentInterview } = await supabase
-    .from('interview_sessions')
-    .select('id, cargo, area, overall_score, feedback, completed_at')
-    .eq('user_id', user.id)
-    .eq('status', 'completed')
-    .order('completed_at', { ascending: false })
-    .limit(1)
-    .single()
+  // Paralelizar as 3 queries independentes para reduzir latência
+  const [
+    { data: applications },
+    { data: insights },
+    { data: recentInterview },
+  ] = await Promise.all([
+    // Buscar aplicacoes do usuario
+    supabase
+      .from('applications')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('updated_at', { ascending: false }),
+    // Buscar insights do usuario
+    supabase
+      .from('insights')
+      .select('id, created_at')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(10),
+    // Buscar entrevista simulada recente (Pro users)
+    supabase
+      .from('interview_sessions')
+      .select('id, cargo, area, overall_score, feedback, completed_at')
+      .eq('user_id', user.id)
+      .eq('status', 'completed')
+      .order('completed_at', { ascending: false })
+      .limit(1)
+      .single(),
+  ])
 
   const userData: UserDataForHero = {
     applications: (applications || []) as Application[],
