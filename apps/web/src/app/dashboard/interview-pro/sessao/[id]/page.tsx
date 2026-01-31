@@ -99,6 +99,13 @@ export default function SessaoPage() {
     }
   }
 
+  const handleTextareaFocus = () => {
+    // Delay para esperar o teclado virtual abrir no mobile
+    setTimeout(() => {
+      textareaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 300)
+  }
+
   if (isLoading) {
     return (
       <div className="container-narrow py-8 sm:py-12 flex items-center justify-center min-h-[400px]">
@@ -157,7 +164,7 @@ export default function SessaoPage() {
       </Card>
 
       {/* Answer Form */}
-      <Card className="sticky bottom-4">
+      <Card>
         <form onSubmit={handleSubmit} className="p-6">
           <label className="block text-sm font-medium text-navy mb-2">
             Sua resposta
@@ -166,29 +173,31 @@ export default function SessaoPage() {
             ref={textareaRef}
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
+            onFocus={handleTextareaFocus}
             placeholder="Digite sua resposta aqui..."
-            className="w-full h-40 p-4 rounded-lg border border-stone/40 bg-white text-navy placeholder:text-navy/40 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent resize-none"
+            className="w-full h-28 sm:h-40 p-4 rounded-lg border border-stone/40 bg-white text-navy placeholder:text-navy/40 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent resize-none"
             disabled={isSubmitting}
             autoFocus
           />
           
-          <div className="flex items-center justify-between mt-4">
-            <div className="text-sm text-navy/60">
+          <div className="flex items-center justify-between gap-3 mt-4">
+            <div className="text-sm text-navy/60 min-w-0">
               <span className={answer.length < 50 ? 'text-amber' : 'text-teal'}>
                 {answer.length}
               </span>
               <span> caracteres</span>
               {answer.length < 50 && (
-                <span className="ml-2">(min: 50)</span>
+                <span className="ml-1 sm:ml-2">(min: 50)</span>
               )}
               {answer.length >= 50 && answer.length < 200 && (
-                <span className="ml-2 text-navy/40">(recomendado: 200+)</span>
+                <span className="hidden sm:inline ml-2 text-navy/40">(recomendado: 200+)</span>
               )}
             </div>
             
             <Button 
               type="submit" 
               disabled={isSubmitting || answer.length < 50}
+              className="shrink-0 whitespace-nowrap"
             >
               {isSubmitting ? (
                 <>

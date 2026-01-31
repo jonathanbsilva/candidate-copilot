@@ -1,8 +1,15 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { PostHogProvider } from '@/components/providers/posthog-provider'
 import { GoogleAnalytics } from '@/components/providers/google-analytics'
 import { CookieConsentBanner } from '@/components/cookie-consent-banner'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  interactiveWidget: 'resizes-content',
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://copilot.gohire.work'),

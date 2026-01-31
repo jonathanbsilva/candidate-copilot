@@ -78,19 +78,19 @@ export function CookieConsentBanner() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto mt-4 sm:mt-0">
             <Button 
               variant="ghost" 
               size="sm"
               onClick={handleReject}
-              className="order-2 sm:order-1"
+              className="order-2 sm:order-1 w-full sm:w-auto"
             >
               Recusar
             </Button>
             <Button 
               size="sm"
               onClick={handleAccept}
-              className="order-1 sm:order-2"
+              className="order-1 sm:order-2 w-full sm:w-auto"
             >
               Aceitar cookies
             </Button>
@@ -98,10 +98,10 @@ export function CookieConsentBanner() {
           
           <button 
             onClick={handleReject}
-            className="absolute top-2 right-2 sm:static p-2 text-navy/40 hover:text-navy transition-colors"
+            className="absolute top-3 right-3 sm:static p-2.5 text-navy/40 hover:text-navy transition-colors"
             aria-label="Fechar"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
       </div>

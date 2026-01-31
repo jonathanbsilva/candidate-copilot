@@ -369,9 +369,9 @@ export default function InsightPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col items-center gap-4">
-                <Link href="/auth">
-                  <Button size="lg">
+              <div className="flex flex-col items-center gap-4 w-full px-4 sm:px-0">
+                <Link href="/auth" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto">
                     <MessageSquare className="mr-2 w-5 h-5" />
                     Criar conta e continuar conversa
                   </Button>
@@ -382,7 +382,7 @@ export default function InsightPage() {
                   Leva menos de 1 minuto
                 </p>
 
-                <Button variant="ghost" size="sm" onClick={handleStartOver}>
+                <Button variant="ghost" size="sm" onClick={handleStartOver} className="w-full sm:w-auto">
                   <RefreshCw className="mr-2 w-4 h-4" />
                   Começar de novo
                 </Button>

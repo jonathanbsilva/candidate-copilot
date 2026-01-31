@@ -33,7 +33,7 @@ export default async function DashboardLayout({
   const plan = profile?.plan || 'free'
 
   return (
-    <div className="min-h-screen bg-sand">
+    <div className="min-h-screen bg-sand overflow-x-hidden">
       {/* Skip link para acessibilidade */}
       <a 
         href="#main-content" 

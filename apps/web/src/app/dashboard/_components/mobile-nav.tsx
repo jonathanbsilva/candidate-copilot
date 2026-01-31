@@ -170,6 +170,25 @@ export function MobileNav({ email, plan = 'free' }: MobileNavProps) {
               <span className="ml-3 text-sm font-medium">Fazer upgrade</span>
             </Link>
           )}
+
+          {/* Plan management for pro users */}
+          {plan === 'pro' && (
+            <Link
+              href="/dashboard/plano"
+              onClick={closeMenu}
+              className={`
+                flex items-center h-12 px-4 mx-2 rounded-lg mb-1
+                transition-colors duration-150
+                ${pathname === '/dashboard/plano'
+                  ? 'bg-amber/10 text-amber' 
+                  : 'text-navy/70 hover:bg-stone/10 hover:text-navy'
+                }
+              `}
+            >
+              <Crown className="w-5 h-5 flex-shrink-0" />
+              <span className="ml-3 text-sm font-medium">Meu Plano</span>
+            </Link>
+          )}
           
           <Link
             href="/dashboard/configuracoes"
@@ -193,10 +212,10 @@ export function MobileNav({ email, plan = 'free' }: MobileNavProps) {
             </div>
           )}
           
-          <form action="/auth/signout" method="post">
+          <form action="/auth/signout" method="post" className="mx-2">
             <button
               type="submit"
-              className="w-full flex items-center h-12 px-4 mx-2 rounded-lg
+              className="w-full flex items-center h-12 px-4 rounded-lg
                 text-navy/70 hover:bg-red-50 hover:text-red-600 transition-colors"
             >
               <LogOut className="w-5 h-5 flex-shrink-0" />

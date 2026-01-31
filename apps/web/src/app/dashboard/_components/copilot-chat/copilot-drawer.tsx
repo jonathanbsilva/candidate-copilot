@@ -275,7 +275,7 @@ export function CopilotDrawer() {
       {/* Drawer */}
       <div 
         className={`
-          fixed right-0 top-0 h-screen w-full sm:w-96 bg-white 
+          fixed right-0 top-0 h-[100dvh] w-full sm:w-96 bg-white 
           border-l border-stone/30 z-50 flex flex-col
           transform transition-transform duration-300 ease-out
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
@@ -352,7 +352,7 @@ export function CopilotDrawer() {
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-stone/30 bg-white">
+        <div className="p-4 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-stone/30 bg-white">
           {limitReached && accessInfo?.plan === 'free' ? (
             <div className="text-center">
               <p className="text-sm text-navy/70 mb-3">

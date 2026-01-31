@@ -7,10 +7,12 @@
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
   }
   
   body {
     @apply bg-sand text-navy antialiased;
+    overflow-x: hidden;
   }
   
   * {

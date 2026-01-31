@@ -65,8 +65,8 @@ async function ApplicationsSection() {
               </p>
             </div>
           </div>
-          <Link href="/dashboard/aplicacoes">
-            <Button size="sm">
+          <Link href="/dashboard/aplicacoes" className="shrink-0">
+            <Button size="sm" className="whitespace-nowrap">
               Ver todas
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>

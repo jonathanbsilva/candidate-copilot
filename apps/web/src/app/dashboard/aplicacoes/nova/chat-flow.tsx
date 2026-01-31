@@ -29,6 +29,17 @@ const statusOptions = Object.entries(statusConfig).map(([value, config]) => ({
   label: config.label,
 }))
 
+// Verifica se parece uma URL válida
+function isValidUrl(value: string): boolean {
+  const trimmed = value.trim()
+  if (!trimmed) return false
+  
+  // Aceita URLs com http/https ou que começam com www. ou domínio conhecido
+  return /^https?:\/\//i.test(trimmed) || 
+         /^www\./i.test(trimmed) || 
+         /^[a-z0-9-]+\.(com|br|io|co|net|org|jobs|careers)/i.test(trimmed)
+}
+
 export function ChatFlow() {
   const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([
@@ -72,6 +83,10 @@ export function ChatFlow() {
   const handleSend = () => {
     if (!currentValue && step.type !== 'optional-text') return
 
+    // Para URL, só salva se for uma URL válida
+    const isUrlField = step.type === 'optional-text'
+    const shouldSaveValue = isUrlField ? isValidUrl(currentValue) : !!currentValue
+
     const userMessage = currentValue || '(pulado)'
     const displayValue = step.type === 'select' 
       ? statusConfig[currentValue as ApplicationStatus]?.label || currentValue
@@ -84,8 +99,8 @@ export function ChatFlow() {
       content: displayValue,
     }])
 
-    // Save to draft
-    if (currentValue) {
+    // Save to draft (para URL, só salva se for válida)
+    if (shouldSaveValue) {
       setDraft(prev => ({ ...prev, [step.id]: currentValue }))
     }
 
@@ -106,6 +121,13 @@ export function ChatFlow() {
       e.preventDefault()
       handleSend()
     }
+  }
+
+  const handleInputFocus = () => {
+    // Delay para esperar o teclado virtual abrir no mobile
+    setTimeout(() => {
+      inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }, 300)
   }
 
   const handleSubmit = async () => {
@@ -196,6 +218,7 @@ export function ChatFlow() {
             value={currentValue}
             onChange={(e) => setCurrentValue(e.target.value)}
             onKeyDown={handleKeyDown}
+            onFocus={handleInputFocus}
             placeholder={step.type === 'optional-text' ? 'https://... ou deixe vazio para pular' : 'Digite sua resposta...'}
             className="
               flex-1 h-11 px-4 rounded-lg border border-stone
@@ -206,7 +229,7 @@ export function ChatFlow() {
           <Button 
             onClick={handleSend} 
             disabled={step.type !== 'optional-text' && !currentValue}
-            className="h-11 w-11 p-0"
+            className={step.type === 'optional-text' && !currentValue ? 'h-11 px-4' : 'h-11 w-11 p-0'}
           >
             {step.type === 'optional-text' && !currentValue ? 'Pular' : <Send className="w-4 h-4" />}
           </Button>
@@ -216,7 +239,7 @@ export function ChatFlow() {
   }
 
   return (
-    <div className="flex flex-col h-[500px] -m-6">
+    <div className="flex flex-col h-[70dvh] sm:h-[500px] max-h-[calc(100dvh-200px)] -m-6">
       {/* Chat messages area */}
       <div className="flex-1 overflow-y-auto p-4">
         <div className="space-y-4">

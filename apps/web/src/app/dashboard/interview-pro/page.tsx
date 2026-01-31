@@ -208,8 +208,8 @@ export default async function InterviewProPage() {
             <h2 className="text-xl font-semibold text-navy">
               Sessões recentes
             </h2>
-            <Link href="/dashboard/interview-pro/historico">
-              <Button variant="ghost" size="sm">
+            <Link href="/dashboard/interview-pro/historico" className="shrink-0">
+              <Button variant="ghost" size="sm" className="whitespace-nowrap">
                 <History className="w-4 h-4 mr-2" />
                 Ver todas
               </Button>

@@ -256,12 +256,12 @@ function Step2Form({
         )}
       </div>
 
-      <div className="pt-4 flex flex-col sm:flex-row gap-3">
-        <Button type="button" variant="ghost" onClick={onBack}>
+      <div className="pt-4 flex flex-col-reverse sm:flex-row gap-3">
+        <Button type="button" variant="ghost" size="lg" onClick={onBack} className="w-full sm:w-auto">
           <ArrowLeft className="mr-2 w-5 h-5" />
           Voltar
         </Button>
-        <Button type="submit" size="lg" className="flex-1 sm:flex-none">
+        <Button type="submit" size="lg" className="w-full sm:flex-1 sm:w-auto">
           Continuar
           <ArrowRight className="ml-2 w-5 h-5" />
         </Button>
@@ -324,15 +324,15 @@ function Step3Form({
         />
       )}
 
-      <div className="pt-4 flex flex-col sm:flex-row gap-3">
-        <Button type="button" variant="ghost" onClick={onBack}>
+      <div className="pt-4 flex flex-col-reverse sm:flex-row gap-3">
+        <Button type="button" variant="ghost" size="lg" onClick={onBack} className="w-full sm:w-auto">
           <ArrowLeft className="mr-2 w-5 h-5" />
           Voltar
         </Button>
         <Button
           type="submit"
           size="lg"
-          className="flex-1 sm:flex-none"
+          className="w-full sm:flex-1 sm:w-auto"
           isLoading={isSubmitting}
         >
           Ver meu insight
