@@ -37,6 +37,7 @@ Regras detalhadas em `.cursor/rules/`:
 | `patterns.md` | Code snippets reutilizaveis |
 | `workflow.md` | DoD, PRs, Commits |
 | `roadmap.md` | Disciplina de leitura/atualizacao do Roadmap |
+| `growth.md` | Estrategias de aquisicao, canais, metricas, tom de conteudo |
 
 ---
 
