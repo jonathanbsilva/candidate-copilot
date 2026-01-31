@@ -18,6 +18,7 @@
 
 | Item | Descricao | Status | Plano/Link |
 |------|-----------|--------|------------|
+| **Perfil/CV do Candidato** | Upload de CV (PDF), parse/extracao de dados, armazenamento estruturado, edicao manual | Pendente | `perfil_cv_candidato_*.plan.md` (a criar) |
 | **Contextualizacao de Entrevista** | Selecionar contexto (vaga cadastrada, ultimo insight, manual) antes de iniciar sessao | Pendente | `contextualizacao_entrevista_*.plan.md` (a criar) |
 | **Copilot Showcase na LP** | Secao com exemplos visuais/animados do Copilot na landing page | Pendente | `lp_copilot_showcase_*.plan.md` (a criar) |
 | **Auth Email OTP (default)** | Email OTP como padrao, Magic Link como secundario (reduz friccao) | Pendente | `email_otp_authentication_*.plan.md` (a criar) |
@@ -50,7 +51,7 @@
 
 | Ideia | Por Que Importa | Dependencias | Notas |
 |-------|-----------------|--------------|-------|
-| **Match Score CV ↔ Vaga** | Usuario entende gap entre CV e vaga; "why you didnt get called" | Upload CV (PDF) + fallback manual; LinkedIn publico (fragil) | Outputs: score, top 5 motivos, sugestoes (CV, projetos, cursos) |
+| **Match Score CV ↔ Vaga** | Usuario entende gap entre CV e vaga; "why you didnt get called" | Perfil/CV do Candidato (Now) | Outputs: score, top 5 motivos, sugestoes (CV, projetos, cursos) |
 | **Integracao ATS** | Sync automatico de status de vagas | Provedores externos, permissoes | Complexo; depende de discovery de provedores |
 | **Career Coach IA** | Evolucao do Copilot para conselheiro estrategico | Historico de apps + entrevistas + CV | Feature grande; depende de Match Score |
 
@@ -89,14 +90,14 @@
 |------|--------|-------|
 | **0. Discovery** | Validar interesse de empresas (parcerias piloto, entrevistas) | Evitar construir antes de validar demanda |
 | **1. MVP Portal** | Empresas publicam vagas; candidatos listam e se candidatam; empresa ve lista de candidatos | Sem cobranca ainda; foco em fluxo minimo |
-| **2. Match Score** | Score CV x vaga + top 5 motivos + sugestoes | Depende de upload/parse de CV (ver Parking Lot) |
+| **2. Match Score** | Score CV x vaga + top 5 motivos + sugestoes | Depende de Perfil/CV do Candidato (Now) |
 | **3. Comparacao** | Candidato ve como se posiciona vs outros na vaga (ex.: "top 20%") | Dados nossos; cuidado com privacidade e UX |
 | **4. Monetizacao** | Planos para empresa (vagas incluidas, destaque, etc.) | Definir precificacao e limites free |
 
 ### Dependencias
 
 - **Produto**: Dashboard empresa (auth, CRUD vagas, gestao de candidaturas, notificacoes).
-- **Produto**: Upload/parse de CV para Match Score (ver Parking Lot — Match Score CV x Vaga).
+- **Produto**: Perfil/CV do Candidato (Now) — base para Match Score e comparacao.
 - **Go-to-market**: Estrategia para atrair empresas e candidatos (nicho, parcerias, free tier).
 
 ### Riscos / Notas
@@ -158,13 +159,15 @@
 ## Dependencias / Sequencia Sugerida
 
 ```
-1. Conversao/Ativacao: OTP + Showcase + Contextualizacao de Entrevista
+1. Fundacao: Perfil/CV do Candidato (desbloqueia Match Score, Copilot contextual, comparacao)
    ↓
-2. Estabilidade: Indices DB + RPC Increment (escala + race conditions)
+2. Conversao/Ativacao: OTP + Showcase + Contextualizacao de Entrevista
    ↓
-3. Manutencao: Componentizacao (reduz custo de novas features)
+3. Estabilidade: Indices DB + RPC Increment (escala + race conditions)
    ↓
-4. Features Grandes: Match Score → ATS → Career Coach
+4. Manutencao: Componentizacao (reduz custo de novas features)
+   ↓
+5. Features Grandes: Match Score → ATS → Career Coach
 ```
 
 ---
