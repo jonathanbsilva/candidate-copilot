@@ -57,19 +57,19 @@ export async function POST(req: Request) {
 ```typescript
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { getAuthenticatedUser } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { logger } from '@/lib/logger'
 
 export async function createItem(data: ItemData): Promise<{
   success?: boolean
   error?: string
   data?: Item
 }> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  
-  if (!user) {
-    return { error: 'Nao autenticado' }
+  // Usar helper de autenticacao
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) {
+    return { error: authError || 'Nao autenticado' }
   }
   
   // Verificar limites (se aplicavel)
@@ -85,11 +85,18 @@ export async function createItem(data: ItemData): Promise<{
     .single()
   
   if (error) {
-    console.error('Erro ao criar item:', error)
+    // Usar logger estruturado (NAO console.error)
+    logger.error('Erro ao criar item', { 
+      error: error.message, 
+      userId: user.id,
+      feature: 'items'
+    })
     return { error: 'Erro ao criar item' }
   }
   
+  // SEMPRE invalidar /dashboard alem da rota especifica
   revalidatePath('/dashboard/items')
+  revalidatePath('/dashboard')
   return { success: true, data: item }
 }
 ```
@@ -241,20 +248,26 @@ import { Loader2 } from 'lucide-react'
 ## Error Handling
 
 ```typescript
-// Em Server Action
+// Em Server Action - usar logger estruturado
+import { logger } from '@/lib/logger'
+
 try {
   // logica
 } catch (error) {
-  console.error('Erro:', error)
+  logger.error('Erro ao processar', { 
+    error: error instanceof Error ? error.message : 'Unknown',
+    feature: 'minha_feature',
+    userId: user?.id
+  })
   return { error: 'Ocorreu um erro. Tente novamente.' }
 }
 
-// Em Client Component
+// Em Client Component - usar role="alert" para acessibilidade
 const [error, setError] = useState('')
 
 if (error) {
   return (
-    <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+    <div role="alert" className="p-4 bg-red-50 border border-red-200 rounded-lg">
       <p className="text-red-700">{error}</p>
       <Button variant="ghost" onClick={() => setError('')}>
         Tentar novamente
@@ -262,6 +275,26 @@ if (error) {
     </div>
   )
 }
+```
+
+## Logger Estruturado
+
+SEMPRE usar `logger` em vez de `console.log/error` em server actions e API routes.
+
+```typescript
+import { logger } from '@/lib/logger'
+
+// Info para eventos normais
+logger.info('Usuario criou aplicacao', { userId, applicationId, feature: 'applications' })
+
+// Warn para erros nao-criticos (operacoes secundarias)
+logger.warn('Erro ao criar historico', { error: err.message, applicationId })
+
+// Error para erros criticos
+logger.error('Erro ao criar aplicacao', { error: err.message, userId, feature: 'applications' })
+
+// Debug para dev only (nao aparece em producao)
+logger.debug('Dados recebidos', { data })
 ```
 
 ## Form Pattern
@@ -298,13 +331,36 @@ export function MyForm() {
   return (
     <form onSubmit={handleSubmit}>
       <Input ... />
-      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {/* SEMPRE usar role="alert" em mensagens de erro */}
+      {error && <p role="alert" className="text-red-500 text-sm">{error}</p>}
       <Button type="submit" isLoading={isLoading}>
         Enviar
       </Button>
     </form>
   )
 }
+```
+
+## Icon Buttons (Acessibilidade)
+
+Botoes com apenas icones DEVEM ter aria-label e aria-hidden no icone.
+
+```typescript
+// ERRADO
+<Button onClick={onClose} className="h-8 w-8 p-0">
+  <X className="w-5 h-5" />
+</Button>
+
+// CERTO
+<Button onClick={onClose} className="h-8 w-8 p-0" aria-label="Fechar">
+  <X className="w-5 h-5" aria-hidden="true" />
+</Button>
+
+// Exemplos de aria-labels comuns:
+// - "Fechar" para botoes X
+// - "Nova conversa" para reset
+// - "Enviar mensagem" para submit
+// - "Excluir" para delete
 ```
 
 ## Markdown Rendering (react-markdown)

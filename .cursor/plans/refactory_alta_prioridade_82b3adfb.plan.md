@@ -16,37 +16,37 @@ todos:
     status: completed
   - id: state-revalidate
     content: Adicionar revalidatePath('/dashboard') nas mutations de aplicações
-    status: pending
+    status: completed
   - id: state-context
     content: Otimizar getUserContext para aceitar cache
-    status: pending
+    status: completed
   - id: obs-sentry
     content: Instalar e configurar Sentry para error tracking
-    status: pending
+    status: completed
   - id: obs-logger
     content: Criar lib/logger.ts com logging estruturado
-    status: pending
+    status: completed
   - id: obs-boundary
     content: Criar ErrorBoundary e usar no dashboard layout
-    status: pending
+    status: completed
   - id: quality-helper
     content: Criar helper getAuthenticatedUser() e refatorar actions
-    status: pending
+    status: completed
   - id: quality-errors
     content: Adicionar error handling em operações críticas
-    status: pending
+    status: completed
   - id: ai-tracking
     content: Criar tabela e helper para tracking de tokens de IA
-    status: pending
+    status: completed
   - id: a11y-skip
     content: Adicionar skip link no dashboard layout
-    status: pending
+    status: completed
   - id: a11y-aria
     content: Adicionar aria-label em botões de ícone
-    status: pending
+    status: completed
   - id: a11y-alert
     content: Adicionar role="alert" em mensagens de erro
-    status: pending
+    status: completed
 isProject: false
 ---
 
