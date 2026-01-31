@@ -1,11 +1,11 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { getAuthenticatedUser } from '@/lib/supabase/server'
+import { logger } from '@/lib/logger'
 
 export async function incrementInsightUsage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('Not authenticated')
+  const { supabase, user, error } = await getAuthenticatedUser()
+  if (error || !user) throw new Error(error || 'Not authenticated')
 
   // Get current value and increment
   const { data: profile } = await supabase
@@ -24,9 +24,8 @@ export async function incrementInsightUsage() {
 }
 
 export async function incrementApplicationUsage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('Not authenticated')
+  const { supabase, user, error } = await getAuthenticatedUser()
+  if (error || !user) throw new Error(error || 'Not authenticated')
 
   // Get current value and increment
   const { data: profile } = await supabase
@@ -45,9 +44,8 @@ export async function incrementApplicationUsage() {
 }
 
 export async function incrementCopilotUsage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('Not authenticated')
+  const { supabase, user, error } = await getAuthenticatedUser()
+  if (error || !user) throw new Error(error || 'Not authenticated')
 
   // Get current values
   const { data: profile } = await supabase
@@ -83,8 +81,7 @@ export async function incrementCopilotUsage() {
 
 // Get current user's profile
 export async function getCurrentUserProfile() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthenticatedUser()
   if (!user) return null
 
   const { data: profile } = await supabase
@@ -97,9 +94,8 @@ export async function getCurrentUserProfile() {
 }
 
 export async function incrementInterviewUsage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('Not authenticated')
+  const { supabase, user, error } = await getAuthenticatedUser()
+  if (error || !user) throw new Error(error || 'Not authenticated')
 
   // Get current value and increment
   const { data: profile } = await supabase

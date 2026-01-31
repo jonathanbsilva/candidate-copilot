@@ -2,14 +2,19 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import { 
   Home, ClipboardList, Lightbulb, Mic, 
   Settings, Sparkles, MessageCircle, Crown
 } from 'lucide-react'
 import { Badge } from '@ui/components'
 import { UserMenu } from './user-menu'
-import { CopilotDrawer } from './copilot-chat'
 import { useCopilotDrawer } from '@/hooks/use-copilot-drawer'
+
+const CopilotDrawer = dynamic(
+  () => import('./copilot-chat').then(mod => mod.CopilotDrawer),
+  { ssr: false }
+)
 
 const navItems = [
   { icon: Home, label: 'Inicio', href: '/dashboard' },
@@ -25,7 +30,7 @@ interface SidebarProps {
 
 export function Sidebar({ email, plan = 'free' }: SidebarProps) {
   const pathname = usePathname()
-  const { isOpen: isCopilotOpen, open: openCopilot, close: closeCopilot } = useCopilotDrawer()
+  const { open: openCopilot } = useCopilotDrawer()
 
   return (
     <>
@@ -157,10 +162,7 @@ export function Sidebar({ email, plan = 'free' }: SidebarProps) {
       </aside>
       
       {/* Copilot Drawer */}
-      <CopilotDrawer 
-        isOpen={isCopilotOpen} 
-        onClose={closeCopilot} 
-      />
+      <CopilotDrawer />
     </>
   )
 }

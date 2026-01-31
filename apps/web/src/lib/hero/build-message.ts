@@ -1,4 +1,5 @@
 import { getOpenAIClient } from '@/lib/ai/openai/client'
+import { trackAIUsage } from '@/lib/ai/usage-tracker'
 import type { HeroContext, HeroData, ContextDetectionResult } from './types'
 
 // Cache em memoria para mensagens AI (evita chamadas repetidas)
@@ -120,7 +121,7 @@ const templates: Record<string, (metadata?: Record<string, unknown>) => HeroData
 // Contextos que usam AI para personalizar mensagem
 const aiContexts: HeroContext[] = ['proposal_received', 'interview_soon', 'interview_feedback', 'needs_followup', 'active_summary']
 
-async function generateAIMessage(result: ContextDetectionResult): Promise<HeroData | null> {
+async function generateAIMessage(result: ContextDetectionResult, userId?: string): Promise<HeroData | null> {
   const openai = getOpenAIClient()
   
   const prompts: Record<string, string> = {
@@ -144,9 +145,11 @@ Gere uma dica do dia curta (maximo 2 frases) para quem esta em busca de emprego.
   const prompt = prompts[result.context]
   if (!prompt) return null
 
+  const MODEL = 'gpt-4o-mini' as const
+
   try {
     const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: MODEL,
       messages: [
         {
           role: 'system',
@@ -160,6 +163,14 @@ Gere uma dica do dia curta (maximo 2 frases) para quem esta em busca de emprego.
 
     const message = response.choices[0]?.message?.content?.trim()
     if (!message) return null
+
+    // Track AI usage
+    if (userId && response.usage) {
+      await trackAIUsage(userId, 'hero_card', MODEL, {
+        prompt_tokens: response.usage.prompt_tokens,
+        completion_tokens: response.usage.completion_tokens,
+      })
+    }
 
     return buildHeroDataFromAI(result, message)
   } catch (error) {
@@ -252,7 +263,7 @@ function getFallbackTemplate(result: ContextDetectionResult): HeroData {
   return fallbacks[result.context] || fallbacks.active_summary
 }
 
-export async function buildMessage(result: ContextDetectionResult): Promise<HeroData> {
+export async function buildMessage(result: ContextDetectionResult, userId?: string): Promise<HeroData> {
   // Usa template estático para contextos simples
   const templateFn = templates[result.context]
   if (templateFn) {
@@ -275,7 +286,7 @@ export async function buildMessage(result: ContextDetectionResult): Promise<Hero
     }
 
     // Gera mensagem com AI
-    const aiMessage = await generateAIMessage(result)
+    const aiMessage = await generateAIMessage(result, userId)
     if (aiMessage) {
       // Salva no cache
       setCachedMessage(cacheKey, aiMessage)

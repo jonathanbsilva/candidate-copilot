@@ -142,7 +142,7 @@ export function ChatFlow() {
       return (
         <div className="p-4 border-t border-stone/30 bg-white">
           {error && (
-            <p className="text-sm text-red-600 mb-3 text-center">{error}</p>
+            <p role="alert" className="text-sm text-red-600 mb-3 text-center">{error}</p>
           )}
           <Button onClick={handleSubmit} disabled={isSubmitting} className="w-full">
             {isSubmitting ? (

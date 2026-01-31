@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import { Badge } from '@ui/components'
 import { CopilotDrawer } from './copilot-chat'
+import { useCopilotDrawer } from '@/hooks/use-copilot-drawer'
 
 const navItems = [
   { icon: Home, label: 'Inicio', href: '/dashboard' },
@@ -25,13 +26,13 @@ interface MobileNavProps {
 export function MobileNav({ email, plan = 'free' }: MobileNavProps) {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
-  const [isCopilotOpen, setIsCopilotOpen] = useState(false)
+  const { open: openCopilotDrawer } = useCopilotDrawer()
 
   const closeMenu = () => setIsOpen(false)
   
   const openCopilot = () => {
     closeMenu()
-    setIsCopilotOpen(true)
+    openCopilotDrawer()
   }
 
   return (
@@ -53,7 +54,7 @@ export function MobileNav({ email, plan = 'free' }: MobileNavProps) {
         <div className="flex items-center gap-2">
           {/* Copilot quick access button */}
           <button
-            onClick={() => setIsCopilotOpen(true)}
+            onClick={openCopilotDrawer}
             className="p-2 rounded-lg bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 text-white hover:from-violet-400 hover:via-purple-400 hover:to-fuchsia-400 transition-colors"
             aria-label="Abrir Copilot"
           >
@@ -206,10 +207,7 @@ export function MobileNav({ email, plan = 'free' }: MobileNavProps) {
       </div>
       
       {/* Copilot Drawer */}
-      <CopilotDrawer 
-        isOpen={isCopilotOpen} 
-        onClose={() => setIsCopilotOpen(false)} 
-      />
+      <CopilotDrawer />
     </>
   )
 }

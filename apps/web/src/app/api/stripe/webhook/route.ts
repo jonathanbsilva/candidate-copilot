@@ -3,6 +3,7 @@ import { headers } from 'next/headers'
 import { stripe } from '@/lib/stripe/client'
 import { STRIPE_CONFIG } from '@/lib/stripe/config'
 import { createClient } from '@supabase/supabase-js'
+import { logger } from '@/lib/logger'
 import type Stripe from 'stripe'
 
 // Create admin Supabase client for webhook (no user context)
@@ -48,7 +49,10 @@ export async function POST(req: Request) {
       STRIPE_CONFIG.webhookSecret
     )
   } catch (err) {
-    console.error('Webhook signature verification failed:', err)
+    logger.error('Webhook signature verification failed', { 
+      error: err instanceof Error ? err.message : 'Unknown error',
+      feature: 'stripe'
+    })
     return NextResponse.json(
       { error: 'Webhook signature verification failed' },
       { status: 400 }
@@ -88,12 +92,16 @@ export async function POST(req: Request) {
       }
 
       default:
-        console.log(`Unhandled event type: ${event.type}`)
+        logger.debug('Evento Stripe não tratado', { eventType: event.type, feature: 'stripe' })
     }
 
     return NextResponse.json({ received: true })
   } catch (error) {
-    console.error('Error processing webhook:', error)
+    logger.error('Erro ao processar webhook Stripe', { 
+      error: error instanceof Error ? error.message : 'Unknown error',
+      eventType: event.type,
+      feature: 'stripe'
+    })
     return NextResponse.json(
       { error: 'Webhook processing failed' },
       { status: 500 }
@@ -104,7 +112,10 @@ export async function POST(req: Request) {
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.supabase_user_id
   if (!userId) {
-    console.error('No user ID in checkout session metadata')
+    logger.error('No user ID in checkout session metadata', { 
+      sessionId: session.id,
+      feature: 'stripe'
+    })
     return
   }
 
@@ -142,7 +153,11 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     .single()
 
   if (!profile) {
-    console.error('No user found for customer:', customerId)
+    logger.error('Nenhum usuário encontrado para customer Stripe', { 
+      customerId,
+      subscriptionId: subscription.id,
+      feature: 'stripe'
+    })
     return
   }
 
@@ -174,7 +189,11 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     .single()
 
   if (!profile) {
-    console.error('No user found for customer:', customerId)
+    logger.error('Nenhum usuário encontrado para customer Stripe (subscription deleted)', { 
+      customerId,
+      subscriptionId: subscription.id,
+      feature: 'stripe'
+    })
     return
   }
 
@@ -193,7 +212,11 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
   // Renewal payment succeeded - subscription status already handled by subscription.updated
-  console.log('Payment succeeded for invoice:', invoice.id)
+  logger.info('Pagamento de renovação bem-sucedido', { 
+    invoiceId: invoice.id,
+    customerId: invoice.customer as string,
+    feature: 'stripe'
+  })
 }
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
@@ -206,7 +229,11 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
     .single()
 
   if (!profile) {
-    console.error('No user found for customer:', customerId)
+    logger.error('Nenhum usuário encontrado para customer Stripe (payment failed)', { 
+      customerId,
+      invoiceId: invoice.id,
+      feature: 'stripe'
+    })
     return
   }
 

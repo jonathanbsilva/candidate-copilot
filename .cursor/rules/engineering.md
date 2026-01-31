@@ -30,8 +30,11 @@
 - Nao deletar, soft-delete quando possivel
 
 ### Observabilidade
-- Logs estruturados
+- Logs estruturados com `@/lib/logger` (NAO usar console.log/error)
+- Error tracking com Sentry (configurado em sentry.*.config.ts)
+- ErrorBoundary para capturar erros de React
 - Eventos de analytics para acoes importantes
+- AI usage tracking para controle de custos
 
 ## Estrutura de Pastas
 
@@ -75,26 +78,50 @@ apps/web/src/
 - Operacoes autenticadas
 - Validacao server-side
 
-### Padrao
+### Helper de Autenticacao
+SEMPRE usar `getAuthenticatedUser()` em vez de repetir o padrao manualmente.
+
+```typescript
+import { getAuthenticatedUser } from '@/lib/supabase/server'
+
+const { supabase, user, error } = await getAuthenticatedUser()
+if (error || !user) {
+  return { error: error || 'Nao autenticado' }
+}
+```
+
+### Padrao Completo
 ```typescript
 'use server'
 
+import { getAuthenticatedUser } from '@/lib/supabase/server'
+import { revalidatePath } from 'next/cache'
+import { logger } from '@/lib/logger'
+
 export async function myAction(data: MyData) {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  
-  if (!user) {
-    return { error: 'Nao autenticado' }
+  // 1. Autenticacao
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) {
+    return { error: authError || 'Nao autenticado' }
   }
   
-  // Verificar limites
+  // 2. Verificar limites
   const access = await canUseFeature(user.id)
   if (!access.allowed) {
     return { error: 'Limite atingido', limitReached: true }
   }
   
-  // Logica
-  const result = await supabase.from('table').insert(...)
+  // 3. Logica
+  const { data: result, error } = await supabase.from('table').insert(...)
+  
+  if (error) {
+    logger.error('Erro na operacao', { error: error.message, userId: user.id, feature: 'myFeature' })
+    return { error: 'Erro ao processar' }
+  }
+  
+  // 4. SEMPRE revalidar /dashboard alem da rota especifica
+  revalidatePath('/dashboard/items')
+  revalidatePath('/dashboard')
   
   return { success: true, data: result }
 }
@@ -174,8 +201,71 @@ if (!uuidValidation.success) {
 
 ## Acessibilidade (A11y)
 
+### Skip Link
+Dashboard layout tem skip link para pular navegacao:
+```typescript
+<a href="#main-content" className="sr-only focus:not-sr-only ...">
+  Pular para o conteúdo principal
+</a>
+```
+
 ### Modais
 - Usar `useFocusTrap` para travar foco dentro do modal
 - Atributos obrigatorios: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`
 - Overlay deve ter `aria-hidden="true"`
 - Botao de fechar deve ter `aria-label="Fechar"`
+
+### Mensagens de Erro
+- SEMPRE usar `role="alert"` em mensagens de erro
+```typescript
+{error && <p role="alert" className="text-red-600">{error}</p>}
+```
+
+### Botoes de Icone
+- SEMPRE usar `aria-label` em botoes com apenas icones
+- Icones devem ter `aria-hidden="true"`
+```typescript
+<button aria-label="Fechar">
+  <X aria-hidden="true" />
+</button>
+```
+
+## Observabilidade
+
+### Logger Estruturado
+NUNCA usar `console.log/error` em server actions ou API routes. Usar `@/lib/logger`.
+
+```typescript
+import { logger } from '@/lib/logger'
+
+logger.info('Evento', { userId, feature })
+logger.warn('Aviso', { error, context })
+logger.error('Erro critico', { error, userId, feature })
+logger.debug('Debug', { data }) // so aparece em dev
+```
+
+### Sentry
+Error tracking configurado em `sentry.*.config.ts`. Captura automatica de erros.
+- Habilitado quando `NEXT_PUBLIC_SENTRY_DSN` esta definido
+- ErrorBoundary reporta erros para Sentry automaticamente
+
+### ErrorBoundary
+Usar em layouts para capturar erros de React:
+```typescript
+import { ErrorBoundary } from '@/components/error-boundary'
+
+<ErrorBoundary>
+  {children}
+</ErrorBoundary>
+```
+
+### AI Usage Tracking
+Para rastrear custos de IA:
+```typescript
+import { trackAIUsage } from '@/lib/ai/usage-tracker'
+
+await trackAIUsage(userId, 'copilot', 'gpt-4o-mini', {
+  prompt_tokens: response.usage.prompt_tokens,
+  completion_tokens: response.usage.completion_tokens,
+})
+```

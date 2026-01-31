@@ -167,6 +167,10 @@ RLS habilitado em todas as tabelas.
 - `rateLimitMiddleware(req, config)` - Rate limiting (lib/rate-limit.ts)
 - `useFocusTrap(isOpen)` - Focus trap para modais (hooks/use-focus-trap.ts)
 - `CookieConsentBanner` - Banner de cookies LGPD (components/cookie-consent-banner.tsx)
+- `getAuthenticatedUser()` - Helper de autenticacao (lib/supabase/server.ts)
+- `logger` - Logging estruturado (lib/logger.ts) - USAR em vez de console.log/error
+- `ErrorBoundary` - Captura erros de React (components/error-boundary.tsx)
+- `trackAIUsage()` - Rastrear uso de tokens de IA (lib/ai/usage-tracker.ts)
 
 ### Paginas Legais
 - `/privacidade` - Politica de Privacidade

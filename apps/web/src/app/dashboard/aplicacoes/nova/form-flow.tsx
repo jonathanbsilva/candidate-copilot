@@ -111,7 +111,7 @@ export function FormFlow() {
       />
 
       {generalError && (
-        <p className="text-sm text-red-600">{generalError}</p>
+        <p role="alert" className="text-sm text-red-600">{generalError}</p>
       )}
 
       <div className="flex gap-3 justify-end pt-4">

@@ -186,7 +186,7 @@ function AuthContent() {
 
             {/* Error from URL */}
             {urlErrorMessage && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg" role="alert">
                 <p className="text-sm text-red-700">{urlErrorMessage}</p>
               </div>
             )}

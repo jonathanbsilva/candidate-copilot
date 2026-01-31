@@ -345,7 +345,7 @@ export default function IniciarPage() {
           </div>
 
           {error && (
-            <p className="text-red-600 text-sm">{error}</p>
+            <p role="alert" className="text-red-600 text-sm">{error}</p>
           )}
 
           <Button type="submit" className="w-full" disabled={isLoading}>

@@ -252,7 +252,7 @@ function Step2Form({
           ))}
         </div>
         {errors.urgencia?.message && (
-          <p className="mt-2 text-sm text-red-600">{errors.urgencia.message}</p>
+          <p role="alert" className="mt-2 text-sm text-red-600">{errors.urgencia.message}</p>
         )}
       </div>
 

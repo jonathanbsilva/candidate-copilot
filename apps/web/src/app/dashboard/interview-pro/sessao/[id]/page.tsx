@@ -205,7 +205,7 @@ export default function SessaoPage() {
           </div>
 
           {error && (
-            <p className="mt-3 text-red-600 text-sm">{error}</p>
+            <p role="alert" className="mt-3 text-red-600 text-sm">{error}</p>
           )}
         </form>
       </Card>

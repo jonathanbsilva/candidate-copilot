@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient, getAuthenticatedUser } from '@/lib/supabase/server'
 import { getAIProvider } from '@/lib/ai'
 import { InterviewContextBuilder, FeedbackContextBuilder } from '@/lib/ai/context/interview'
 import { revalidatePath } from 'next/cache'
@@ -8,6 +8,8 @@ import { z } from 'zod'
 import { canUseInterviewPro } from '@/lib/subscription/check-access'
 import { incrementInterviewUsage } from '@/lib/subscription/actions'
 import { validateUUID } from '@/lib/schemas/uuid'
+import { logger } from '@/lib/logger'
+import { trackAIUsage } from '@/lib/ai/usage-tracker'
 
 // Types
 export type InterviewSession = {
@@ -87,9 +89,8 @@ export async function createInterviewSession(data: {
   source?: ContextSource
   applicationId?: string
 }): Promise<{ session?: InterviewSession; error?: string }> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'Not authenticated' }
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) return { error: authError || 'Not authenticated' }
 
   // Verificar acesso (Pro ilimitado ou Free com trial disponivel)
   const access = await canUseInterviewPro(user.id)
@@ -110,6 +111,11 @@ export async function createInterviewSession(data: {
 
   const response = await provider.complete(contextBuilder.build(''))
   const firstQuestion = response.content.trim()
+
+  // Track AI usage
+  if (response.usage) {
+    await trackAIUsage(user.id, 'interview_question', response.model, response.usage)
+  }
 
   // Criar sessao com contexto enriquecido
   const { data: session, error } = await supabase
@@ -145,9 +151,8 @@ export async function submitAnswer(sessionId: string, answer: string): Promise<{
     return { error: uuidValidation.error }
   }
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: 'Not authenticated' }
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) return { error: authError || 'Not authenticated' }
 
   // Buscar sessao
   const { data: session } = await supabase
@@ -186,6 +191,11 @@ export async function submitAnswer(sessionId: string, answer: string): Promise<{
   const response = await provider.complete(contextBuilder.build(''))
   const nextQuestion = response.content.trim()
 
+  // Track AI usage
+  if (response.usage) {
+    await trackAIUsage(user.id, 'interview_question', response.model, response.usage)
+  }
+
   // Atualizar sessao
   await supabase
     .from('interview_sessions')
@@ -221,6 +231,11 @@ async function generateFeedback(
   const response = await provider.complete(contextBuilder.build(''), {
     temperature: 0.3, // Mais consistente para JSON
   })
+
+  // Track AI usage
+  if (response.usage) {
+    await trackAIUsage(session.user_id, 'interview_feedback', response.model, response.usage)
+  }
 
   let feedback: InterviewFeedback
   try {
@@ -262,8 +277,7 @@ export async function getSession(sessionId: string): Promise<InterviewSession | 
     return null
   }
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthenticatedUser()
   if (!user) return null
 
   const { data } = await supabase
@@ -278,8 +292,7 @@ export async function getSession(sessionId: string): Promise<InterviewSession | 
 
 // Listar historico
 export async function getInterviewHistory(): Promise<InterviewSession[]> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthenticatedUser()
   if (!user) return []
 
   const { data } = await supabase
@@ -299,8 +312,7 @@ export async function checkInterviewAccess(): Promise<{
   plan: 'free' | 'pro' | null
   isTrialAvailable: boolean
 }> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { user } = await getAuthenticatedUser()
   if (!user) return { allowed: false, plan: null, isTrialAvailable: false }
 
   const access = await canUseInterviewPro(user.id)
@@ -318,8 +330,7 @@ export async function getLastInsightData(): Promise<{
   area?: string
   senioridade?: string
 } | null> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthenticatedUser()
   if (!user) return null
 
   const { data } = await supabase
@@ -341,8 +352,7 @@ export async function getInterviewStats(): Promise<{
   lastScore: number | null
   lastSessionDate: string | null
 }> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthenticatedUser()
   
   if (!user) {
     return { plan: 'free', totalSessions: 0, averageScore: null, lastScore: null, lastSessionDate: null }
@@ -391,9 +401,8 @@ export async function abandonSession(sessionId: string): Promise<{ success: bool
     return { success: false, error: uuidValidation.error }
   }
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { success: false, error: 'Not authenticated' }
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) return { success: false, error: authError || 'Not authenticated' }
 
   const { error } = await supabase
     .from('interview_sessions')
@@ -416,8 +425,7 @@ export type ActiveApplication = {
 }
 
 export async function getUserApplications(): Promise<ActiveApplication[]> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthenticatedUser()
   if (!user) return []
 
   // Apenas vagas em aberto (status ativos), limitado a 3

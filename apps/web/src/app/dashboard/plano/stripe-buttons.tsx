@@ -206,7 +206,7 @@ export function CouponInput() {
           </Button>
 
           {error && (
-            <p className="text-sm text-red-600 mt-2 text-center">{error}</p>
+            <p role="alert" className="text-sm text-red-600 mt-2 text-center">{error}</p>
           )}
         </div>
       </div>
@@ -241,7 +241,7 @@ export function CouponInput() {
         </Button>
       </form>
       {error && (
-        <p className="text-sm text-red-600 mt-2">{error}</p>
+        <p role="alert" className="text-sm text-red-600 mt-2">{error}</p>
       )}
     </div>
   )

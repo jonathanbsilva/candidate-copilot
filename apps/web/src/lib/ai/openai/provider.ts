@@ -22,6 +22,7 @@ export class OpenAIProvider implements AIProvider {
 
     return {
       content: response.choices[0]?.message?.content || '',
+      model: finalConfig.model,
       usage: response.usage ? {
         prompt_tokens: response.usage.prompt_tokens,
         completion_tokens: response.usage.completion_tokens,

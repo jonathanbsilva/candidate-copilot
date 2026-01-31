@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient, getAuthenticatedUser } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import {
   createApplicationSchema,
@@ -14,6 +14,7 @@ import {
 import { canAddApplication } from '@/lib/subscription/check-access'
 import { incrementApplicationUsage } from '@/lib/subscription/actions'
 import { validateUUID } from '@/lib/schemas/uuid'
+import { logger } from '@/lib/logger'
 
 export async function createApplication(data: CreateApplicationInput) {
   const validated = createApplicationSchema.safeParse(data)
@@ -21,11 +22,9 @@ export async function createApplication(data: CreateApplicationInput) {
     return { error: validated.error.errors[0]?.message || 'Dados invalidos' }
   }
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { error: 'Usuário não autenticado' }
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) {
+    return { error: authError || 'Usuário não autenticado' }
   }
 
   // Check application limit for free users
@@ -55,7 +54,11 @@ export async function createApplication(data: CreateApplicationInput) {
     .single()
 
   if (appError) {
-    console.error('Error creating application:', appError)
+    logger.error('Erro ao criar aplicação', { 
+      error: appError.message, 
+      userId: user.id,
+      feature: 'applications'
+    })
     return { error: 'Erro ao criar aplicação. Tente novamente.' }
   }
 
@@ -70,13 +73,20 @@ export async function createApplication(data: CreateApplicationInput) {
     })
 
   if (historyError) {
-    console.error('Error creating status history:', historyError)
+    // Log mas não falha a operação (histórico é secundário)
+    logger.warn('Erro ao criar histórico de status inicial', { 
+      error: historyError.message, 
+      applicationId: application.id,
+      userId: user.id,
+      feature: 'applications'
+    })
   }
 
   // Increment monthly usage counter
   await incrementApplicationUsage()
 
   revalidatePath('/dashboard/aplicacoes')
+  revalidatePath('/dashboard')  // Atualizar stats do dashboard
   return { success: true, id: application.id }
 }
 
@@ -86,11 +96,9 @@ export async function updateApplication(data: UpdateApplicationInput) {
     return { error: validated.error.errors[0]?.message || 'Dados invalidos' }
   }
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { error: 'Usuário não autenticado' }
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) {
+    return { error: authError || 'Usuário não autenticado' }
   }
 
   const { error } = await supabase
@@ -108,12 +116,18 @@ export async function updateApplication(data: UpdateApplicationInput) {
     .eq('user_id', user.id)
 
   if (error) {
-    console.error('Error updating application:', error)
+    logger.error('Erro ao atualizar aplicação', { 
+      error: error.message, 
+      applicationId: validated.data.id,
+      userId: user.id,
+      feature: 'applications'
+    })
     return { error: 'Erro ao atualizar aplicação. Tente novamente.' }
   }
 
   revalidatePath('/dashboard/aplicacoes')
   revalidatePath(`/dashboard/aplicacoes/${validated.data.id}`)
+  revalidatePath('/dashboard')  // Atualizar stats do dashboard
   return { success: true }
 }
 
@@ -123,11 +137,9 @@ export async function deleteApplication(id: string) {
     return { error: 'ID invalido' }
   }
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { error: 'Usuário não autenticado' }
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) {
+    return { error: authError || 'Usuário não autenticado' }
   }
 
   const { error } = await supabase
@@ -137,11 +149,17 @@ export async function deleteApplication(id: string) {
     .eq('user_id', user.id)
 
   if (error) {
-    console.error('Error deleting application:', error)
+    logger.error('Erro ao excluir aplicação', { 
+      error: error.message, 
+      applicationId: validated.data.id,
+      userId: user.id,
+      feature: 'applications'
+    })
     return { error: 'Erro ao excluir aplicação. Tente novamente.' }
   }
 
   revalidatePath('/dashboard/aplicacoes')
+  revalidatePath('/dashboard')  // Atualizar stats do dashboard
   return { success: true }
 }
 
@@ -151,11 +169,9 @@ export async function changeStatus(data: ChangeStatusInput) {
     return { error: validated.error.errors[0]?.message || 'Dados invalidos' }
   }
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { error: 'Usuário não autenticado' }
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) {
+    return { error: authError || 'Usuário não autenticado' }
   }
 
   // Get current status
@@ -178,7 +194,13 @@ export async function changeStatus(data: ChangeStatusInput) {
     .eq('user_id', user.id)
 
   if (updateError) {
-    console.error('Error updating status:', updateError)
+    logger.error('Erro ao atualizar status', { 
+      error: updateError.message, 
+      applicationId: validated.data.id,
+      newStatus: validated.data.status,
+      userId: user.id,
+      feature: 'applications'
+    })
     return { error: 'Erro ao atualizar status. Tente novamente.' }
   }
 
@@ -193,20 +215,27 @@ export async function changeStatus(data: ChangeStatusInput) {
     })
 
   if (historyError) {
-    console.error('Error creating status history:', historyError)
+    // Log mas não falha a operação (histórico é secundário)
+    logger.warn('Erro ao criar histórico de status', { 
+      error: historyError.message, 
+      applicationId: validated.data.id,
+      fromStatus: currentApp.status,
+      toStatus: validated.data.status,
+      userId: user.id,
+      feature: 'applications'
+    })
   }
 
   revalidatePath('/dashboard/aplicacoes')
   revalidatePath(`/dashboard/aplicacoes/${validated.data.id}`)
+  revalidatePath('/dashboard')  // Atualizar stats do dashboard
   return { success: true }
 }
 
 export async function getApplications() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { error: 'Usuário não autenticado', data: null }
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) {
+    return { error: authError || 'Usuário não autenticado', data: null }
   }
 
   const { data, error } = await supabase
@@ -216,7 +245,11 @@ export async function getApplications() {
     .order('created_at', { ascending: false })
 
   if (error) {
-    console.error('Error fetching applications:', error)
+    logger.error('Erro ao carregar aplicações', { 
+      error: error.message, 
+      userId: user.id,
+      feature: 'applications'
+    })
     return { error: 'Erro ao carregar aplicações', data: null }
   }
 
@@ -230,11 +263,9 @@ export async function getApplication(id: string) {
     return { error: uuidValidation.error, data: null }
   }
 
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
-  if (!user) {
-    return { error: 'Usuário não autenticado', data: null }
+  const { supabase, user, error: authError } = await getAuthenticatedUser()
+  if (authError || !user) {
+    return { error: authError || 'Usuário não autenticado', data: null }
   }
 
   const { data, error } = await supabase
@@ -245,7 +276,12 @@ export async function getApplication(id: string) {
     .single()
 
   if (error) {
-    console.error('Error fetching application:', error)
+    logger.error('Erro ao buscar aplicação', { 
+      error: error.message, 
+      applicationId: uuidValidation.data,
+      userId: user.id,
+      feature: 'applications'
+    })
     return { error: 'Aplicação não encontrada', data: null }
   }
 
@@ -268,7 +304,11 @@ export async function getStatusHistory(applicationId: string) {
     .order('changed_at', { ascending: false })
 
   if (error) {
-    console.error('Error fetching status history:', error)
+    logger.error('Erro ao carregar histórico', { 
+      error: error.message, 
+      applicationId: uuidValidation.data,
+      feature: 'applications'
+    })
     return { error: 'Erro ao carregar historico', data: null }
   }
 
@@ -276,9 +316,7 @@ export async function getStatusHistory(applicationId: string) {
 }
 
 export async function getApplicationStats() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+  const { supabase, user } = await getAuthenticatedUser()
   if (!user) {
     return { total: 0, em_andamento: 0, propostas: 0 }
   }
@@ -317,8 +355,7 @@ export interface DetailedStats {
 }
 
 export async function getDetailedStats(): Promise<DetailedStats> {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const { supabase, user } = await getAuthenticatedUser()
 
   const defaultStats: DetailedStats = {
     total: 0,
@@ -374,9 +411,7 @@ export async function getDetailedStats(): Promise<DetailedStats> {
 }
 
 export async function checkApplicationAccess() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+  const { user } = await getAuthenticatedUser()
   if (!user) {
     return null
   }

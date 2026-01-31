@@ -1,12 +1,19 @@
-import type { AIMessage, AIResponse, AIStreamChunk } from '../types'
+import type { AIMessage, AIResponse, AIStreamChunk, AIConfig } from '../types'
 import type { AIProvider } from '../provider'
+
+const DEFAULT_CONFIG: AIConfig = {
+  model: 'gpt-4o-mini',
+  temperature: 0.7,
+  max_tokens: 1000,
+}
 
 /**
  * Mock Provider para desenvolvimento
  * Simula respostas da AI sem gastar tokens
  */
 export class MockProvider implements AIProvider {
-  async complete(messages: AIMessage[]): Promise<AIResponse> {
+  async complete(messages: AIMessage[], config?: Partial<AIConfig>): Promise<AIResponse> {
+    const finalConfig = { ...DEFAULT_CONFIG, ...config }
     const lastMessage = messages[messages.length - 1]?.content.toLowerCase() ?? ''
 
     // Simular delay de resposta
@@ -16,6 +23,7 @@ export class MockProvider implements AIProvider {
     
     return {
       content,
+      model: finalConfig.model,
       usage: { prompt_tokens: 100, completion_tokens: 50, total_tokens: 150 },
     }
   }

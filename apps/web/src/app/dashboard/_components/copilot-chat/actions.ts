@@ -8,6 +8,7 @@ import { validateInput, checkTopic } from '@/lib/ai/security'
 import { canUseCopilot } from '@/lib/subscription/check-access'
 import { incrementCopilotUsage } from '@/lib/subscription/actions'
 import type { UserContext, ChatMessage, InsightContextData, HeroContextData, InterviewContextData, InterviewHistoryData } from '@/lib/copilot/types'
+import { trackAIUsage } from '@/lib/ai/usage-tracker'
 
 export async function getUserContext(): Promise<UserContext> {
   const supabase = await createClient()
@@ -17,28 +18,33 @@ export async function getUserContext(): Promise<UserContext> {
     throw new Error('Nao autenticado')
   }
   
-  // Buscar aplicacoes
-  const { data: applications } = await supabase
-    .from('applications')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-  
-  // Buscar insights (todos para ter historico)
-  const { data: insights } = await supabase
-    .from('insights')
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-  
-  // Buscar historico de entrevistas simuladas (Interview Pro)
-  const { data: interviewSessions } = await supabase
-    .from('interview_sessions')
-    .select('cargo, area, overall_score, feedback, completed_at')
-    .eq('user_id', user.id)
-    .eq('status', 'completed')
-    .order('completed_at', { ascending: false })
-    .limit(10)
+  // Paralelizar as 3 queries independentes para reduzir latência
+  const [
+    { data: applications },
+    { data: insights },
+    { data: interviewSessions },
+  ] = await Promise.all([
+    // Buscar aplicacoes
+    supabase
+      .from('applications')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }),
+    // Buscar insights (todos para ter historico)
+    supabase
+      .from('insights')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }),
+    // Buscar historico de entrevistas simuladas (Interview Pro)
+    supabase
+      .from('interview_sessions')
+      .select('cargo, area, overall_score, feedback, completed_at')
+      .eq('user_id', user.id)
+      .eq('status', 'completed')
+      .order('completed_at', { ascending: false })
+      .limit(10),
+  ])
   
   // Processar historico de entrevistas
   let interviewHistory: InterviewHistoryData | null = null
@@ -121,7 +127,8 @@ export async function sendChatMessage(
   _history: ChatMessage[],
   insightContext?: InsightContextData | null,
   heroContext?: HeroContextData | null,
-  interviewContext?: InterviewContextData | null
+  interviewContext?: InterviewContextData | null,
+  cachedUserContext?: UserContext | null  // Contexto cacheado para evitar queries repetidas
 ): Promise<ChatResponse> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -165,8 +172,8 @@ export async function sendChatMessage(
     }
   }
   
-  // Buscar contexto do usuario
-  const context = await getUserContext()
+  // Usar contexto cacheado se disponivel, senao buscar do DB
+  const context = cachedUserContext || await getUserContext()
   
   // Classificar e processar a query
   const result = handleQuery(sanitizedQuestion, context)
@@ -189,6 +196,11 @@ export async function sendChatMessage(
     { role: 'user', content: sanitizedQuestion },
   ])
   const response = aiResponse.content
+  
+  // Track AI usage for cost monitoring
+  if (aiResponse.usage) {
+    await trackAIUsage(user.id, 'copilot', aiResponse.model, aiResponse.usage)
+  }
   
   // Increment usage after successful response
   await incrementCopilotUsage()

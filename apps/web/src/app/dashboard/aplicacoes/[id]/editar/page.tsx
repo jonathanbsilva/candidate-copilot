@@ -84,7 +84,7 @@ export default function EditarAplicacaoPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Card className="p-6 text-center max-w-md">
-          <p className="text-red-600 mb-4">{generalError || 'Aplicação não encontrada'}</p>
+          <p role="alert" className="text-red-600 mb-4">{generalError || 'Aplicação não encontrada'}</p>
           <Link href="/dashboard/aplicacoes">
             <Button>Voltar para lista</Button>
           </Link>
@@ -169,7 +169,7 @@ export default function EditarAplicacaoPage() {
           />
 
           {generalError && (
-            <p className="text-sm text-red-600">{generalError}</p>
+            <p role="alert" className="text-sm text-red-600">{generalError}</p>
           )}
 
           <div className="flex gap-3 justify-end pt-4">

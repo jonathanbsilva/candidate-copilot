@@ -10,6 +10,7 @@ export type AIStreamChunk = {
 
 export type AIResponse = {
   content: string
+  model: AIModel
   usage?: {
     prompt_tokens: number
     completion_tokens: number
