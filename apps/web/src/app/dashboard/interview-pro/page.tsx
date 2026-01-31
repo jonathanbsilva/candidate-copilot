@@ -106,7 +106,7 @@ export default async function InterviewProPage() {
       )}
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl sm:text-3xl font-semibold text-navy mb-2">
             Interview Pro
@@ -115,8 +115,8 @@ export default async function InterviewProPage() {
             Treine para entrevistas com IA e receba feedback instantâneo.
           </p>
         </div>
-        <Link href="/dashboard/interview-pro/iniciar">
-          <Button>
+        <Link href="/dashboard/interview-pro/iniciar" className="sm:ml-auto">
+          <Button className="w-full sm:w-auto">
             <Plus className="w-5 h-5 mr-2" />
             {access.plan === 'free' ? 'Usar meu trial' : 'Nova entrevista'}
           </Button>
