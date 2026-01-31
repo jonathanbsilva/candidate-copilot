@@ -5,6 +5,7 @@ import { Button, Select, Textarea } from '@ui/components'
 import { X } from 'lucide-react'
 import { changeStatus } from '../actions'
 import { statusOptions, type ApplicationStatus } from '@/lib/types/application'
+import { useFocusTrap } from '@/hooks/use-focus-trap'
 
 interface ChangeStatusModalProps {
   applicationId: string
@@ -25,6 +26,7 @@ export function ChangeStatusModal({
   const [notes, setNotes] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
+  const containerRef = useFocusTrap(isOpen)
 
   if (!isOpen) return null
 
@@ -55,16 +57,23 @@ export function ChangeStatusModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="fixed inset-0 bg-navy/50" onClick={onClose} />
-      <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md mx-4 p-6">
+      <div className="fixed inset-0 bg-navy/50" onClick={onClose} aria-hidden="true" />
+      <div 
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="change-status-title"
+        className="relative bg-white rounded-lg shadow-lg w-full max-w-md mx-4 p-6"
+      >
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-navy/50 hover:text-navy transition-colors"
+          aria-label="Fechar"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <h2 className="text-xl font-semibold text-navy mb-4">Mudar Status</h2>
+        <h2 id="change-status-title" className="text-xl font-semibold text-navy mb-4">Mudar Status</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <Select
@@ -83,7 +92,7 @@ export function ChangeStatusModal({
           />
 
           {error && (
-            <p className="text-sm text-red-600">{error}</p>
+            <p className="text-sm text-red-600" role="alert">{error}</p>
           )}
 
           <div className="flex gap-3 justify-end pt-2">

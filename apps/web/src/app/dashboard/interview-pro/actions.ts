@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { canUseInterviewPro } from '@/lib/subscription/check-access'
 import { incrementInterviewUsage } from '@/lib/subscription/actions'
+import { validateUUID } from '@/lib/schemas/uuid'
 
 // Types
 export type InterviewSession = {
@@ -138,6 +139,12 @@ export async function submitAnswer(sessionId: string, answer: string): Promise<{
   feedback?: InterviewFeedback
   error?: string
 }> {
+  // Validar UUID antes da query
+  const uuidValidation = validateUUID(sessionId)
+  if (!uuidValidation.success) {
+    return { error: uuidValidation.error }
+  }
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Not authenticated' }
@@ -146,7 +153,7 @@ export async function submitAnswer(sessionId: string, answer: string): Promise<{
   const { data: session } = await supabase
     .from('interview_sessions')
     .select('*')
-    .eq('id', sessionId)
+    .eq('id', uuidValidation.data)
     .eq('user_id', user.id)
     .single()
 
@@ -249,6 +256,12 @@ async function generateFeedback(
 
 // Buscar sessao
 export async function getSession(sessionId: string): Promise<InterviewSession | null> {
+  // Validar UUID antes da query
+  const uuidValidation = validateUUID(sessionId)
+  if (!uuidValidation.success) {
+    return null
+  }
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return null
@@ -256,7 +269,7 @@ export async function getSession(sessionId: string): Promise<InterviewSession | 
   const { data } = await supabase
     .from('interview_sessions')
     .select('*')
-    .eq('id', sessionId)
+    .eq('id', uuidValidation.data)
     .eq('user_id', user.id)
     .single()
 
@@ -372,6 +385,12 @@ export async function getInterviewStats(): Promise<{
 
 // Abandonar sessao
 export async function abandonSession(sessionId: string): Promise<{ success: boolean; error?: string }> {
+  // Validar UUID antes da query
+  const uuidValidation = validateUUID(sessionId)
+  if (!uuidValidation.success) {
+    return { success: false, error: uuidValidation.error }
+  }
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { success: false, error: 'Not authenticated' }
@@ -381,7 +400,7 @@ export async function abandonSession(sessionId: string): Promise<{ success: bool
     .update({
       status: 'abandoned',
     })
-    .eq('id', sessionId)
+    .eq('id', uuidValidation.data)
     .eq('user_id', user.id)
 
   if (error) return { success: false, error: error.message }

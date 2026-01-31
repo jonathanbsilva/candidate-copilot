@@ -128,3 +128,54 @@ if (!parsed.success) {
   return { error: 'Dados invalidos' }
 }
 ```
+
+### UUID Validation (OBRIGATORIO)
+```typescript
+import { validateUUID } from '@/lib/schemas/uuid'
+
+// SEMPRE validar UUIDs antes de queries
+const uuidValidation = validateUUID(id)
+if (!uuidValidation.success) {
+  return { error: uuidValidation.error }
+}
+```
+
+## Seguranca
+
+### XSS Prevention
+- NUNCA usar `dangerouslySetInnerHTML` com conteudo de usuario
+- Para markdown, usar `react-markdown` com wrapper div (v9+ nao aceita className)
+- Sanitizar inputs antes de salvar no banco
+
+### Rate Limiting
+- API routes devem ter rate limiting
+- Usar `@/lib/rate-limit` para limites por IP
+- Limites padroes em `RATE_LIMITS` (chat: 20/min, coupon: 10/min)
+
+### Input Validation
+- Sempre validar UUIDs antes de queries (usar `validateUUID`)
+- Schemas Zod para todos os inputs de usuario
+- Nunca confiar em dados do cliente
+
+## LGPD Compliance
+
+### Paginas Obrigatorias
+- `/privacidade` - Politica de Privacidade
+- `/termos` - Termos de Uso
+
+### Cookie Consent
+- Banner de consentimento para cookies analiticos
+- Analytics (PostHog, GA) so carregam apos consentimento
+- Usar `CookieConsentBanner` no layout
+
+### Links Legais
+- Footer de todas as paginas deve ter links para /privacidade e /termos
+- Na tela de auth, links devem abrir em nova aba (`target="_blank"`)
+
+## Acessibilidade (A11y)
+
+### Modais
+- Usar `useFocusTrap` para travar foco dentro do modal
+- Atributos obrigatorios: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`
+- Overlay deve ter `aria-hidden="true"`
+- Botao de fechar deve ter `aria-label="Fechar"`

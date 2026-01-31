@@ -158,12 +158,12 @@ export default async function PricingPage() {
           </div>
           <nav className="flex items-center gap-6 text-sm text-navy/60">
             <Link href="/" className="hover:text-navy transition-colors">
-              Inicio
+              Início
             </Link>
-            <Link href="#" className="hover:text-navy transition-colors">
+            <Link href="/privacidade" className="hover:text-navy transition-colors">
               Privacidade
             </Link>
-            <Link href="#" className="hover:text-navy transition-colors">
+            <Link href="/termos" className="hover:text-navy transition-colors">
               Termos
             </Link>
           </nav>

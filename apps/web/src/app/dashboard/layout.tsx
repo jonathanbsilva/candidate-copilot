@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { createClient } from '@/lib/supabase/server'
@@ -6,6 +7,13 @@ import { MobileNav } from './_components/mobile-nav'
 import { AuthTracker } from './_components/auth-tracker'
 import { CopilotFAB } from './_components/copilot-fab'
 import { getUserProfile } from '@/lib/subscription/check-access'
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default async function DashboardLayout({
   children,

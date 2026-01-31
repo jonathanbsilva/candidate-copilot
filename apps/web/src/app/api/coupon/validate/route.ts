@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { rateLimitMiddleware, RATE_LIMITS } from '@/lib/rate-limit'
 
 export async function POST(req: Request) {
+  // Rate limiting
+  const { response: rateLimitResponse } = rateLimitMiddleware(req, RATE_LIMITS.coupon)
+  if (rateLimitResponse) {
+    return rateLimitResponse
+  }
+
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()

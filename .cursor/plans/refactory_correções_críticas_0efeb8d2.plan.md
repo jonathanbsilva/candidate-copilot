@@ -4,37 +4,37 @@ overview: Corrigir os itens críticos de LGPD, Segurança, SEO e Acessibilidade 
 todos:
   - id: lgpd-privacy
     content: Criar página /privacidade com Política de Privacidade
-    status: pending
+    status: completed
   - id: lgpd-terms
     content: Criar página /termos com Termos de Uso
-    status: pending
+    status: completed
   - id: lgpd-cookies
     content: Implementar banner de consentimento de cookies
-    status: pending
+    status: completed
   - id: sec-xss
     content: Corrigir XSS substituindo dangerouslySetInnerHTML por react-markdown
-    status: pending
+    status: completed
   - id: sec-uuid
     content: Adicionar validação UUID com Zod em todas as queries
-    status: pending
+    status: completed
   - id: sec-ratelimit
     content: Implementar rate limiting nas API routes
-    status: pending
+    status: completed
   - id: seo-robots
     content: Criar robots.ts para gerar robots.txt
-    status: pending
+    status: completed
   - id: seo-sitemap
     content: Criar sitemap.ts para gerar sitemap.xml
-    status: pending
+    status: completed
   - id: seo-og
     content: Adicionar Open Graph e Twitter Cards no layout
-    status: pending
+    status: completed
   - id: seo-noindex
     content: Adicionar noindex no dashboard layout
-    status: pending
+    status: completed
   - id: a11y-focustrap
     content: Criar hook useFocusTrap e aplicar em todos os modais
-    status: pending
+    status: completed
 isProject: false
 ---
 

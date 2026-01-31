@@ -13,6 +13,7 @@ import {
 } from '@/lib/schemas/application'
 import { canAddApplication } from '@/lib/subscription/check-access'
 import { incrementApplicationUsage } from '@/lib/subscription/actions'
+import { validateUUID } from '@/lib/schemas/uuid'
 
 export async function createApplication(data: CreateApplicationInput) {
   const validated = createApplicationSchema.safeParse(data)
@@ -223,6 +224,12 @@ export async function getApplications() {
 }
 
 export async function getApplication(id: string) {
+  // Validar UUID antes da query
+  const uuidValidation = validateUUID(id)
+  if (!uuidValidation.success) {
+    return { error: uuidValidation.error, data: null }
+  }
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -233,7 +240,7 @@ export async function getApplication(id: string) {
   const { data, error } = await supabase
     .from('applications')
     .select('*')
-    .eq('id', id)
+    .eq('id', uuidValidation.data)
     .eq('user_id', user.id)
     .single()
 
@@ -246,12 +253,18 @@ export async function getApplication(id: string) {
 }
 
 export async function getStatusHistory(applicationId: string) {
+  // Validar UUID antes da query
+  const uuidValidation = validateUUID(applicationId)
+  if (!uuidValidation.success) {
+    return { error: uuidValidation.error, data: null }
+  }
+
   const supabase = await createClient()
   
   const { data, error } = await supabase
     .from('status_history')
     .select('*')
-    .eq('application_id', applicationId)
+    .eq('application_id', uuidValidation.data)
     .order('changed_at', { ascending: false })
 
   if (error) {
