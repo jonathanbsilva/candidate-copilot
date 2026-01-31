@@ -66,7 +66,7 @@ export async function POST(req: Request) {
     
     if (new Date(coupon.valid_from) > now) {
       return NextResponse.json(
-        { error: 'Este cupom ainda nao esta ativo' },
+        { error: 'Este cupom ainda não está ativo' },
         { status: 400 }
       )
     }

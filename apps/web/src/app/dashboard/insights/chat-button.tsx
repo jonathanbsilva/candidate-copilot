@@ -23,7 +23,7 @@ export function InsightChatButton({ insight }: { insight: InsightData }) {
     const context: InsightContext = {
       id: insight.id,
       tipo: mapObjetivoToTipo(insight.objetivo || 'outro'),
-      cargo: insight.cargo || 'Cargo nao especificado',
+      cargo: insight.cargo || 'Cargo não especificado',
       area: insight.area || undefined,
       recommendation: insight.recommendation,
       next_steps: insight.next_steps || [],

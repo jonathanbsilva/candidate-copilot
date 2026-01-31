@@ -191,7 +191,7 @@ export function CouponInput() {
 
           <p className="text-sm text-navy/60 mb-4">
             {validatedCoupon.discount_percent}% de desconto por {validatedCoupon.duration_months}{' '}
-            {validatedCoupon.duration_months === 1 ? 'mes' : 'meses'}
+            {validatedCoupon.duration_months === 1 ? 'mês' : 'meses'}
           </p>
 
           <Button 
@@ -201,7 +201,7 @@ export function CouponInput() {
             isLoading={isApplying}
           >
             {validatedCoupon.discounted_price === 0 
-              ? 'Ativar Pro gratis'
+              ? 'Ativar Pro grátis'
               : 'Fazer upgrade'}
           </Button>
 

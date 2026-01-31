@@ -13,19 +13,19 @@ export class InterviewContextBuilder extends ContextBuilder {
   constructor(data: InterviewContextData) {
     super()
     this.userContext = data
-    this.systemPrompt = `Voce e um entrevistador experiente conduzindo uma entrevista para a vaga de ${data.cargo}${data.area ? ` na area de ${data.area}` : ''}${data.senioridade ? ` (nivel ${data.senioridade})` : ''}.
+    this.systemPrompt = `Você é um entrevistador experiente conduzindo uma entrevista para a vaga de ${data.cargo}${data.area ? ` na área de ${data.area}` : ''}${data.senioridade ? ` (nível ${data.senioridade})` : ''}.
 
 REGRAS:
-1. Faca perguntas relevantes para a vaga e nivel
-2. Misture perguntas comportamentais e tecnicas
+1. Faça perguntas relevantes para a vaga e nível
+2. Misture perguntas comportamentais e técnicas
 3. Seja profissional mas acolhedor
 4. Perguntas devem ser claras e diretas
-5. Nao repita perguntas ja feitas
-6. Adapte a dificuldade ao nivel de senioridade
+5. Não repita perguntas já feitas
+6. Adapte a dificuldade ao nível de senioridade
 
-${data.previousQA?.length ? `PERGUNTAS JA FEITAS:\n${data.previousQA.map((qa, i) => `${i + 1}. ${qa.question}`).join('\n')}` : ''}
+${data.previousQA?.length ? `PERGUNTAS JÁ FEITAS:\n${data.previousQA.map((qa, i) => `${i + 1}. ${qa.question}`).join('\n')}` : ''}
 
-Faca a pergunta ${data.questionNumber} de 3. Apenas a pergunta, sem introducao.`
+Faça a pergunta ${data.questionNumber} de 3. Apenas a pergunta, sem introdução.`
   }
 
   build(_userMessage: string): AIMessage[] {
@@ -65,7 +65,7 @@ FORMATO DE RESPOSTA (JSON):
       "score": 80,
       "strengths": ["ponto forte 1", "ponto forte 2"],
       "improvements": ["melhoria 1"],
-      "tip": "Dica especifica"
+      "tip": "Dica específica"
     }
   ],
   "general_tips": ["dica 1", "dica 2", "dica 3"]

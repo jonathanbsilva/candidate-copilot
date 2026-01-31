@@ -121,7 +121,7 @@ export default async function ApplicationDetailPage({ params }: Props) {
                 <div className="flex items-start gap-3">
                   <FileText className="w-5 h-5 text-navy/40 mt-0.5 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-navy/60 mb-1">Descricao da vaga</p>
+                    <p className="text-sm font-medium text-navy/60 mb-1">Descrição da vaga</p>
                     <p className="text-navy whitespace-pre-wrap">{application.job_description}</p>
                   </div>
                 </div>

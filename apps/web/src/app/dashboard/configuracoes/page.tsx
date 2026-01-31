@@ -10,11 +10,11 @@ export default function ConfiguracoesPage() {
             <Settings className="w-5 h-5 text-navy" />
           </div>
           <h1 className="text-2xl font-semibold text-navy">
-            Configuracoes
+            Configurações
           </h1>
         </div>
         <p className="text-navy/70">
-          Gerencie suas preferencias e configuracoes da conta.
+          Gerencie suas preferências e configurações da conta.
         </p>
       </div>
 
@@ -27,7 +27,7 @@ export default function ConfiguracoesPage() {
             <div>
               <h2 className="font-medium text-navy mb-1">Perfil</h2>
               <p className="text-sm text-navy/60">
-                Atualize suas informacoes pessoais e foto de perfil.
+                Atualize suas informações pessoais e foto de perfil.
               </p>
               <span className="inline-block mt-2 text-xs text-navy/40 bg-stone/20 px-2 py-1 rounded">
                 Em breve
@@ -42,9 +42,9 @@ export default function ConfiguracoesPage() {
               <Bell className="w-5 h-5 text-navy/60" />
             </div>
             <div>
-              <h2 className="font-medium text-navy mb-1">Notificacoes</h2>
+              <h2 className="font-medium text-navy mb-1">Notificações</h2>
               <p className="text-sm text-navy/60">
-                Configure como e quando voce recebe notificacoes.
+                Configure como e quando você recebe notificações.
               </p>
               <span className="inline-block mt-2 text-xs text-navy/40 bg-stone/20 px-2 py-1 rounded">
                 Em breve

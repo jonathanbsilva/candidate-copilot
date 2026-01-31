@@ -29,7 +29,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="container-narrow py-8 sm:py-12">
-      {/* Salva insight pendente automaticamente apos signup */}
+      {/* Salva insight pendente automaticamente após signup */}
       <PendingInsightSaver />
 
       <div className="mb-8">
@@ -42,13 +42,13 @@ export default async function DashboardPage() {
       </div>
 
       <div className="grid gap-6">
-        {/* 1. Hero Card - Acao mais importante do momento */}
+        {/* 1. Hero Card - Ação mais importante do momento */}
         {heroData && <HeroCard data={heroData} />}
 
         {/* 2. Estrategia - Insight ativo com proximos passos */}
         <StrategyCard insight={latestInsight} />
 
-        {/* 3. Aplicacoes - Resumo com mini funil */}
+        {/* 3. Aplicações - Resumo com mini funil */}
         {stats.total > 0 ? (
           <Card variant="elevated" className="p-5">
             <div className="flex items-center justify-between">
@@ -58,10 +58,10 @@ export default async function DashboardPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-navy">
-                    Suas Aplicacoes
+                    Suas Aplicações
                   </h2>
                   <p className="text-sm text-navy/60">
-                    <span className="font-medium text-navy">{stats.total}</span> aplicacoes
+                    <span className="font-medium text-navy">{stats.total}</span> aplicações
                     {stats.em_andamento > 0 && (
                       <> • <span className="text-blue-600">{stats.em_andamento} em andamento</span></>
                     )}
@@ -84,7 +84,7 @@ export default async function DashboardPage() {
               <div className="flex items-end justify-between gap-2 h-12">
                 {[
                   { key: 'aplicado', label: 'Aplicado', value: stats.aplicado, color: 'bg-stone/40' },
-                  { key: 'emAnalise', label: 'Analise', value: stats.emAnalise, color: 'bg-blue-400' },
+                  { key: 'emAnalise', label: 'Análise', value: stats.emAnalise, color: 'bg-blue-400' },
                   { key: 'entrevista', label: 'Entrevista', value: stats.entrevista, color: 'bg-amber' },
                   { key: 'proposta', label: 'Proposta', value: stats.proposta + stats.aceito, color: 'bg-teal' },
                 ].map((item) => {
@@ -119,7 +119,7 @@ export default async function DashboardPage() {
                   Comece a organizar sua busca
                 </h2>
                 <p className="text-navy/60">
-                  Acompanhe suas aplicacoes e aumente suas chances
+                  Acompanhe suas aplicações e aumente suas chances
                 </p>
               </div>
             </div>
@@ -132,7 +132,7 @@ export default async function DashboardPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-blue-400" />
-                  <span>Em analise</span>
+                  <span>Em análise</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-amber" />
@@ -158,7 +158,7 @@ export default async function DashboardPage() {
 
         {/* 4. Interview Pro - Contextual */}
         {interviewStats.totalSessions > 0 ? (
-          // Usuario com sessoes (Pro ou Free que usou trial) - mostrar stats
+          // Usuário com sessões (Pro ou Free que usou trial) - mostrar stats
           <Card variant="elevated" className="p-5">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -189,14 +189,14 @@ export default async function DashboardPage() {
                   <Trophy className="w-4 h-4" />
                   {interviewStats.averageScore || '-'}
                 </div>
-                <div className="text-[10px] text-teal/80">Score medio</div>
+                <div className="text-[10px] text-teal/80">Score médio</div>
               </div>
               <div className="bg-stone/10 rounded-lg p-3 text-center">
                 <div className="flex items-center justify-center gap-1 text-xl font-bold text-navy mb-0.5">
                   <TrendingUp className="w-4 h-4" />
                   {interviewStats.lastScore || '-'}
                 </div>
-                <div className="text-[10px] text-navy/60">Ultimo treino</div>
+                <div className="text-[10px] text-navy/60">Último treino</div>
               </div>
             </div>
             
@@ -213,7 +213,7 @@ export default async function DashboardPage() {
             )}
           </Card>
         ) : interviewStats.plan === 'pro' ? (
-          // Pro sem sessoes - CTA para comecar
+          // Pro sem sessões - CTA para começar
           <Card className="p-5 border-teal/30 bg-teal/5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -225,13 +225,13 @@ export default async function DashboardPage() {
                     Interview Pro
                   </h2>
                   <p className="text-sm text-navy/60">
-                    Pratique e ganhe confianca
+                    Pratique e ganhe confiança
                   </p>
                 </div>
               </div>
               <Link href="/dashboard/interview-pro">
                 <Button size="sm">
-                  Comecar primeiro treino
+                  Começar primeiro treino
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>
@@ -251,11 +251,11 @@ export default async function DashboardPage() {
                   </h2>
                   <Badge className="bg-teal/20 text-teal text-[10px] flex items-center gap-1">
                     <Gift className="w-3 h-3" />
-                    1 gratis
+                    1 grátis
                   </Badge>
                 </div>
                 <p className="text-navy/60">
-                  Treine para entrevistas com IA e ganhe confianca
+                  Treine para entrevistas com IA e ganhe confiança
                 </p>
               </div>
             </div>
@@ -267,7 +267,7 @@ export default async function DashboardPage() {
               <ul className="space-y-1 text-sm text-navy/70">
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-teal" />
-                  3 perguntas personalizadas para sua area
+                  3 perguntas personalizadas para sua área
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-teal" />
@@ -283,7 +283,7 @@ export default async function DashboardPage() {
             <div className="flex justify-end">
               <Link href="/dashboard/interview-pro" className="w-full sm:w-auto">
                 <Button className="w-full sm:w-auto">
-                  Fazer minha entrevista gratis
+                  Fazer minha entrevista grátis
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>
@@ -305,7 +305,7 @@ export default async function DashboardPage() {
                     <Badge className="bg-amber/20 text-amber text-[10px]">Pro</Badge>
                   </div>
                   <p className="text-sm text-navy/60">
-                    Mock interviews com IA e feedback instantaneo
+                    Mock interviews com IA e feedback instantâneo
                   </p>
                 </div>
               </div>

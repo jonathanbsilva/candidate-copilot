@@ -190,13 +190,13 @@ function AuthContent() {
             </form>
 
             <p className="mt-6 text-center text-sm text-navy/50">
-              Ao continuar, voce concorda com nossos{' '}
+              Ao continuar, você concorda com nossos{' '}
               <Link href="#" className="text-teal hover:underline">
                 Termos de Uso
               </Link>{' '}
               e{' '}
               <Link href="#" className="text-teal hover:underline">
-                Politica de Privacidade
+                Política de Privacidade
               </Link>
             </p>
           </Card>

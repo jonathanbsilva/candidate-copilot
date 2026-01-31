@@ -11,8 +11,8 @@ export function MetricsCards({ metrics }: MetricsCardsProps) {
     {
       icon: TrendingUp,
       value: `${metrics.taxaConversao}%`,
-      label: 'Taxa de conversao',
-      description: 'Das aplicacoes viraram entrevistas',
+      label: 'Taxa de conversão',
+      description: 'Das aplicações viraram entrevistas',
       bgColor: 'bg-teal/10',
       iconColor: 'text-teal',
     },

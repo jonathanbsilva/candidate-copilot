@@ -32,7 +32,7 @@ export function HeroCard({ data }: HeroCardProps) {
 
   const handleDismiss = () => {
     setIsDismissed(true)
-    // Opcional: salvar no localStorage para nao mostrar novamente por um tempo
+    // Opcional: salvar no localStorage para não mostrar novamente por um tempo
     const dismissKey = `hero_dismissed_${data.context}`
     localStorage.setItem(dismissKey, Date.now().toString())
   }

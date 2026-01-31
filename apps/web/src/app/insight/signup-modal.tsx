@@ -49,11 +49,11 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
             </li>
             <li className="flex items-center gap-3">
               <Check className="w-5 h-5 text-teal flex-shrink-0" />
-              <span className="text-navy">Conversar com o Copilot sobre sua situacao</span>
+              <span className="text-navy">Conversar com o Copilot sobre sua situação</span>
             </li>
             <li className="flex items-center gap-3">
               <Check className="w-5 h-5 text-teal flex-shrink-0" />
-              <span className="text-navy">Acompanhar suas aplicacoes</span>
+              <span className="text-navy">Acompanhar suas aplicações</span>
             </li>
             <li className="flex items-center gap-3">
               <Check className="w-5 h-5 text-teal flex-shrink-0" />

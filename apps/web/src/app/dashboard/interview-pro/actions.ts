@@ -85,7 +85,7 @@ export async function createInterviewSession(data: {
   const access = await canUseInterviewPro(user.id)
 
   if (!access.allowed) {
-    return { error: 'Voce ja usou sua entrevista de teste. Faca upgrade para Pro.' }
+    return { error: 'Você já usou sua entrevista de teste. Faça upgrade para Pro.' }
   }
 
   // Gerar primeira pergunta

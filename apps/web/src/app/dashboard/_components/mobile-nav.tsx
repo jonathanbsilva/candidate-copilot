@@ -183,7 +183,7 @@ export function MobileNav({ email, plan = 'free' }: MobileNavProps) {
             `}
           >
             <Settings className="w-5 h-5 flex-shrink-0" />
-            <span className="ml-3 text-sm font-medium">Configuracoes</span>
+            <span className="ml-3 text-sm font-medium">Configurações</span>
           </Link>
           
           {email && (

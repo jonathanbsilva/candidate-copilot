@@ -70,7 +70,7 @@ export function FormFlow() {
         <Input
           name="title"
           label="Cargo *"
-          placeholder="Ex: Desenvolvedor Senior"
+          placeholder="Ex: Desenvolvedor Sênior"
           error={errors.title}
         />
       </div>
@@ -85,8 +85,8 @@ export function FormFlow() {
         />
         <Input
           name="location"
-          label="Localizacao"
-          placeholder="Ex: Remoto, Sao Paulo, etc."
+          label="Localização"
+          placeholder="Ex: Remoto, São Paulo, etc."
         />
       </div>
 
@@ -98,15 +98,15 @@ export function FormFlow() {
 
       <Textarea
         name="job_description"
-        label="Descricao da vaga"
-        placeholder="Cole aqui a descricao da vaga para referencia futura..."
+        label="Descrição da vaga"
+        placeholder="Cole aqui a descrição da vaga para referência futura..."
         className="min-h-[120px]"
       />
 
       <Textarea
         name="notes"
         label="Notas pessoais"
-        placeholder="Adicione suas anotacoes sobre esta aplicacao..."
+        placeholder="Adicione suas anotações sobre esta aplicação..."
         className="min-h-[100px]"
       />
 
@@ -121,7 +121,7 @@ export function FormFlow() {
           </Button>
         </Link>
         <Button type="submit" isLoading={isPending}>
-          Salvar aplicacao
+          Salvar aplicação
         </Button>
       </div>
     </form>

@@ -39,12 +39,12 @@ export default function NovaAplicacaoPage() {
           </div>
           <h2 className="text-xl font-semibold text-navy mb-2">Limite de vagas atingido</h2>
           <p className="text-navy/70 mb-6">
-            Voce esta usando {accessInfo?.current || 5} de {accessInfo?.limit || 5} vagas do plano Free.
-            Faca upgrade para acompanhar vagas ilimitadas.
+            Você está usando {accessInfo?.current || 5} de {accessInfo?.limit || 5} vagas do plano Free.
+            Faça upgrade para acompanhar vagas ilimitadas.
           </p>
           <Link href="/dashboard/plano">
             <Button size="lg" className="w-full">
-              Fazer upgrade - R$ 19/mes
+              Fazer upgrade - R$ 19/mês
             </Button>
           </Link>
         </Card>
@@ -64,7 +64,7 @@ export default function NovaAplicacaoPage() {
       </Link>
 
       <h1 className="text-2xl sm:text-3xl font-semibold text-navy mb-6">
-        Nova Aplicacao
+        Nova Aplicação
       </h1>
 
       {/* Tabs */}
@@ -89,7 +89,7 @@ export default function NovaAplicacaoPage() {
           }`}
         >
           <FileText className="w-4 h-4" />
-          Formulario
+          Formulário
         </button>
       </div>
 

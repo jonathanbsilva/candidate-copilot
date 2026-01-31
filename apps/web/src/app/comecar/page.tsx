@@ -23,7 +23,7 @@ import {
 } from '@/lib/schemas/entry-flow'
 
 const TOTAL_STEPS = 3
-const stepLabels = ['Contexto', 'Situacao', 'Objetivo']
+const stepLabels = ['Contexto', 'Situação', 'Objetivo']
 
 export default function ComecarPage() {
   const router = useRouter()
@@ -136,12 +136,12 @@ function Step1Form({
           Seu contexto profissional
         </h2>
         <p className="text-navy/70">
-          Conte um pouco sobre sua situacao atual ou mais recente.
+          Conte um pouco sobre sua situação atual ou mais recente.
         </p>
       </div>
 
       <Input
-        label="Cargo atual (ou ultimo)"
+        label="Cargo atual (ou último)"
         placeholder="Ex: Desenvolvedor Backend, Product Manager..."
         error={errors.cargo?.message}
         {...register('cargo')}
@@ -157,7 +157,7 @@ function Step1Form({
       />
 
       <Select
-        label="Area de atuacao"
+        label="Área de atuação"
         options={areaOptions}
         placeholder="Selecione..."
         error={errors.area?.message}
@@ -206,10 +206,10 @@ function Step2Form({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
         <h2 className="text-2xl font-semibold text-navy mb-2">
-          Sua situacao atual
+          Sua situação atual
         </h2>
         <p className="text-navy/70">
-          Entenda onde voce esta agora para dar direcionamentos melhores.
+          Entenda onde você está agora para dar direcionamentos melhores.
         </p>
       </div>
 
@@ -223,7 +223,7 @@ function Step2Form({
       />
 
       <Select
-        label="Ha quanto tempo nessa situacao?"
+        label="Há quanto tempo nessa situação?"
         options={tempoSituacaoOptions}
         placeholder="Selecione..."
         error={errors.tempoSituacao?.message}
@@ -233,7 +233,7 @@ function Step2Form({
 
       <div>
         <label className="block text-sm font-medium text-navy mb-3">
-          Qual a urgencia para resolver isso? (1 = Baixa, 5 = Alta)
+          Qual a urgência para resolver isso? (1 = Baixa, 5 = Alta)
         </label>
         <div className="flex items-center gap-3">
           {[1, 2, 3, 4, 5].map((value) => (
@@ -302,13 +302,13 @@ function Step3Form({
           Seu objetivo principal
         </h2>
         <p className="text-navy/70">
-          O que voce quer resolver agora? Isso vai direcionar seu insight.
+          O que você quer resolver agora? Isso vai direcionar seu insight.
         </p>
       </div>
 
       <RadioGroup
         name="objetivo"
-        label="O que voce quer resolver?"
+        label="O que você quer resolver?"
         options={objetivoOptions}
         value={objetivo}
         onChange={(value) => setValue('objetivo', value as Step3Data['objetivo'])}
@@ -318,7 +318,7 @@ function Step3Form({
       {objetivo === 'outro' && (
         <Textarea
           label="Descreva seu objetivo"
-          placeholder="Conte mais sobre o que voce quer resolver..."
+          placeholder="Conte mais sobre o que você quer resolver..."
           error={errors.objetivoOutro?.message}
           {...register('objetivoOutro')}
         />

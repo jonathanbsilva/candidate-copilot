@@ -44,10 +44,10 @@ export default async function HomePage() {
         <section className="py-16 sm:py-24 lg:py-32">
           <div className="container-narrow text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-navy leading-tight tracking-tight">
-              Decisoes de carreira com clareza, nao com ansiedade.
+              Decisões de carreira com clareza, não com ansiedade.
             </h1>
             <p className="mt-6 text-lg sm:text-xl text-navy/70 max-w-2xl mx-auto">
-              Responda algumas perguntas e receba um primeiro direcionamento baseado no seu contexto. Sem cadastro, sem enrolacao.
+              Responda algumas perguntas e receba um primeiro direcionamento baseado no seu contexto. Sem cadastro, sem enrolação.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link href="/comecar">
@@ -91,7 +91,7 @@ export default async function HomePage() {
                   Receba um insight
                 </h3>
                 <p className="text-navy/70">
-                  Com base no que voce informou, receba um direcionamento claro com recomendacoes e proximos passos.
+                  Com base no que você informou, receba um direcionamento claro com recomendações e próximos passos.
                 </p>
               </Card>
 

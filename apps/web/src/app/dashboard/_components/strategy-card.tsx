@@ -26,13 +26,13 @@ function getInsightAge(createdAt: string): { days: number; label: string; isStal
   } else if (days === 1) {
     label = 'Ontem'
   } else if (days < 7) {
-    label = `${days} dias atras`
+    label = `${days} dias atrás`
   } else if (days < 14) {
-    label = '1 semana atras'
+    label = '1 semana atrás'
   } else if (days < 30) {
-    label = `${Math.floor(days / 7)} semanas atras`
+    label = `${Math.floor(days / 7)} semanas atrás`
   } else {
-    label = `${Math.floor(days / 30)} mes${Math.floor(days / 30) > 1 ? 'es' : ''} atras`
+    label = `${Math.floor(days / 30)} mês${Math.floor(days / 30) > 1 ? 'es' : ''} atrás`
   }
   
   return { days, label, isStale }
@@ -49,30 +49,30 @@ export function StrategyCard({ insight }: StrategyCardProps) {
           </div>
           <div>
             <h2 className="text-xl font-semibold text-navy">
-              Defina sua estrategia de carreira
+              Defina sua estratégia de carreira
             </h2>
             <p className="text-navy/60">
-              Receba um direcionamento personalizado para sua situacao
+              Receba um direcionamento personalizado para sua situação
             </p>
           </div>
         </div>
         
         <div className="bg-white/60 rounded-lg p-4 mb-4">
           <p className="text-sm text-navy/70">
-            Responda 3 perguntas rapidas sobre seu momento profissional e receba:
+            Responda 3 perguntas rápidas sobre seu momento profissional e receba:
           </p>
           <ul className="mt-2 space-y-1 text-sm text-navy/70">
             <li className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-amber" />
-              Analise do seu contexto atual
+              Análise do seu contexto atual
             </li>
             <li className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-amber" />
-              Recomendacao principal
+              Recomendação principal
             </li>
             <li className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-amber" />
-              Proximos passos claros
+              Próximos passos claros
             </li>
           </ul>
         </div>
@@ -81,7 +81,7 @@ export function StrategyCard({ insight }: StrategyCardProps) {
           <Link href="/comecar" className="w-full sm:w-auto">
             <Button className="w-full sm:w-auto">
               <Sparkles className="w-4 h-4 mr-2" />
-              Criar minha estrategia
+              Criar minha estratégia
             </Button>
           </Link>
         </div>
@@ -101,10 +101,10 @@ export function StrategyCard({ insight }: StrategyCardProps) {
           </div>
           <div>
             <h2 className="text-xl font-semibold text-navy">
-              Sua Estrategia
+              Sua Estratégia
             </h2>
             <p className="text-sm text-navy/60">
-              {(insight.objetivo && objetivoLabels[insight.objetivo]) || insight.cargo || 'Recomendacao personalizada'}
+              {(insight.objetivo && objetivoLabels[insight.objetivo]) || insight.cargo || 'Recomendação personalizada'}
             </p>
           </div>
         </div>

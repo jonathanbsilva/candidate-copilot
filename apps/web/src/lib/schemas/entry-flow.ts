@@ -2,12 +2,12 @@ import { z } from 'zod'
 
 // Step 1: Contexto Profissional
 export const step1Schema = z.object({
-  cargo: z.string().min(2, 'Informe seu cargo atual ou ultimo'),
+  cargo: z.string().min(2, 'Informe seu cargo atual ou último'),
   senioridade: z.enum(['junior', 'pleno', 'senior', 'lead', 'exec'], {
     required_error: 'Selecione sua senioridade',
   }),
   area: z.enum(['tech', 'produto', 'design', 'negocios', 'outro'], {
-    required_error: 'Selecione sua area de atuacao',
+    required_error: 'Selecione sua área de atuação',
   }),
 })
 
@@ -17,7 +17,7 @@ export const step2Schema = z.object({
     required_error: 'Selecione seu status atual',
   }),
   tempoSituacao: z.enum(['menos_3_meses', '3_6_meses', '6_12_meses', 'mais_1_ano'], {
-    required_error: 'Informe ha quanto tempo esta nessa situacao',
+    required_error: 'Informe há quanto tempo está nessa situação',
   }),
   urgencia: z.number().min(1).max(5),
 })
@@ -51,14 +51,14 @@ export const areaOptions = [
   { value: 'tech', label: 'Tecnologia / Engenharia' },
   { value: 'produto', label: 'Produto' },
   { value: 'design', label: 'Design / UX' },
-  { value: 'negocios', label: 'Negocios / Vendas' },
+  { value: 'negocios', label: 'Negócios / Vendas' },
   { value: 'outro', label: 'Outro' },
 ]
 
 export const statusOptions = [
   { value: 'empregado', label: 'Empregado', description: 'Trabalhando atualmente' },
   { value: 'desempregado', label: 'Desempregado', description: 'Buscando oportunidades' },
-  { value: 'transicao', label: 'Em transicao', description: 'Saindo ou com proposta em mao' },
+  { value: 'transicao', label: 'Em transição', description: 'Saindo ou com proposta em mão' },
 ]
 
 export const tempoSituacaoOptions = [
@@ -71,7 +71,7 @@ export const tempoSituacaoOptions = [
 export const objetivoOptions = [
   { value: 'avaliar_proposta', label: 'Avaliar uma proposta', description: 'Tenho uma oferta e preciso decidir' },
   { value: 'mais_entrevistas', label: 'Conseguir mais entrevistas', description: 'Quero aumentar minhas chances' },
-  { value: 'mudar_area', label: 'Mudar de area', description: 'Quero transicao de carreira' },
-  { value: 'negociar_salario', label: 'Negociar salario atual', description: 'Quero ganhar mais onde estou' },
-  { value: 'outro', label: 'Outro', description: 'Tenho uma questao diferente' },
+  { value: 'mudar_area', label: 'Mudar de área', description: 'Quero transição de carreira' },
+  { value: 'negociar_salario', label: 'Negociar salário atual', description: 'Quero ganhar mais onde estou' },
+  { value: 'outro', label: 'Outro', description: 'Tenho uma questão diferente' },
 ]

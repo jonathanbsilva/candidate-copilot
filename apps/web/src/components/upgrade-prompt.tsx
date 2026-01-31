@@ -15,24 +15,24 @@ export function UpgradePrompt({ remaining, limit, feature = 'insights' }: Upgrad
   
   const messages = {
     insights: {
-      title: 'Voce atingiu o limite de insights',
-      subtitle: `${used} de ${limit} insights usados este mes`
+      title: 'Você atingiu o limite de insights',
+      subtitle: `${used} de ${limit} insights usados este mês`
     },
     applications: {
-      title: 'Voce atingiu o limite de vagas',
+      title: 'Você atingiu o limite de vagas',
       subtitle: `${used} de ${limit} vagas usadas`
     },
     copilot: {
-      title: 'Voce atingiu o limite diario do Copilot',
+      title: 'Você atingiu o limite diário do Copilot',
       subtitle: `${used} de ${limit} perguntas usadas hoje`
     },
     interview_pro: {
-      title: 'Interview Pro e exclusivo do plano Pro',
-      subtitle: 'Faca upgrade para treinar entrevistas com IA'
+      title: 'Interview Pro é exclusivo do plano Pro',
+      subtitle: 'Faça upgrade para treinar entrevistas com IA'
     },
     career_coach: {
-      title: 'Career Coach e exclusivo do plano Pro',
-      subtitle: 'Faca upgrade para ter um coach de carreira pessoal'
+      title: 'Career Coach é exclusivo do plano Pro',
+      subtitle: 'Faça upgrade para ter um coach de carreira pessoal'
     }
   }
 
@@ -47,7 +47,7 @@ export function UpgradePrompt({ remaining, limit, feature = 'insights' }: Upgrad
       <p className="text-navy/70 mb-6">{subtitle}</p>
 
       <div className="bg-sand rounded-lg p-4 mb-6 text-left">
-        <p className="font-medium text-navy mb-3">Com o Pro voce tem:</p>
+        <p className="font-medium text-navy mb-3">Com o Pro você tem:</p>
         <ul className="space-y-2 text-sm text-navy/80">
           <li className="flex items-center gap-2">
             <Check className="w-4 h-4 text-teal" /> Insights ilimitados
@@ -69,7 +69,7 @@ export function UpgradePrompt({ remaining, limit, feature = 'insights' }: Upgrad
 
       <Link href="/dashboard/plano">
         <Button size="lg" className="w-full">
-          Fazer upgrade - R$ 19/mes
+          Fazer upgrade - R$ 19/mês
         </Button>
       </Link>
     </Card>

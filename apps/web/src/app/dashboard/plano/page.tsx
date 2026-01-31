@@ -86,7 +86,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
               <XCircle className="w-5 h-5 text-amber" />
               <div>
                 <p className="font-medium text-navy">Checkout cancelado</p>
-                <p className="text-sm text-navy/70">Voce pode tentar novamente quando quiser.</p>
+                <p className="text-sm text-navy/70">Você pode tentar novamente quando quiser.</p>
               </div>
             </div>
           </Card>
@@ -108,7 +108,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
                 <p className="text-navy/70">
                   {plan === 'pro' 
                     ? 'Acesso completo a todos os recursos.'
-                    : 'Acesso basico com limite de insights.'
+                    : 'Acesso básico com limite de insights.'
                   }
                 </p>
               </div>
@@ -128,8 +128,8 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
                   <div>
                     <p className="font-medium text-navy">Cancelamento agendado</p>
                     <p className="text-sm text-navy/70">
-                      Sua assinatura sera cancelada em {currentPeriodEnd}. 
-                      Voce continua com acesso Pro ate la.
+                      Sua assinatura será cancelada em {currentPeriodEnd}. 
+                      Você continua com acesso Pro até lá.
                     </p>
                   </div>
                 </div>
@@ -144,7 +144,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
                       Cupom aplicado{couponCode && `: ${couponCode}`}
                     </p>
                     <p className="text-sm text-navy/70">
-                      Acesso Pro gratuito ate {couponExpiresAt}.
+                      Acesso Pro gratuito até {couponExpiresAt}.
                     </p>
                   </div>
                 </div>
@@ -155,7 +155,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
                   <p className="text-sm text-navy/60">Status da assinatura</p>
                   <p className="font-medium text-navy">
                     {subscriptionStatus === 'active' && 'Ativa'}
-                    {subscriptionStatus === 'trialing' && 'Periodo de teste'}
+                    {subscriptionStatus === 'trialing' && 'Período de teste'}
                     {subscriptionStatus === 'past_due' && 'Pagamento pendente'}
                     {subscriptionStatus === 'canceling' && 'Cancelamento agendado'}
                     {subscriptionStatus === 'canceled' && 'Cancelada'}
@@ -164,13 +164,13 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
                 </div>
                 {hasStripeSubscription && currentPeriodEnd && !isCanceling && (
                   <div className="text-right">
-                    <p className="text-sm text-navy/60">Proxima cobranca</p>
+                    <p className="text-sm text-navy/60">Próxima cobrança</p>
                     <p className="font-medium text-navy">{currentPeriodEnd}</p>
                   </div>
                 )}
                 {isCouponUpgrade && couponExpiresAt && (
                   <div className="text-right">
-                    <p className="text-sm text-navy/60">Valido ate</p>
+                    <p className="text-sm text-navy/60">Válido até</p>
                     <p className="font-medium text-navy">{couponExpiresAt}</p>
                   </div>
                 )}
@@ -201,7 +201,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
           {/* Usage Stats */}
           <div className="p-6 border-t border-stone/30">
             <h3 className="text-sm font-semibold text-navy/70 uppercase tracking-wide mb-4">
-              Uso este mes
+              Uso este mês
             </h3>
             
             <div className="space-y-4">
@@ -328,7 +328,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
               <div className="flex items-center justify-between">
                 <div>
                   <span className="text-3xl font-bold text-navy">R$ 19</span>
-                  <span className="text-navy/60">/mes</span>
+                  <span className="text-navy/60">/mês</span>
                 </div>
                 <CheckoutButton />
               </div>

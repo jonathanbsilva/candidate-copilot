@@ -29,7 +29,7 @@ export default async function AplicacoesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl sm:text-3xl font-semibold text-navy mb-1">
-            Suas Aplicacoes
+            Suas Aplicações
           </h1>
           <p className="text-navy/70">
             Acompanhe o status de todas as suas candidaturas
@@ -39,7 +39,7 @@ export default async function AplicacoesPage() {
           <Link href="/dashboard/aplicacoes/nova">
             <Button>
               <Plus className="w-5 h-5 mr-2" />
-              Nova aplicacao
+              Nova aplicação
             </Button>
           </Link>
         ) : (
@@ -117,15 +117,15 @@ export default async function AplicacoesPage() {
             <Briefcase className="w-8 h-8 text-navy/40" />
           </div>
           <h2 className="text-xl font-semibold text-navy mb-2">
-            Nenhuma aplicacao ainda
+            Nenhuma aplicação ainda
           </h2>
           <p className="text-navy/60 mb-6 max-w-md mx-auto">
-            Comece a rastrear suas candidaturas adicionando sua primeira aplicacao.
+            Comece a rastrear suas candidaturas adicionando sua primeira aplicação.
           </p>
           <Link href="/dashboard/aplicacoes/nova">
             <Button>
               <Plus className="w-5 h-5 mr-2" />
-              Adicionar primeira aplicacao
+              Adicionar primeira aplicação
             </Button>
           </Link>
         </Card>

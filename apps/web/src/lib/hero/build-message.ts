@@ -6,7 +6,7 @@ const messageCache = new Map<string, { data: HeroData; timestamp: number }>()
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000 // 24 horas
 
 function getCacheKey(context: HeroContext, metadata?: Record<string, unknown>): string {
-  // Para contextos com app especifico, usa o app id
+  // Para contextos com app específico, usa o app id
   if (metadata?.company) {
     return `${context}_${metadata.company}`
   }
@@ -29,50 +29,50 @@ function setCachedMessage(key: string, data: HeroData): void {
   messageCache.set(key, { data, timestamp: Date.now() })
 }
 
-// Dicas rotativas para active_summary (evita chamadas AI desnecessarias)
-// Troca a cada 6 horas para manter o conteudo fresco
+// Dicas rotativas para active_summary (evita chamadas AI desnecessárias)
+// Troca a cada 6 horas para manter o conteúdo fresco
 const tips = [
   // Candidatura
-  'Personalize cada candidatura. Recrutadores valorizam quem demonstra interesse genuino pela vaga e empresa.',
-  'Adapte seu curriculo para cada vaga, destacando experiencias relevantes para a posicao.',
-  'Inclua numeros e resultados no curriculo. "Aumentei vendas em 30%" e mais impactante que "responsavel por vendas".',
-  'Envie sua candidatura no inicio da semana. Estudos mostram que vagas recebem mais atencao segunda e terca.',
+  'Personalize cada candidatura. Recrutadores valorizam quem demonstra interesse genuíno pela vaga e empresa.',
+  'Adapte seu currículo para cada vaga, destacando experiências relevantes para a posição.',
+  'Inclua números e resultados no currículo. "Aumentei vendas em 30%" é mais impactante que "responsável por vendas".',
+  'Envie sua candidatura no início da semana. Estudos mostram que vagas recebem mais atenção segunda e terça.',
   
   // LinkedIn e Networking
   'Mantenha seu LinkedIn atualizado. 87% dos recrutadores usam a plataforma para encontrar candidatos.',
-  'Aproveite cada oportunidade de networking, mesmo que pareca pequena. Cada conexao pode abrir portas.',
+  'Aproveite cada oportunidade de networking, mesmo que pareça pequena. Cada conexão pode abrir portas.',
   'Conecte-se com recrutadores das empresas que te interessam. Uma mensagem personalizada pode abrir portas.',
-  'Participe de grupos do LinkedIn da sua area. E uma otima forma de ficar por dentro das tendencias.',
-  'Peca recomendacoes no LinkedIn para colegas e gestores. Elas aumentam a credibilidade do seu perfil.',
+  'Participe de grupos do LinkedIn da sua área. É uma ótima forma de ficar por dentro das tendências.',
+  'Peça recomendações no LinkedIn para colegas e gestores. Elas aumentam a credibilidade do seu perfil.',
   
   // Entrevistas
   'Prepare-se para entrevistas pesquisando a cultura da empresa. Isso demonstra comprometimento.',
-  'Pratique suas respostas para perguntas comportamentais usando o metodo STAR (Situacao, Tarefa, Acao, Resultado).',
+  'Pratique suas respostas para perguntas comportamentais usando o método STAR (Situação, Tarefa, Ação, Resultado).',
   'Prepare perguntas para fazer ao entrevistador. Demonstra interesse e te ajuda a avaliar a empresa.',
-  'Vista-se um nivel acima do dress code da empresa. Melhor pecar pelo excesso de formalidade.',
-  'Chegue 10-15 minutos antes da entrevista. Pontualidade e basico, mas faz diferenca.',
+  'Vista-se um nível acima do dress code da empresa. Melhor pecar pelo excesso de formalidade.',
+  'Chegue 10-15 minutos antes da entrevista. Pontualidade é básico, mas faz diferença.',
   
   // Follow-up
-  'Faca follow-up educado apos entrevistas. Um email de agradecimento pode fazer a diferenca.',
-  'Se nao tiver retorno em 1-2 semanas, envie um follow-up cordial. Demonstra interesse sem ser insistente.',
-  'Apos uma rejeicao, peca feedback. Nem todos respondem, mas quando respondem, e ouro.',
+  'Faça follow-up educado após entrevistas. Um email de agradecimento pode fazer a diferença.',
+  'Se não tiver retorno em 1-2 semanas, envie um follow-up cordial. Demonstra interesse sem ser insistente.',
+  'Após uma rejeição, peça feedback. Nem todos respondem, mas quando respondem, é ouro.',
   
-  // Mindset e estrategia
-  'Trate sua busca de emprego como um projeto. Defina metas semanais de aplicacoes e follow-ups.',
-  'Nao coloque todos os ovos na mesma cesta. Continue aplicando mesmo quando uma vaga parece promissora.',
-  'Rejeicoes fazem parte do processo. Cada "nao" te aproxima do "sim" certo.',
-  'Cuide da sua saude mental durante a busca. Pausas e autocuidado nao sao luxo, sao necessidade.',
-  'Celebre pequenas vitorias: uma entrevista agendada, um feedback positivo, uma nova conexao.',
+  // Mindset e estratégia
+  'Trate sua busca de emprego como um projeto. Defina metas semanais de aplicações e follow-ups.',
+  'Não coloque todos os ovos na mesma cesta. Continue aplicando mesmo quando uma vaga parece promissora.',
+  'Rejeições fazem parte do processo. Cada "não" te aproxima do "sim" certo.',
+  'Cuide da sua saúde mental durante a busca. Pausas e autocuidado não são luxo, são necessidade.',
+  'Celebre pequenas vitórias: uma entrevista agendada, um feedback positivo, uma nova conexão.',
   
-  // Salario e negociacao
+  // Salário e negociação
   'Pesquise a faixa salarial do mercado antes de entrevistas. Sites como Glassdoor podem ajudar.',
-  'Quando perguntarem sua pretensao salarial, de uma faixa ao inves de um numero fixo.',
-  'Considere o pacote total: salario, beneficios, flexibilidade, crescimento. Nem tudo e sobre dinheiro.',
+  'Quando perguntarem sua pretensão salarial, dê uma faixa ao invés de um número fixo.',
+  'Considere o pacote total: salário, benefícios, flexibilidade, crescimento. Nem tudo é sobre dinheiro.',
   
   // Desenvolvimento
-  'Aprenda uma skill nova enquanto busca emprego. Mostra proatividade e mantem voce atualizado.',
-  'Contribua em projetos open source ou crie um portfolio. Evidencias praticas valem mais que palavras.',
-  'Mantenha-se ativo na sua area: leia artigos, participe de eventos, faca cursos.',
+  'Aprenda uma skill nova enquanto busca emprego. Mostra proatividade e mantém você atualizado.',
+  'Contribua em projetos open source ou crie um portfólio. Evidências práticas valem mais que palavras.',
+  'Mantenha-se ativo na sua área: leia artigos, participe de eventos, faça cursos.',
 ]
 
 function getRotatingTip(): string {
@@ -82,28 +82,28 @@ function getRotatingTip(): string {
   return tips[periodsSinceEpoch % tips.length]
 }
 
-// Templates estaticos para contextos simples
+// Templates estáticos para contextos simples
 const templates: Record<string, (metadata?: Record<string, unknown>) => HeroData> = {
   pending_insight: () => ({
     context: 'pending_insight',
-    title: '💡 Insight pronto para voce',
-    message: 'Voce tem um insight de carreira pendente. Acesse para ver suas recomendacoes personalizadas.',
+    title: '💡 Insight pronto para você',
+    message: 'Você tem um insight de carreira pendente. Acesse para ver suas recomendações personalizadas.',
     primaryCta: { label: 'Ver insight', href: '/dashboard/insights' },
-    secondaryCta: { label: 'Tirar duvidas', href: '/dashboard?chat=open' },
+    secondaryCta: { label: 'Tirar dúvidas', href: '/dashboard?chat=open' },
   }),
 
   stale_apps: (metadata) => ({
     context: 'stale_apps',
-    title: '⏰ Suas aplicacoes precisam de atencao',
-    message: `Voce tem ${metadata?.count || 'varias'} aplicacoes sem atualizacao ha mais de 2 semanas. Que tal revisar o status delas?`,
-    primaryCta: { label: 'Ver aplicacoes', href: '/dashboard/aplicacoes' },
+    title: '⏰ Suas aplicações precisam de atenção',
+    message: `Você tem ${metadata?.count || 'várias'} aplicações sem atualização há mais de 2 semanas. Que tal revisar o status delas?`,
+    primaryCta: { label: 'Ver aplicações', href: '/dashboard/aplicacoes' },
     secondaryCta: { label: 'Dicas de follow-up', href: '/dashboard?chat=open&prompt=dicas-followup' },
   }),
 
   low_activity: (metadata) => ({
     context: 'low_activity',
     title: '🎯 Hora de continuar sua busca',
-    message: `Ja faz ${metadata?.daysSinceLastApp || 'alguns'} dias desde sua ultima aplicacao. Manter o ritmo e importante!`,
+    message: `Já faz ${metadata?.daysSinceLastApp || 'alguns'} dias desde sua última aplicação. Manter o ritmo é importante!`,
     primaryCta: { label: 'Adicionar vaga', href: '/dashboard/aplicacoes/nova' },
     secondaryCta: { label: 'Ver vagas salvas', href: '/dashboard/aplicacoes' },
   }),
@@ -111,7 +111,7 @@ const templates: Record<string, (metadata?: Record<string, unknown>) => HeroData
   new_user: () => ({
     context: 'new_user',
     title: '👋 Bem-vindo ao seu Copilot de carreira',
-    message: 'Comece adicionando suas aplicacoes ou gere um insight personalizado sobre sua carreira.',
+    message: 'Comece adicionando suas aplicações ou gere um insight personalizado sobre sua carreira.',
     primaryCta: { label: 'Gerar insight', href: '/comecar' },
     secondaryCta: { label: 'Adicionar vaga', href: '/dashboard/aplicacoes/nova' },
   }),
@@ -124,20 +124,20 @@ async function generateAIMessage(result: ContextDetectionResult): Promise<HeroDa
   const openai = getOpenAIClient()
   
   const prompts: Record<string, string> = {
-    proposal_received: `O usuario recebeu uma proposta de emprego da empresa "${result.metadata?.company}" para a vaga de "${result.metadata?.title}". 
-Gere uma mensagem curta (maximo 2 frases) e encorajadora, sugerindo que ele avalie a proposta com calma. Seja conciso e direto.`,
+    proposal_received: `O usuário recebeu uma proposta de emprego da empresa "${result.metadata?.company}" para a vaga de "${result.metadata?.title}". 
+Gere uma mensagem curta (máximo 2 frases) e encorajadora, sugerindo que ele avalie a proposta com calma. Seja conciso e direto.`,
     
-    interview_soon: `O usuario tem uma entrevista agendada na empresa "${result.metadata?.company}" para a vaga de "${result.metadata?.title}". 
-Gere uma mensagem curta (maximo 2 frases) motivacional, sugerindo que ele pratique para a entrevista. Seja conciso e direto.`,
+    interview_soon: `O usuário tem uma entrevista agendada na empresa "${result.metadata?.company}" para a vaga de "${result.metadata?.title}". 
+Gere uma mensagem curta (máximo 2 frases) motivacional, sugerindo que ele pratique para a entrevista. Seja conciso e direto.`,
     
-    interview_feedback: `O usuario completou uma entrevista simulada (mock interview) para a vaga de "${result.metadata?.cargo}" e tirou ${result.metadata?.score}/100.
+    interview_feedback: `O usuário completou uma entrevista simulada (mock interview) para a vaga de "${result.metadata?.cargo}" e tirou ${result.metadata?.score}/100.
 ${result.metadata?.mainTip ? `Uma dica importante foi: "${result.metadata.mainTip}".` : ''}
-Gere uma mensagem curta (maximo 2 frases) comentando o resultado e incentivando-o a explorar o feedback no Copilot para melhorar. Seja encorajador mas direto.`,
+Gere uma mensagem curta (máximo 2 frases) comentando o resultado e incentivando-o a explorar o feedback no Copilot para melhorar. Seja encorajador mas direto.`,
     
-    needs_followup: `O usuario aplicou para "${result.metadata?.title}" na "${result.metadata?.company}" ha ${result.metadata?.daysSinceUpdate} dias e ainda nao teve retorno.
-Gere uma mensagem curta (maximo 2 frases) sugerindo que ele faca um follow-up. Seja conciso e direto.`,
+    needs_followup: `O usuário aplicou para "${result.metadata?.title}" na "${result.metadata?.company}" há ${result.metadata?.daysSinceUpdate} dias e ainda não teve retorno.
+Gere uma mensagem curta (máximo 2 frases) sugerindo que ele faça um follow-up. Seja conciso e direto.`,
     
-    active_summary: `O usuario tem ${result.metadata?.totalApps} aplicacoes, sendo ${result.metadata?.activeApps} ativas.
+    active_summary: `O usuário tem ${result.metadata?.totalApps} aplicações, sendo ${result.metadata?.activeApps} ativas.
 Gere uma dica do dia curta (maximo 2 frases) para quem esta em busca de emprego. Seja motivacional mas pratico.`,
   }
 
@@ -150,7 +150,7 @@ Gere uma dica do dia curta (maximo 2 frases) para quem esta em busca de emprego.
       messages: [
         {
           role: 'system',
-          content: 'Voce e um coach de carreira brasileiro amigavel. Responda apenas com a mensagem solicitada, sem introducoes. Use portugues brasileiro informal mas profissional.'
+          content: 'Você é um coach de carreira brasileiro amigável. Responda apenas com a mensagem solicitada, sem introduções. Use português brasileiro informal mas profissional.'
         },
         { role: 'user', content: prompt }
       ],
@@ -171,7 +171,7 @@ Gere uma dica do dia curta (maximo 2 frases) para quem esta em busca de emprego.
 function buildHeroDataFromAI(result: ContextDetectionResult, message: string): HeroData {
   const contextConfig: Record<string, { title: string; primaryCta: { label: string; href: string }; secondaryCta?: { label: string; href: string } }> = {
     proposal_received: {
-      title: '🎉 Parabens pela proposta!',
+      title: '🎉 Parabéns pela proposta!',
       primaryCta: { label: 'Avaliar proposta', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
       secondaryCta: { label: 'Analisar com Copilot', href: '/dashboard?chat=open' },
     },
@@ -188,12 +188,12 @@ function buildHeroDataFromAI(result: ContextDetectionResult, message: string): H
     needs_followup: {
       title: '📬 Hora do follow-up',
       primaryCta: { label: 'Criar follow-up', href: '/dashboard?chat=open' },
-      secondaryCta: { label: 'Ver aplicacao', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
+      secondaryCta: { label: 'Ver aplicação', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
     },
     active_summary: {
       title: '💡 Dica do Copilot',
       primaryCta: { label: 'Explorar no Copilot', href: '/dashboard?chat=open' },
-      secondaryCta: { label: 'Ver aplicacoes', href: '/dashboard/aplicacoes' },
+      secondaryCta: { label: 'Ver aplicações', href: '/dashboard/aplicacoes' },
     },
   }
 
@@ -214,38 +214,38 @@ function getFallbackTemplate(result: ContextDetectionResult): HeroData {
   const fallbacks: Record<string, HeroData> = {
     proposal_received: {
       context: 'proposal_received',
-      title: '🎉 Parabens pela proposta!',
-      message: `Voce recebeu uma proposta da ${result.metadata?.company}! Avalie com calma os beneficios e a cultura da empresa.`,
+      title: '🎉 Parabéns pela proposta!',
+      message: `Você recebeu uma proposta da ${result.metadata?.company}! Avalie com calma os benefícios e a cultura da empresa.`,
       primaryCta: { label: 'Avaliar proposta', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
       secondaryCta: { label: 'Analisar com Copilot', href: '/dashboard?chat=open' },
     },
     interview_soon: {
       context: 'interview_soon',
       title: '🎤 Entrevista a caminho',
-      message: `Sua entrevista na ${result.metadata?.company} esta chegando! Pratique suas respostas e pesquise sobre a empresa.`,
+      message: `Sua entrevista na ${result.metadata?.company} está chegando! Pratique suas respostas e pesquise sobre a empresa.`,
       primaryCta: { label: 'Praticar entrevista', href: '/dashboard/interview-pro' },
       secondaryCta: { label: 'Dicas no Copilot', href: '/dashboard?chat=open' },
     },
     interview_feedback: {
       context: 'interview_feedback',
       title: '🎯 Feedback da sua entrevista',
-      message: `Voce completou uma entrevista para ${result.metadata?.cargo} e tirou ${result.metadata?.score}/100. Explore o feedback com o Copilot para melhorar suas respostas!`,
+      message: `Você completou uma entrevista para ${result.metadata?.cargo} e tirou ${result.metadata?.score}/100. Explore o feedback com o Copilot para melhorar suas respostas!`,
       primaryCta: { label: 'Explorar com Copilot', href: '/dashboard?chat=open&context=interview' },
       secondaryCta: { label: 'Ver resultado', href: `/dashboard/interview-pro/resultado/${result.metadata?.sessionId}` },
     },
     needs_followup: {
       context: 'needs_followup',
       title: '📬 Hora do follow-up',
-      message: `Sua aplicacao para ${result.metadata?.title} na ${result.metadata?.company} esta ha ${result.metadata?.daysSinceUpdate} dias sem retorno. Um follow-up educado pode fazer a diferenca!`,
+      message: `Sua aplicação para ${result.metadata?.title} na ${result.metadata?.company} está há ${result.metadata?.daysSinceUpdate} dias sem retorno. Um follow-up educado pode fazer a diferença!`,
       primaryCta: { label: 'Criar follow-up', href: '/dashboard?chat=open' },
-      secondaryCta: { label: 'Ver aplicacao', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
+      secondaryCta: { label: 'Ver aplicação', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
     },
     active_summary: {
       context: 'active_summary',
       title: '💡 Dica do Copilot',
       message: getRotatingTip(),
       primaryCta: { label: 'Explorar no Copilot', href: '/dashboard?chat=open' },
-      secondaryCta: { label: 'Ver aplicacoes', href: '/dashboard/aplicacoes' },
+      secondaryCta: { label: 'Ver aplicações', href: '/dashboard/aplicacoes' },
     },
   }
 
@@ -253,7 +253,7 @@ function getFallbackTemplate(result: ContextDetectionResult): HeroData {
 }
 
 export async function buildMessage(result: ContextDetectionResult): Promise<HeroData> {
-  // Usa template estatico para contextos simples
+  // Usa template estático para contextos simples
   const templateFn = templates[result.context]
   if (templateFn) {
     return templateFn(result.metadata)
@@ -264,7 +264,7 @@ export async function buildMessage(result: ContextDetectionResult): Promise<Hero
     return getFallbackTemplate(result)
   }
 
-  // Usa AI para contextos que precisam personalizacao (com cache de 24h)
+  // Usa AI para contextos que precisam personalização (com cache de 24h)
   if (aiContexts.includes(result.context)) {
     const cacheKey = getCacheKey(result.context, result.metadata)
     

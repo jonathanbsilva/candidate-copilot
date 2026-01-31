@@ -18,13 +18,13 @@ const defaultQuestions: ExtendedQuestion[] = [
   // Metricas
   {
     id: 'taxa-conversao',
-    label: 'Qual minha taxa de conversao?',
+    label: 'Qual minha taxa de conversão?',
     category: 'metricas',
     icon: TrendingUp,
   },
   {
     id: 'aguardando',
-    label: 'Quantas aplicacoes aguardando resposta?',
+    label: 'Quantas aplicações aguardando resposta?',
     category: 'metricas',
     icon: Clock,
   },
@@ -44,32 +44,32 @@ const defaultQuestions: ExtendedQuestion[] = [
   // Insights
   {
     id: 'ultimo-insight',
-    label: 'Me lembre do meu ultimo insight',
+    label: 'Me lembre do meu último insight',
     category: 'insights',
     icon: Sparkles,
   },
   {
     id: 'recomendacoes',
-    label: 'Quais foram suas recomendacoes?',
+    label: 'Quais foram suas recomendações?',
     category: 'insights',
     icon: Lightbulb,
   },
   {
     id: 'riscos',
-    label: 'Quais riscos voce identificou?',
+    label: 'Quais riscos você identificou?',
     category: 'insights',
     icon: AlertTriangle,
   },
   {
     id: 'proximos-passos',
-    label: 'Quais proximos passos sugeriu?',
+    label: 'Quais próximos passos sugeriu?',
     category: 'insights',
     icon: ListChecks,
   },
   // Analise
   {
     id: 'padroes',
-    label: 'Quais padroes voce identifica?',
+    label: 'Quais padrões você identifica?',
     category: 'analise',
     icon: HelpCircle,
   },
@@ -79,13 +79,13 @@ const defaultQuestions: ExtendedQuestion[] = [
 const interviewQuestions: ExtendedQuestion[] = [
   {
     id: 'ultima-entrevista',
-    label: 'Como foi minha ultima entrevista simulada?',
+    label: 'Como foi minha última entrevista simulada?',
     category: 'interview',
     icon: Mic,
   },
   {
     id: 'evolucao-treinos',
-    label: 'Qual minha evolucao nos treinos?',
+    label: 'Qual minha evolução nos treinos?',
     category: 'interview',
     icon: TrendingUp,
   },
@@ -104,10 +104,10 @@ const interviewQuestions: ExtendedQuestion[] = [
 ]
 
 const categoryLabels: Record<string, string> = {
-  metricas: 'Metricas',
-  proximos_passos: 'Proximos Passos',
+  metricas: 'Métricas',
+  proximos_passos: 'Próximos Passos',
   insights: 'Seus Insights',
-  analise: 'Analise',
+  analise: 'Análise',
   interview: 'Mock Interview',
 }
 

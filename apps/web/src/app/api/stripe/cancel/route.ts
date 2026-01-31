@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
     if (!profile || profile.plan !== 'pro') {
       return NextResponse.json(
-        { error: 'Voce nao tem uma assinatura ativa' },
+        { error: 'Você não tem uma assinatura ativa' },
         { status: 400 }
       )
     }

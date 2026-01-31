@@ -24,7 +24,7 @@ export async function createApplication(data: CreateApplicationInput) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return { error: 'Usuario nao autenticado' }
+    return { error: 'Usuário não autenticado' }
   }
 
   // Check application limit for free users
@@ -55,7 +55,7 @@ export async function createApplication(data: CreateApplicationInput) {
 
   if (appError) {
     console.error('Error creating application:', appError)
-    return { error: 'Erro ao criar aplicacao. Tente novamente.' }
+    return { error: 'Erro ao criar aplicação. Tente novamente.' }
   }
 
   // Create initial status history entry
@@ -65,7 +65,7 @@ export async function createApplication(data: CreateApplicationInput) {
       application_id: application.id,
       from_status: null,
       to_status: 'aplicado',
-      notes: 'Aplicacao criada',
+      notes: 'Aplicação criada',
     })
 
   if (historyError) {
@@ -89,7 +89,7 @@ export async function updateApplication(data: UpdateApplicationInput) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return { error: 'Usuario nao autenticado' }
+    return { error: 'Usuário não autenticado' }
   }
 
   const { error } = await supabase
@@ -108,7 +108,7 @@ export async function updateApplication(data: UpdateApplicationInput) {
 
   if (error) {
     console.error('Error updating application:', error)
-    return { error: 'Erro ao atualizar aplicacao. Tente novamente.' }
+    return { error: 'Erro ao atualizar aplicação. Tente novamente.' }
   }
 
   revalidatePath('/dashboard/aplicacoes')
@@ -126,7 +126,7 @@ export async function deleteApplication(id: string) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return { error: 'Usuario nao autenticado' }
+    return { error: 'Usuário não autenticado' }
   }
 
   const { error } = await supabase
@@ -137,7 +137,7 @@ export async function deleteApplication(id: string) {
 
   if (error) {
     console.error('Error deleting application:', error)
-    return { error: 'Erro ao excluir aplicacao. Tente novamente.' }
+    return { error: 'Erro ao excluir aplicação. Tente novamente.' }
   }
 
   revalidatePath('/dashboard/aplicacoes')
@@ -154,7 +154,7 @@ export async function changeStatus(data: ChangeStatusInput) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return { error: 'Usuario nao autenticado' }
+    return { error: 'Usuário não autenticado' }
   }
 
   // Get current status
@@ -166,7 +166,7 @@ export async function changeStatus(data: ChangeStatusInput) {
     .single()
 
   if (fetchError || !currentApp) {
-    return { error: 'Aplicacao nao encontrada' }
+    return { error: 'Aplicação não encontrada' }
   }
 
   // Update application status
@@ -205,7 +205,7 @@ export async function getApplications() {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return { error: 'Usuario nao autenticado', data: null }
+    return { error: 'Usuário não autenticado', data: null }
   }
 
   const { data, error } = await supabase
@@ -216,7 +216,7 @@ export async function getApplications() {
 
   if (error) {
     console.error('Error fetching applications:', error)
-    return { error: 'Erro ao carregar aplicacoes', data: null }
+    return { error: 'Erro ao carregar aplicações', data: null }
   }
 
   return { data, error: null }
@@ -227,7 +227,7 @@ export async function getApplication(id: string) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
-    return { error: 'Usuario nao autenticado', data: null }
+    return { error: 'Usuário não autenticado', data: null }
   }
 
   const { data, error } = await supabase
@@ -239,7 +239,7 @@ export async function getApplication(id: string) {
 
   if (error) {
     console.error('Error fetching application:', error)
-    return { error: 'Aplicacao nao encontrada', data: null }
+    return { error: 'Aplicação não encontrada', data: null }
   }
 
   return { data, error: null }

@@ -53,7 +53,7 @@ export function ApplicationFunnel({ data }: ApplicationFunnelProps) {
           {taxaConversao > 0 && (
             <span className="flex items-center gap-1 text-teal">
               <TrendingUp className="w-3 h-3" />
-              {taxaConversao.toFixed(0)}% conversao
+              {taxaConversao.toFixed(0)}% conversão
             </span>
           )}
           {taxaRejeicao > 0 && (

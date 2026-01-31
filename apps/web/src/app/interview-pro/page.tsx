@@ -135,7 +135,7 @@ export default async function InterviewProPage() {
         <section className="py-16">
           <div className="container-wide">
             <h2 className="text-2xl sm:text-3xl font-semibold text-navy text-center mb-12">
-              O que voce vai ter acesso
+              O que você vai ter acesso
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <Card className="text-center p-6">
@@ -146,7 +146,7 @@ export default async function InterviewProPage() {
                   Perguntas reais
                 </h3>
                 <p className="text-navy/70 text-sm">
-                  Banco de perguntas baseado em vagas e areas reais do mercado brasileiro.
+                  Banco de perguntas baseado em vagas e áreas reais do mercado brasileiro.
                 </p>
               </Card>
 

@@ -40,7 +40,7 @@ export default async function HistoricoPage() {
 
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl sm:text-3xl font-semibold text-navy">
-          Historico de entrevistas
+          Histórico de entrevistas
         </h1>
         <Link href="/dashboard/interview-pro/iniciar">
           <Button>
@@ -59,7 +59,7 @@ export default async function HistoricoPage() {
           </Card>
           <Card className="p-4 text-center">
             <div className="text-2xl font-bold text-teal">{stats.avgScore}</div>
-            <div className="text-xs text-navy/60">Score medio</div>
+            <div className="text-xs text-navy/60">Score médio</div>
           </Card>
           <Card className="p-4 text-center bg-amber/5">
             <div className="flex items-center justify-center gap-1">
@@ -81,7 +81,7 @@ export default async function HistoricoPage() {
             Nenhuma entrevista ainda
           </h2>
           <p className="text-navy/70 mb-6">
-            Complete sua primeira entrevista para ver seu historico aqui.
+            Complete sua primeira entrevista para ver seu histórico aqui.
           </p>
           <Link href="/dashboard/interview-pro/iniciar">
             <Button>
@@ -134,10 +134,10 @@ export default async function HistoricoPage() {
       {sessions.length >= 3 && (
         <Card className="mt-8 p-6 border-teal/30 bg-teal/5">
           <h3 className="font-semibold text-navy mb-2">
-            Dica de evolucao
+            Dica de evolução
           </h3>
           <p className="text-navy/70 text-sm">
-            Voce ja fez {sessions.length} entrevistas! Continue praticando para melhorar 
+            Você já fez {sessions.length} entrevistas! Continue praticando para melhorar 
             suas habilidades. Compare seus scores ao longo do tempo para ver seu progresso.
           </p>
         </Card>

@@ -222,7 +222,7 @@ export default function InsightPage() {
 
         {/* Context Summary */}
         <div className="mb-6">
-          <p className="text-sm text-navy/60 mb-2">Baseado no que voce informou:</p>
+          <p className="text-sm text-navy/60 mb-2">Baseado no que você informou:</p>
           <div className="flex flex-wrap gap-2">
             <Badge>{data.cargo}</Badge>
             <Badge variant="info">{senioridadeLabels[data.senioridade]}</Badge>
@@ -243,7 +243,7 @@ export default function InsightPage() {
                 <Sparkles className="w-5 h-5 text-navy" />
               </div>
               <div>
-                <p className="text-sm text-sand/70 mb-1">Recomendacao</p>
+                <p className="text-sm text-sand/70 mb-1">Recomendação</p>
                 <h1 className="text-xl sm:text-2xl font-semibold">
                   {insight.recommendation}
                 </h1>
@@ -343,18 +343,12 @@ export default function InsightPage() {
                   </div>
                   <div className="bg-white rounded-lg rounded-tl-none p-3 shadow-sm">
                     <p className="text-navy text-sm">
-                      {data.objetivo === 'avaliar_proposta' && 'Qual salario devo pedir na negociacao?'}
-                      {data.objetivo === 'mais_entrevistas' && 'Como posso melhorar meu curriculo para essa vaga?'}
+                      {data.objetivo === 'avaliar_proposta' && 'Qual salário devo pedir na negociação?'}
+                      {data.objetivo === 'conseguir_entrevistas' && 'Como posso melhorar meu currículo para essa vaga?'}
                       {data.objetivo === 'mudar_area' && 'Quais skills preciso desenvolver primeiro?'}
                       {data.objetivo === 'negociar_salario' && 'Como devo abordar a conversa de aumento?'}
                       {data.objetivo === 'entender_mercado' && 'Qual a faixa salarial para meu perfil?'}
-                      ![
-                      'avaliar_proposta',
-                      'mais_entrevistas',
-                      'mudar_area',
-                      'negociar_salario',
-                      'entender_mercado',
-                      ].includes(data.objetivo)
+                      {!['avaliar_proposta', 'conseguir_entrevistas', 'mudar_area', 'negociar_salario', 'entender_mercado'].includes(data.objetivo) && 'O que você recomenda como próximo passo?'}
                     </p>
                   </div>
                 </div>
@@ -366,7 +360,7 @@ export default function InsightPage() {
                   </div>
                   <div className="bg-teal/10 rounded-lg rounded-tl-none p-3 flex-1">
                     <p className="text-navy text-sm">
-                      Baseado no seu perfil de <span className="font-medium">{data.cargo}</span> com experiencia em <span className="font-medium">{areaLabels[data.area]}</span>, posso te ajudar a...
+                      Baseado no seu perfil de <span className="font-medium">{data.cargo}</span> com experiência em <span className="font-medium">{areaLabels[data.area]}</span>, posso te ajudar a...
                     </p>
                     <p className="text-teal text-xs mt-2 font-medium">
                       Crie uma conta para ver a resposta completa →
@@ -390,7 +384,7 @@ export default function InsightPage() {
 
                 <Button variant="ghost" size="sm" onClick={handleStartOver}>
                   <RefreshCw className="mr-2 w-4 h-4" />
-                  Comecar de novo
+                  Começar de novo
                 </Button>
               </div>
             </>
@@ -399,7 +393,7 @@ export default function InsightPage() {
 
         {/* Disclaimer */}
         <p className="mt-6 text-center text-sm text-navy/50">
-          Este insight foi gerado com base nas informacoes que voce forneceu e serve como um ponto de partida para reflexao. Decisoes de carreira sao pessoais e devem considerar seu contexto completo.
+          Este insight foi gerado com base nas informações que você forneceu e serve como um ponto de partida para reflexão. Decisões de carreira são pessoais e devem considerar seu contexto completo.
         </p>
       </main>
     </div>

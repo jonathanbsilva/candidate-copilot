@@ -99,7 +99,7 @@ export default async function ResultadoPage({ params }: Props) {
       {/* Per Question Feedback */}
       {feedback?.per_question && feedback.per_question.length > 0 && (
         <div className="space-y-4 mb-6">
-          <h2 className="text-xl font-semibold text-navy">Avaliacao por pergunta</h2>
+          <h2 className="text-xl font-semibold text-navy">Avaliação por pergunta</h2>
           {feedback.per_question.map((pq, index) => {
             const question = session.questions[index]
             const answer = session.answers[index]
@@ -204,7 +204,7 @@ export default async function ResultadoPage({ params }: Props) {
               Quer explorar mais esse feedback?
             </h3>
             <p className="text-navy/70 text-sm mb-4">
-              Converse com o Copilot sobre como melhorar suas respostas e se preparar para proximas entrevistas.
+              Converse com o Copilot sobre como melhorar suas respostas e se preparar para próximas entrevistas.
             </p>
             <InterviewCopilotButton session={session} />
           </div>
@@ -223,7 +223,7 @@ export default async function ResultadoPage({ params }: Props) {
           <Link href="/dashboard/interview-pro/historico">
             <Button variant="secondary">
               <History className="w-5 h-5 mr-2" />
-              Ver historico
+              Ver histórico
             </Button>
           </Link>
         </div>

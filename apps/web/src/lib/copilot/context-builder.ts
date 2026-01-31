@@ -44,7 +44,7 @@ export function buildUserContext(
   const apps = applications ?? []
   const insightsList = insights ?? []
   
-  // Calcular metricas
+  // Calcular métricas
   const total = apps.length
   const entrevistas = apps.filter(a => a.status === 'entrevista').length
   const propostas = apps.filter(a => a.status === 'proposta').length
@@ -132,10 +132,10 @@ export function buildSystemPrompt(
 ): string {
   const contextStr = formatContextForPrompt(context)
   
-  let prompt = `Voce e o GoHire Copilot, um assistente de carreira que ajuda 
-usuarios a tomar decisoes sobre sua busca de emprego.
+  let prompt = `Você é o GoHire Copilot, um assistente de carreira que ajuda 
+usuários a tomar decisões sobre sua busca de emprego.
 
-CONTEXTO DO USUARIO:
+CONTEXTO DO USUÁRIO:
 ${contextStr}`
 
   // Add insight context if available
@@ -143,10 +143,10 @@ ${contextStr}`
     prompt += `
 
 CONTEXTO DO INSIGHT ATUAL:
-O usuario gerou um insight sobre "${insightContext.cargo}" com a recomendacao: "${insightContext.recommendation}".
-${insightContext.next_steps.length > 0 ? `Proximos passos sugeridos: ${insightContext.next_steps.join(', ')}.` : ''}
+O usuário gerou um insight sobre "${insightContext.cargo}" com a recomendação: "${insightContext.recommendation}".
+${insightContext.next_steps.length > 0 ? `Próximos passos sugeridos: ${insightContext.next_steps.join(', ')}.` : ''}
 
-Ajude o usuario a aprofundar este tema e tomar uma decisao.`
+Ajude o usuário a aprofundar este tema e tomar uma decisão.`
   }
 
   // Add interview context if available (mock interview feedback)
@@ -154,7 +154,7 @@ Ajude o usuario a aprofundar este tema e tomar uma decisao.`
     prompt += `
 
 CONTEXTO DA ENTREVISTA SIMULADA:
-O usuario acabou de fazer uma entrevista simulada (mock interview) e esta analisando o feedback.
+O usuário acabou de fazer uma entrevista simulada (mock interview) e está analisando o feedback.
 
 Detalhes da entrevista:
 - Cargo: ${interviewContext.cargo}${interviewContext.area ? ` (${interviewContext.area})` : ''}
@@ -164,66 +164,66 @@ Detalhes da entrevista:
 - O que melhorar: ${interviewContext.improvements.join(', ')}
 - Dicas: ${interviewContext.tips.join(', ')}
 
-IMPORTANTE: Ajude o usuario a melhorar suas habilidades de entrevista baseado neste feedback especifico.
-Seja encorajador mas pratico. Ofereca exemplos concretos e tecnicas como o metodo STAR.`
+IMPORTANTE: Ajude o usuário a melhorar suas habilidades de entrevista baseado neste feedback específico.
+Seja encorajador mas prático. Ofereça exemplos concretos e técnicas como o método STAR.`
   }
 
-  // Add hero context if available (dica do dia ou contexto especifico)
+  // Add hero context if available (dica do dia ou contexto específico)
   if (heroContext) {
     const heroContextLabels: Record<string, string> = {
-      pending_insight: 'O usuario tem um insight pendente para revisar',
-      proposal_received: `O usuario recebeu uma proposta${heroContext.company ? ` da ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
-      interview_soon: `O usuario tem uma entrevista${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
-      interview_feedback: `O usuario completou uma entrevista simulada`,
-      needs_followup: `A aplicacao${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''} precisa de follow-up`,
-      stale_apps: 'O usuario tem varias aplicacoes sem atualizacao',
-      low_activity: 'O usuario esta com baixa atividade de aplicacoes',
-      new_user: 'O usuario e novo na plataforma',
-      active_summary: 'O usuario esta vendo a dica do dia',
+      pending_insight: 'O usuário tem um insight pendente para revisar',
+      proposal_received: `O usuário recebeu uma proposta${heroContext.company ? ` da ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
+      interview_soon: `O usuário tem uma entrevista${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
+      interview_feedback: `O usuário completou uma entrevista simulada`,
+      needs_followup: `A aplicação${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''} precisa de follow-up`,
+      stale_apps: 'O usuário tem várias aplicações sem atualização',
+      low_activity: 'O usuário está com baixa atividade de aplicações',
+      new_user: 'O usuário é novo na plataforma',
+      active_summary: 'O usuário está vendo a dica do dia',
     }
     
     prompt += `
 
 CONTEXTO DA CONVERSA:
-${heroContextLabels[heroContext.context] || 'O usuario iniciou uma conversa a partir do dashboard'}
+${heroContextLabels[heroContext.context] || 'O usuário iniciou uma conversa a partir do dashboard'}
 
-A DICA QUE O USUARIO ESTA VENDO E:
+A DICA QUE O USUÁRIO ESTÁ VENDO É:
 "${heroContext.message}"
 
-IMPORTANTE: O usuario clicou em "Conversar" a partir desta dica. Quando ele perguntar sobre "a dica", "essa dica", "isso", etc., 
-ele esta se referindo EXATAMENTE a esta mensagem acima. Ajude-o a aprofundar este tema especifico.`
+IMPORTANTE: O usuário clicou em "Conversar" a partir desta dica. Quando ele perguntar sobre "a dica", "essa dica", "isso", etc., 
+ele está se referindo EXATAMENTE a esta mensagem acima. Ajude-o a aprofundar este tema específico.`
   }
 
   prompt += `
 
 DIRETRIZES:
-1. Sempre baseie suas respostas nos dados reais do usuario
-2. Seja direto e objetivo - evite respostas genericas
-3. Quando apropriado, sugira acoes concretas
-4. Use um tom amigavel mas profissional
-5. Se nao tiver dados suficientes, diga isso claramente
-6. Responda sempre em portugues brasileiro
+1. Sempre baseie suas respostas nos dados reais do usuário
+2. Seja direto e objetivo - evite respostas genéricas
+3. Quando apropriado, sugira ações concretas
+4. Use um tom amigável mas profissional
+5. Se não tiver dados suficientes, diga isso claramente
+6. Responda sempre em português brasileiro
 
 FORMATO DE RESPOSTA:
-- Use paragrafos curtos
-- Destaque numeros e metricas importantes com **negrito**
-- Inclua proximos passos quando relevante
+- Use parágrafos curtos
+- Destaque números e métricas importantes com **negrito**
+- Inclua próximos passos quando relevante
 - Evite listas muito longas`
 
   return prompt
 }
 
 function formatContextForPrompt(ctx: UserContext): string {
-  let prompt = `- Total de aplicacoes: ${ctx.profile.totalApplications}
-- Taxa de conversao: ${ctx.metrics.taxaConversao}% (entrevistas/total)
+  let prompt = `- Total de aplicações: ${ctx.profile.totalApplications}
+- Taxa de conversão: ${ctx.metrics.taxaConversao}% (entrevistas/total)
 - Processos ativos: ${ctx.metrics.processosAtivos}
-- Aguardando resposta: ${ctx.metrics.aguardandoResposta} aplicacoes
+- Aguardando resposta: ${ctx.metrics.aguardandoResposta} aplicações
 - Ofertas: ${ctx.metrics.ofertas}
-- Rejeicoes: ${ctx.metrics.rejeicoes}`
+- Rejeições: ${ctx.metrics.rejeicoes}`
 
   if (ctx.pendingApplications.length > 0) {
     const oldest = ctx.pendingApplications[0]
-    prompt += `\n- Aplicacao mais antiga sem resposta: ${oldest.company} (${oldest.daysSinceApplied} dias)`
+    prompt += `\n- Aplicação mais antiga sem resposta: ${oldest.company} (${oldest.daysSinceApplied} dias)`
   }
   
   if (ctx.careerContext) {
@@ -232,30 +232,30 @@ function formatContextForPrompt(ctx: UserContext): string {
 PERFIL DE CARREIRA:
 - Cargo atual: ${ctx.careerContext.cargo}
 - Senioridade: ${ctx.careerContext.senioridade}
-- Area: ${ctx.careerContext.area}
+- Área: ${ctx.careerContext.area}
 - Objetivo: ${ctx.careerContext.objetivo}`
   }
   
   if (ctx.insights.length > 0) {
     prompt += `
 
-HISTORICO DE INSIGHTS:`
+HISTÓRICO DE INSIGHTS:`
     
     ctx.insights.slice(0, 3).forEach((insight, i) => {
       prompt += `
 
 [Insight ${i + 1} - ${insight.createdAt}]
-- Recomendacao: "${insight.recommendation}"
+- Recomendação: "${insight.recommendation}"
 - Motivos: ${insight.why.join('; ')}
 - Riscos: ${insight.risks.join('; ')}
-- Proximos passos: ${insight.nextSteps.join('; ')}`
+- Próximos passos: ${insight.nextSteps.join('; ')}`
     })
   }
   
   if (ctx.recentApplications.length > 0) {
     prompt += `
 
-APLICACOES RECENTES:`
+APLICAÇÕES RECENTES:`
     ctx.recentApplications.slice(0, 5).forEach(app => {
       prompt += `\n- ${app.company} (${app.title}) - ${app.status} - ${app.daysSinceApplied} dias`
     })
@@ -266,14 +266,14 @@ APLICACOES RECENTES:`
     const ih = ctx.interviewHistory
     prompt += `
 
-HISTORICO DE ENTREVISTAS SIMULADAS (Interview Pro):
+HISTÓRICO DE ENTREVISTAS SIMULADAS (Interview Pro):
 - Total de treinos: ${ih.totalSessions}
-- Score medio: ${ih.averageScore || 'N/A'}/100
-- Ultimo score: ${ih.lastScore || 'N/A'}/100`
+- Score médio: ${ih.averageScore || 'N/A'}/100
+- Último score: ${ih.lastScore || 'N/A'}/100`
 
     if (ih.recentSessions.length > 0) {
       prompt += `
-- Sessoes recentes:`
+- Sessões recentes:`
       ih.recentSessions.slice(0, 3).forEach(session => {
         prompt += `
   * ${session.cargo} - ${session.score}/100 (${session.completedAt})`

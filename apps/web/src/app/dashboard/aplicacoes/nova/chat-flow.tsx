@@ -18,10 +18,10 @@ type Message = {
 }
 
 const steps: { id: ChatStep; question: string; type: StepType }[] = [
-  { id: 'company', question: 'Ola! Vamos registrar sua nova aplicacao. Qual empresa voce esta aplicando?', type: 'text' },
-  { id: 'title', question: 'Otimo! E qual e o cargo ou vaga?', type: 'text' },
-  { id: 'status', question: 'Perfeito! Qual o status atual dessa aplicacao?', type: 'select' },
-  { id: 'url', question: 'Quase la! Tem o link da vaga? (pode pular se nao tiver)', type: 'optional-text' },
+  { id: 'company', question: 'Olá! Vamos registrar sua nova aplicação. Qual empresa você está aplicando?', type: 'text' },
+  { id: 'title', question: 'Ótimo! E qual é o cargo ou vaga?', type: 'text' },
+  { id: 'status', question: 'Perfeito! Qual o status atual dessa aplicação?', type: 'select' },
+  { id: 'url', question: 'Quase lá! Tem o link da vaga? (pode pular se não tiver)', type: 'optional-text' },
 ]
 
 const statusOptions = Object.entries(statusConfig).map(([value, config]) => ({

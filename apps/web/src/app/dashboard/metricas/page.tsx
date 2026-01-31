@@ -26,7 +26,7 @@ export default async function MetricsPage() {
           </Button>
         </Link>
         <h1 className="text-2xl font-semibold text-navy">
-          Metricas da sua busca
+          Métricas da sua busca
         </h1>
       </div>
 
@@ -49,13 +49,13 @@ export default async function MetricsPage() {
             <div className="space-y-3">
               <MetricRow label="Total de vagas" value={metrics.total} />
               <MetricRow 
-                label="Aplicacoes" 
+                label="Aplicações" 
                 value={(metrics.porStatus['aplicado'] || 0) + (metrics.porStatus['em_analise'] || 0)} 
               />
               <MetricRow label="Entrevistas" value={metrics.porStatus['entrevista'] || 0} />
               <MetricRow label="Ofertas" value={metrics.porStatus['proposta'] || 0} />
               <MetricRow label="Aceitas" value={metrics.porStatus['aceito'] || 0} />
-              <MetricRow label="Rejeicoes" value={metrics.porStatus['rejeitado'] || 0} />
+              <MetricRow label="Rejeições" value={metrics.porStatus['rejeitado'] || 0} />
               <MetricRow label="Desistencias" value={metrics.porStatus['desistencia'] || 0} />
             </div>
           </Card>
@@ -63,7 +63,7 @@ export default async function MetricsPage() {
           {/* Distribuicao */}
           <Card className="p-6">
             <h2 className="text-lg font-semibold text-navy mb-4">
-              Distribuicao por status
+              Distribuição por status
             </h2>
             <StatusDistribution 
               porStatus={metrics.porStatus} 

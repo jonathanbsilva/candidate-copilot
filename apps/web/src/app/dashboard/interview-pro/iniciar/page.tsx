@@ -9,20 +9,20 @@ import { createInterviewSession, getLastInsightData, checkInterviewAccess } from
 import { track } from '@/lib/analytics/track'
 
 const senioridadeOptions = [
-  { value: 'estagio', label: 'Estagio' },
+  { value: 'estagio', label: 'Estágio' },
   { value: 'junior', label: 'Junior' },
   { value: 'pleno', label: 'Pleno' },
-  { value: 'senior', label: 'Senior' },
-  { value: 'lideranca', label: 'Lideranca' },
+  { value: 'senior', label: 'Sênior' },
+  { value: 'lideranca', label: 'Liderança' },
 ]
 
 const areaOptions = [
   { value: 'tecnologia', label: 'Tecnologia' },
   { value: 'marketing', label: 'Marketing' },
   { value: 'vendas', label: 'Vendas' },
-  { value: 'financas', label: 'Financas' },
+  { value: 'financas', label: 'Finanças' },
   { value: 'rh', label: 'RH' },
-  { value: 'operacoes', label: 'Operacoes' },
+  { value: 'operacoes', label: 'Operações' },
   { value: 'produto', label: 'Produto' },
   { value: 'design', label: 'Design' },
   { value: 'outro', label: 'Outro' },
@@ -127,10 +127,10 @@ export default function IniciarPage() {
             <Crown className="w-6 h-6 text-amber" />
           </div>
           <h3 className="text-lg font-semibold text-navy mb-2">
-            Voce ja usou sua entrevista de teste
+            Você já usou sua entrevista de teste
           </h3>
           <p className="text-navy/70 mb-6">
-            Faca upgrade para o plano Pro e tenha entrevistas ilimitadas.
+            Faça upgrade para o plano Pro e tenha entrevistas ilimitadas.
           </p>
           <Link href="/dashboard/plano">
             <Button>
@@ -185,7 +185,7 @@ export default function IniciarPage() {
 
           <div>
             <label className="block text-sm font-medium text-navy mb-2">
-              Area
+              Área
             </label>
             <select
               value={area}
@@ -231,14 +231,14 @@ export default function IniciarPage() {
               </>
             ) : (
               <>
-                Comecar entrevista
+                Começar entrevista
                 <ArrowRight className="w-5 h-5 ml-2" />
               </>
             )}
           </Button>
 
           <p className="text-center text-sm text-navy/60">
-            Sao 3 perguntas, dura cerca de 5 minutos.
+            São 3 perguntas, dura cerca de 5 minutos.
           </p>
         </form>
       </Card>

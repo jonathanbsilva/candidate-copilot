@@ -24,7 +24,7 @@ export default async function InterviewProPage() {
             Interview Pro
           </h1>
           <p className="text-navy/70">
-            Treine para entrevistas com IA e receba feedback instantaneo.
+            Treine para entrevistas com IA e receba feedback instantâneo.
           </p>
         </div>
         <Card className="p-6 text-center">
@@ -32,10 +32,10 @@ export default async function InterviewProPage() {
             <Crown className="w-6 h-6 text-amber" />
           </div>
           <h3 className="text-lg font-semibold text-navy mb-2">
-            Voce ja usou sua entrevista de teste
+            Você já usou sua entrevista de teste
           </h3>
           <p className="text-navy/70 mb-6 max-w-md mx-auto">
-            Faca upgrade para o plano Pro e tenha entrevistas ilimitadas para praticar quando quiser.
+            Faça upgrade para o plano Pro e tenha entrevistas ilimitadas para praticar quando quiser.
           </p>
           <Link href="/dashboard/plano">
             <Button>
@@ -97,10 +97,10 @@ export default async function InterviewProPage() {
                 Experimente o Interview Pro!
               </p>
               <p className="text-sm text-navy/70">
-                Voce tem 1 entrevista gratuita para testar. Aproveite!
+                Você tem 1 entrevista gratuita para testar. Aproveite!
               </p>
             </div>
-            <Badge className="bg-teal/20 text-teal">1 gratis</Badge>
+            <Badge className="bg-teal/20 text-teal">1 grátis</Badge>
           </div>
         </Card>
       )}
@@ -112,7 +112,7 @@ export default async function InterviewProPage() {
             Interview Pro
           </h1>
           <p className="text-navy/70">
-            Treine para entrevistas com IA e receba feedback instantaneo.
+            Treine para entrevistas com IA e receba feedback instantâneo.
           </p>
         </div>
         <Link href="/dashboard/interview-pro/iniciar">
@@ -132,7 +132,7 @@ export default async function InterviewProPage() {
               <MessageSquare className="w-6 h-6 text-teal" />
             </div>
             <div>
-              <Badge className="mb-2 bg-teal/20 text-teal">Disponivel</Badge>
+              <Badge className="mb-2 bg-teal/20 text-teal">Disponível</Badge>
               <h3 className="text-xl font-semibold text-navy">
                 Modo Texto
               </h3>
@@ -144,11 +144,11 @@ export default async function InterviewProPage() {
           <ul className="space-y-2 text-sm text-navy/70 mb-6">
             <li className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-teal rounded-full" />
-              3 perguntas por sessao (~5 min)
+              3 perguntas por sessão (~5 min)
             </li>
             <li className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-teal rounded-full" />
-              Mix comportamental + tecnico
+              Mix comportamental + técnico
             </li>
             <li className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-teal rounded-full" />
@@ -174,12 +174,12 @@ export default async function InterviewProPage() {
             </div>
             <div>
               <h3 className="text-xl font-semibold text-navy mt-2">
-                Modo Audio
+                Modo Áudio
               </h3>
             </div>
           </div>
           <p className="text-navy/70 mb-6">
-            Simule uma ligacao real com IA. Treine sua comunicacao verbal e tempo de resposta.
+            Simule uma ligação real com IA. Treine sua comunicação verbal e tempo de resposta.
           </p>
           <ul className="space-y-2 text-sm text-navy/70 mb-6">
             <li className="flex items-center gap-2">
@@ -192,7 +192,7 @@ export default async function InterviewProPage() {
             </li>
             <li className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-amber rounded-full" />
-              Gravacao para revisao
+              Gravação para revisão
             </li>
           </ul>
           <Button variant="secondary" className="w-full" disabled>
@@ -206,7 +206,7 @@ export default async function InterviewProPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-navy">
-              Sessoes recentes
+              Sessões recentes
             </h2>
             <Link href="/dashboard/interview-pro/historico">
               <Button variant="ghost" size="sm">
@@ -262,13 +262,13 @@ export default async function InterviewProPage() {
               <BarChart3 className="w-5 h-5 text-teal" />
             </div>
             <h3 className="font-medium text-navy mb-1">Feedback detalhado</h3>
-            <p className="text-sm text-navy/60">Analise de cada resposta</p>
+            <p className="text-sm text-navy/60">Análise de cada resposta</p>
           </div>
           <div className="text-center p-4">
             <div className="w-10 h-10 bg-teal/10 rounded-full flex items-center justify-center mx-auto mb-3">
               <TrendingUp className="w-5 h-5 text-teal" />
             </div>
-            <h3 className="font-medium text-navy mb-1">Evolucao visivel</h3>
+            <h3 className="font-medium text-navy mb-1">Evolução visível</h3>
             <p className="text-sm text-navy/60">Acompanhe seu progresso</p>
           </div>
         </div>

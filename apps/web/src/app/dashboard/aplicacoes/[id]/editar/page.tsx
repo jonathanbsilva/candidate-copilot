@@ -26,7 +26,7 @@ export default function EditarAplicacaoPage() {
       if (result.data) {
         setApplication(result.data as Application)
       } else {
-        setGeneralError(result.error || 'Aplicacao nao encontrada')
+        setGeneralError(result.error || 'Aplicação não encontrada')
       }
       setIsLoading(false)
     }
@@ -84,7 +84,7 @@ export default function EditarAplicacaoPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Card className="p-6 text-center max-w-md">
-          <p className="text-red-600 mb-4">{generalError || 'Aplicacao nao encontrada'}</p>
+          <p className="text-red-600 mb-4">{generalError || 'Aplicação não encontrada'}</p>
           <Link href="/dashboard/aplicacoes">
             <Button>Voltar para lista</Button>
           </Link>
@@ -105,7 +105,7 @@ export default function EditarAplicacaoPage() {
       </Link>
 
       <h1 className="text-2xl sm:text-3xl font-semibold text-navy mb-8">
-        Editar Aplicacao
+        Editar Aplicação
       </h1>
 
       <Card className="p-6">
@@ -122,7 +122,7 @@ export default function EditarAplicacaoPage() {
             <Input
               name="title"
               label="Cargo *"
-              placeholder="Ex: Desenvolvedor Senior"
+              placeholder="Ex: Desenvolvedor Sênior"
               defaultValue={application.title}
               error={errors.title}
             />
@@ -139,8 +139,8 @@ export default function EditarAplicacaoPage() {
             />
             <Input
               name="location"
-              label="Localizacao"
-              placeholder="Ex: Remoto, Sao Paulo, etc."
+              label="Localização"
+              placeholder="Ex: Remoto, São Paulo, etc."
               defaultValue={application.location || ''}
             />
           </div>
@@ -154,8 +154,8 @@ export default function EditarAplicacaoPage() {
 
           <Textarea
             name="job_description"
-            label="Descricao da vaga"
-            placeholder="Cole aqui a descricao da vaga para referencia futura..."
+            label="Descrição da vaga"
+            placeholder="Cole aqui a descrição da vaga para referência futura..."
             defaultValue={application.job_description || ''}
             className="min-h-[120px]"
           />
@@ -163,7 +163,7 @@ export default function EditarAplicacaoPage() {
           <Textarea
             name="notes"
             label="Notas pessoais"
-            placeholder="Adicione suas anotacoes sobre esta aplicacao..."
+            placeholder="Adicione suas anotações sobre esta aplicação..."
             defaultValue={application.notes || ''}
             className="min-h-[100px]"
           />

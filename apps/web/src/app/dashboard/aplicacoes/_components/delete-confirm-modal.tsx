@@ -55,12 +55,12 @@ export function DeleteConfirmModal({
           <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
             <AlertTriangle className="w-5 h-5 text-red-600" />
           </div>
-          <h2 className="text-xl font-semibold text-navy">Excluir Aplicacao</h2>
+          <h2 className="text-xl font-semibold text-navy">Excluir Aplicação</h2>
         </div>
 
         <p className="text-navy/70 mb-6">
-          Tem certeza que deseja excluir a aplicacao para <strong>{companyName}</strong>? 
-          Esta acao nao pode ser desfeita e todo o historico de status sera perdido.
+          Tem certeza que deseja excluir a aplicação para <strong>{companyName}</strong>? 
+          Esta ação não pode ser desfeita e todo o histórico de status será perdido.
         </p>
 
         {error && (

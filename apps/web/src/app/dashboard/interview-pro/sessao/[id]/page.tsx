@@ -89,7 +89,7 @@ export default function SessaoPage() {
   }
 
   const handleAbandon = async () => {
-    if (confirm('Tem certeza que deseja sair? Seu progresso sera perdido.')) {
+    if (confirm('Tem certeza que deseja sair? Seu progresso será perdido.')) {
       await abandonSession(sessionId)
       track('interview_abandoned', {
         cargo: session?.cargo,

@@ -9,7 +9,7 @@ interface BenchmarkCardProps {
 
 export function BenchmarkCard({ userMetrics, benchmark }: BenchmarkCardProps) {
   if (!benchmark) {
-    return null // Nao mostrar se nao tiver dados suficientes
+    return null // Não mostrar se não tiver dados suficientes
   }
   
   const diff = userMetrics.taxaConversao - benchmark.taxaConversaoMedia
@@ -20,21 +20,21 @@ export function BenchmarkCard({ userMetrics, benchmark }: BenchmarkCardProps) {
     <Card className="p-6">
       <div className="flex items-center gap-2 mb-4">
         <Users className="w-5 h-5 text-teal" />
-        <h3 className="font-semibold text-navy">Como voce se compara</h3>
+        <h3 className="font-semibold text-navy">Como você se compara</h3>
         <Badge variant="info" className="ml-auto">Beta</Badge>
       </div>
       
       <div className="space-y-4">
-        {/* Taxa de conversao comparativa */}
+        {/* Taxa de conversão comparativa */}
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-navy/70">Sua taxa de conversao</p>
+            <p className="text-sm text-navy/70">Sua taxa de conversão</p>
             <p className="text-2xl font-bold text-navy">
               {userMetrics.taxaConversao}%
             </p>
           </div>
           <div className="text-right">
-            <p className="text-sm text-navy/70">Media da plataforma</p>
+            <p className="text-sm text-navy/70">Média da plataforma</p>
             <p className="text-2xl font-bold text-navy/50">
               {benchmark.taxaConversaoMedia}%
             </p>
@@ -56,10 +56,10 @@ export function BenchmarkCard({ userMetrics, benchmark }: BenchmarkCardProps) {
             isAbove ? 'text-teal' : isEqual ? 'text-navy/70' : 'text-amber'
           }`}>
             {isAbove 
-              ? `Voce esta ${Math.abs(diff)}% acima da media!`
+              ? `Você está ${Math.abs(diff)}% acima da média!`
               : isEqual 
-              ? 'Voce esta na media'
-              : `${Math.abs(diff)}% abaixo da media - continue aplicando!`
+              ? 'Você está na média'
+              : `${Math.abs(diff)}% abaixo da média - continue aplicando!`
             }
           </p>
         </div>
@@ -67,7 +67,7 @@ export function BenchmarkCard({ userMetrics, benchmark }: BenchmarkCardProps) {
         {/* Percentil */}
         {benchmark.percentilUsuario > 0 && (
           <p className="text-xs text-navy/50 text-center">
-            Voce esta no top {100 - benchmark.percentilUsuario}% dos usuarios
+            Você está no top {100 - benchmark.percentilUsuario}% dos usuários
           </p>
         )}
       </div>
