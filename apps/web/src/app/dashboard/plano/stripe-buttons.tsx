@@ -227,7 +227,7 @@ export function CouponInput() {
           disabled={isValidating}
           className="
             flex-1 h-11 sm:h-10 px-3 rounded-lg border border-stone
-            text-navy placeholder:text-navy/40 uppercase text-sm
+            text-navy placeholder:text-navy/40 uppercase text-base sm:text-sm
             focus:outline-none focus:ring-2 focus:ring-teal focus:ring-offset-1
             disabled:opacity-50
           "
