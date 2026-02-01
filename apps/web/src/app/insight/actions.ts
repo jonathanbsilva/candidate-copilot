@@ -73,7 +73,7 @@ export async function saveInsight(data: InsightData) {
   // Check if user has access before saving
   const access = await canGenerateInsight(user.id)
   if (!access.allowed) {
-    return { error: 'Limite de insights atingido', limitReached: true }
+    return { error: 'Limite de análises atingido', limitReached: true }
   }
   
   const validated = insightSchema.safeParse(data)

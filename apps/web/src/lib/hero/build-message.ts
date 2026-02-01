@@ -87,9 +87,9 @@ function getRotatingTip(): string {
 const templates: Record<string, (metadata?: Record<string, unknown>) => HeroData> = {
   pending_insight: () => ({
     context: 'pending_insight',
-    title: '💡 Insight pronto para você',
-    message: 'Você tem um insight de carreira pendente. Acesse para ver suas recomendações personalizadas.',
-    primaryCta: { label: 'Ver insight', href: '/dashboard/insights' },
+    title: '💡 Análise pronta para você',
+    message: 'Você tem uma análise de carreira pendente. Acesse para ver suas recomendações personalizadas.',
+    primaryCta: { label: 'Ver análise', href: '/dashboard/insights' },
     secondaryCta: { label: 'Tirar dúvidas', href: '/dashboard?chat=open' },
   }),
 
@@ -112,8 +112,8 @@ const templates: Record<string, (metadata?: Record<string, unknown>) => HeroData
   new_user: () => ({
     context: 'new_user',
     title: '👋 Bem-vindo ao seu Copilot de carreira',
-    message: 'Comece adicionando suas candidaturas ou gere um insight personalizado sobre sua carreira.',
-    primaryCta: { label: 'Gerar insight', href: '/comecar' },
+    message: 'Comece adicionando suas candidaturas ou gere uma análise personalizada sobre sua carreira.',
+    primaryCta: { label: 'Gerar análise', href: '/comecar' },
     secondaryCta: { label: 'Adicionar vaga', href: '/dashboard/aplicacoes/nova' },
   }),
 }

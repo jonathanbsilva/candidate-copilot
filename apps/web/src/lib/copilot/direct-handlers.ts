@@ -69,14 +69,14 @@ ${propostas > 0 ? '**Boa notícia!** Você está próximo de uma oferta.' : 'Con
 
   'ultimo insight': (ctx) => {
     if (ctx.insights.length === 0) {
-      return `Você ainda não gerou nenhum insight. 
+      return `Você ainda não gerou nenhuma análise. 
 
-Acesse a página de **Insights** para fazer uma análise personalizada da sua busca de emprego!`
+Acesse a página de **Análises** para fazer uma análise personalizada da sua busca de emprego!`
     }
     
     const insight = ctx.insights[0]
     
-    return `**Seu último insight** (${insight.createdAt}):
+    return `**Sua última análise** (${insight.createdAt}):
 
 **Recomendação:** ${insight.recommendation}
 
@@ -94,7 +94,7 @@ ${insight.nextSteps.map((s, i) => `${i + 1}. ${s}`).join('\n')}`
     if (ctx.insights.length === 0) {
       return `Ainda não tenho recomendações para você. 
 
-Faça uma análise na página de **Insights** para receber recomendações personalizadas!`
+Faça uma análise na página de **Análises** para receber recomendações personalizadas!`
     }
     
     return `**Minhas recomendações para você:**
@@ -103,14 +103,14 @@ ${ctx.insights.slice(0, 3).map((insight, i) =>
   `${i + 1}. **${insight.recommendation}** (${insight.createdAt})`
 ).join('\n')}
 
-${ctx.insights.length > 3 ? `\n_E mais ${ctx.insights.length - 3} insights anteriores..._` : ''}`
+${ctx.insights.length > 3 ? `\n_E mais ${ctx.insights.length - 3} análises anteriores..._` : ''}`
   },
 
   'riscos identificou': (ctx) => {
     if (ctx.insights.length === 0) {
-      return `Ainda não identifiquei riscos porque você não gerou nenhum insight.
+      return `Ainda não identifiquei riscos porque você não gerou nenhuma análise.
 
-Faça uma análise na página de **Insights** para que eu possa avaliar sua situação!`
+Faça uma análise na página de **Análises** para que eu possa avaliar sua situação!`
     }
     
     const lastInsight = ctx.insights[0]
@@ -124,9 +124,9 @@ ${lastInsight.risks.map((r, i) => `${i + 1}. ${r}`).join('\n')}
 
   'proximos passos sugeriu': (ctx) => {
     if (ctx.insights.length === 0) {
-      return `Ainda não sugeri próximos passos porque você não gerou nenhum insight.
+      return `Ainda não sugeri próximos passos porque você não gerou nenhuma análise.
 
-Faça uma análise na página de **Insights** para receber sugestões personalizadas!`
+Faça uma análise na página de **Análises** para receber sugestões personalizadas!`
     }
     
     const lastInsight = ctx.insights[0]

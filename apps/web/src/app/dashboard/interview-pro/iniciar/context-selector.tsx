@@ -127,7 +127,7 @@ export function ContextSelector({ applications, lastInsight, onSelect }: Context
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
-                  <h3 className="font-medium text-navy">Usar último insight</h3>
+                  <h3 className="font-medium text-navy">Usar última análise</h3>
                   <ChevronRight className="w-4 h-4 text-navy/30 group-hover:text-amber transition-colors flex-shrink-0" />
                 </div>
                 <div className="flex flex-wrap gap-1.5 mt-2">

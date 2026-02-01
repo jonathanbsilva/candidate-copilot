@@ -21,7 +21,7 @@ export default async function PricingPage() {
       period: '/mês',
       description: 'Para quem está começando a explorar',
       features: [
-        { name: '3 insights por mês', included: true },
+        { name: '3 análises por mês', included: true },
         { name: '5 vagas para acompanhar', included: true },
         { name: '5 perguntas/dia no Copilot', included: true },
         { name: '1 entrevista simulada (trial)', included: true },
@@ -38,7 +38,7 @@ export default async function PricingPage() {
       period: '/mês',
       description: 'Para quem leva a carreira a sério',
       features: [
-        { name: 'Insights ilimitados', included: true },
+        { name: 'Análises ilimitadas', included: true },
         { name: 'Vagas ilimitadas', included: true },
         { name: 'Copilot ilimitado', included: true },
         { name: 'Entrevistas ilimitadas', included: true },

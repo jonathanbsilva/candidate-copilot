@@ -46,7 +46,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
           </div>
           
           <h2 id="signup-modal-title" className="text-xl font-semibold text-navy mb-2">
-            Quer conversar sobre este insight?
+            Quer conversar sobre esta análise?
           </h2>
           
           <p className="text-navy/70 mb-6">
@@ -56,7 +56,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
           <ul className="text-left space-y-3 mb-6">
             <li className="flex items-center gap-3">
               <Check className="w-5 h-5 text-teal flex-shrink-0" aria-hidden="true" />
-              <span className="text-navy">Salvar este insight</span>
+              <span className="text-navy">Salvar esta análise</span>
             </li>
             <li className="flex items-center gap-3">
               <Check className="w-5 h-5 text-teal flex-shrink-0" aria-hidden="true" />
@@ -68,7 +68,7 @@ export function SignupModal({ isOpen, onClose }: SignupModalProps) {
             </li>
             <li className="flex items-center gap-3">
               <Check className="w-5 h-5 text-teal flex-shrink-0" aria-hidden="true" />
-              <span className="text-navy">Receber mais insights personalizados</span>
+              <span className="text-navy">Receber mais análises personalizadas</span>
             </li>
           </ul>
 

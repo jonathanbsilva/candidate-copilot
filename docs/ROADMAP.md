@@ -47,11 +47,16 @@
 
 ## Parking Lot (Ideias Discutidas, Sem Compromisso)
 
+**Criterio de fit**: (1) Gera clareza para decisao ou proximo passo? (2) Alimenta o Copilot com contexto? (3) CTA natural para Candidaturas, Entrevista IA ou Copilot?
+
 ### Alta Prioridade (valor de produto)
 
 | Ideia | Por Que Importa | Dependencias | Notas |
 |-------|-----------------|--------------|-------|
-| **Match Score CV ↔ Vaga** | Usuario entende gap entre CV e vaga; "why you didnt get called" | Perfil/CV do Candidato (Now) | Outputs: score, top 5 motivos, sugestoes (CV, projetos, cursos) |
+| **Match Score CV ↔ Vaga** | Usuario entende gap entre CV e vaga; "why you didnt get called" | Perfil/CV do Candidato (Now) | Outputs: score, top 5 motivos, sugestoes (CV, projetos, cursos). CTA: ao adicionar candidatura ou ver vaga |
+| **Checklist de Decisao** | Estrutura decisao "aceitar oferta" (salario, beneficios, cultura) em vez de feeling | - | CTA: contexto de proposta → "Avaliar proposta" → usar checklist. Copilot pode sugerir |
+| **Comparar Ofertas** | Comparativo lado a lado de 2–3 ofertas (salario, beneficios, crescimento) + recomendacao breve | - | CTA: quando 2+ propostas → "Comparar ofertas". Reutiliza dados de candidaturas |
+| **Perguntas que vou ouvir** | Lista de perguntas tipicas (comportamental, tecnica, fit) por vaga/cargo; reduz ansiedade e direciona preparacao | - | CTA: candidatura "Preparar para entrevista na X" ou Hero "entrevista em Y". Alimenta Copilot com contexto de preparacao |
 | **Integracao ATS** | Sync automatico de status de vagas | Provedores externos, permissoes | Complexo; depende de discovery de provedores |
 | **Career Coach IA** | Evolucao do Copilot para conselheiro estrategico | Historico de apps + entrevistas + CV | Feature grande; depende de Match Score |
 
@@ -59,10 +64,16 @@
 
 | Ideia | Por Que Importa | Dependencias | Notas |
 |-------|-----------------|--------------|-------|
+| **Notificacoes/Alertas** | Follow-up, entrevista amanha, candidatura parada X dias; reativa usuario e leva para acao + Copilot | - | Push ou email. CTA: "Revisar" / "Preparar entrevista" / "Falar com Copilot" |
+| **Um passo por vez** | Uma acao sugerida por dia/semana (follow-up na vaga X, revisar insight, 1 treino entrevista); evita paralisia | Hero Card, Copilot | Superficie dedicada "Sua acao de hoje" com link para Candidaturas / Entrevista IA / Copilot |
+| **Diario de carreira (micro)** | 1–2 perguntas opcionais por dia ("Como foi a busca?"); historico emocional e padroes para o Copilot | - | CTA: dashboard ou pos-entrevista. Copilot pode referenciar em conversas |
 | **Blog / SEO** | Trafego organico qualificado; conteudo sobre entrevistas, carreira, negociacao | Decisao: construir no Next.js ou integrar (Ghost, Notion, etc.) | Alimenta entry flow; custo baixo, resultado a medio prazo |
-| **Notificacoes/Alertas** | Follow-up, entrevista, prazo | - | Push ou email |
-| **Metas/Gamificacao** | Engajamento (streaks, badges) | - | Validar se faz sentido pro produto |
+| **Metas/Gamificacao** | Engajamento (streaks, badges) | - | Validar se faz sentido pro produto; evitar se nao conectar com "proximo passo" |
 | **Helper/Onboarding** | Tour guiado para novos usuarios | - | - |
+
+**Priorizacao sugerida (Parking Lot, mantendo essencia)**: (1) Perfil/CV — base para Match Score e Copilot; (2) Notificacoes/Alertas — reativa usuario para Candidaturas + Entrevista + Copilot; (3) Checklist de Decisao ou Comparar Ofertas — clareza na decisao; (4) Perguntas que vou ouvir — valor da Entrevista IA + CTA por vaga; (5) Match Score — apos Perfil/CV.
+
+**Evitar (dilui essencia)**: Tracking sem conexao com decisao ou Copilot (ex.: tracker de networking/cursos so por si); gamificacao pesada (streaks, rankings) sem ligacao com "proximo passo" ou insight; CV builder completo como produto dentro do app (scope grande, desvia do foco decisao + Copilot).
 
 ### Baixa Prioridade / V1+
 
@@ -70,7 +81,7 @@
 |-------|-----------------|--------------|-------|
 | **Analytics Avancado** | Metricas mais detalhadas | - | - |
 | **Auto-Apply** | Aplicar automaticamente em vagas | Integracao ATS | Complexo |
-| **CV Builder Completo** | Criar CV dentro do produto | - | Scope grande |
+| **CV Builder Completo** | Criar CV dentro do produto | - | Scope grande; evita se desviar foco "decisao com Copilot" |
 
 ---
 

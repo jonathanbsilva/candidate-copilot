@@ -103,7 +103,7 @@ export default async function HomePage() {
                   Tome decisões melhores
                 </h3>
                 <p className="text-navy/70">
-                  Use os insights para tomar decisões de carreira com mais confiança e menos ansiedade.
+                  Use as análises para tomar decisões de carreira com mais confiança e menos ansiedade.
                 </p>
               </Card>
             </div>

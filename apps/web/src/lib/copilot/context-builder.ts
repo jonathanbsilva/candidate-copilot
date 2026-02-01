@@ -249,7 +249,7 @@ Seja encorajador mas prático. Ofereça exemplos concretos e técnicas como o m�
   // Add hero context if available (dica do dia ou contexto específico)
   if (heroContext) {
     const heroContextLabels: Record<string, string> = {
-      pending_insight: 'O usuário tem um insight pendente para revisar',
+      pending_insight: 'O usuário tem uma análise pendente para revisar',
       proposal_received: `O usuário recebeu uma proposta${heroContext.company ? ` da ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
       interview_soon: `O usuário tem uma entrevista${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
       interview_feedback: `O usuário completou uma entrevista simulada`,

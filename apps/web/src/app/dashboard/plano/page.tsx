@@ -252,7 +252,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
               <UsageItem
                 icon={<TrendingUp className="w-5 h-5 text-teal" />}
                 iconBg="bg-teal/10"
-                title="Insights gerados"
+                title="Análises geradas"
                 description={plan === 'pro' ? 'Ilimitado' : `${insightsUsed} de ${FREE_INSIGHTS_LIMIT} usados`}
                 remaining={plan === 'free' ? FREE_INSIGHTS_LIMIT - insightsUsed : undefined}
               />
@@ -280,7 +280,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
                 <div className="flex items-start sm:items-center gap-3 pt-4 border-t border-stone/20">
                   <Calendar className="w-5 h-5 text-navy/40 flex-shrink-0" />
                   <p className="text-xs sm:text-sm text-navy/60">
-                    Contadores de insights e vagas reiniciam em {resetAt}
+                    Contadores de análises e vagas reiniciam em {resetAt}
                   </p>
                 </div>
               )}
@@ -298,7 +298,7 @@ export default async function PlanoPage({ searchParams }: { searchParams: Search
               <ul className="space-y-2.5 sm:space-y-3 mb-6">
                 <li className="flex items-start sm:items-center gap-2.5 sm:gap-3">
                   <Check className="w-4 h-4 sm:w-5 sm:h-5 text-teal flex-shrink-0 mt-0.5 sm:mt-0" />
-                  <span className="text-navy text-sm sm:text-base">Insights ilimitados</span>
+                  <span className="text-navy text-sm sm:text-base">Análises ilimitadas</span>
                 </li>
                 <li className="flex items-start sm:items-center gap-2.5 sm:gap-3">
                   <Check className="w-4 h-4 sm:w-5 sm:h-5 text-teal flex-shrink-0 mt-0.5 sm:mt-0" />

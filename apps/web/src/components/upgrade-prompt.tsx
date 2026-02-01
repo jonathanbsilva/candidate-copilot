@@ -15,8 +15,8 @@ export function UpgradePrompt({ remaining, limit, feature = 'insights' }: Upgrad
   
   const messages = {
     insights: {
-      title: 'Você atingiu o limite de insights',
-      subtitle: `${used} de ${limit} insights usados este mês`
+      title: 'Você atingiu o limite de análises',
+      subtitle: `${used} de ${limit} análises usadas este mês`
     },
     applications: {
       title: 'Você atingiu o limite de vagas',
@@ -50,7 +50,7 @@ export function UpgradePrompt({ remaining, limit, feature = 'insights' }: Upgrad
         <p className="font-medium text-navy mb-3">Com o Pro você tem:</p>
         <ul className="space-y-2 text-sm text-navy/80">
           <li className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-teal" /> Insights ilimitados
+            <Check className="w-4 h-4 text-teal" /> Análises ilimitadas
           </li>
           <li className="flex items-center gap-2">
             <Check className="w-4 h-4 text-teal" /> Vagas ilimitadas

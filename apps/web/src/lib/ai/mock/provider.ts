@@ -92,7 +92,7 @@ Quer que eu detalhe algum desses pontos?`
 
     // Insight/Recomendação
     if (message.includes('insight') || message.includes('recomendação') || message.includes('recomendacao')) {
-      return `Seu último insight foi gerado recentemente:
+      return `Sua última análise foi gerada recentemente:
 
 **Recomendação principal:** Foque em vagas de Sênior/Tech Lead
 
@@ -164,7 +164,7 @@ Posso te ajudar com:
 - Análise da taxa de conversão
 - Quais empresas fazer follow-up
 - Dicas de preparação para entrevistas
-- Seus insights anteriores
+- Suas análises anteriores
 
 O que você gostaria de saber?`
   }

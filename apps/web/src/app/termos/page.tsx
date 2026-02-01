@@ -45,7 +45,7 @@ export default function TermosPage() {
               <div>
                 <h3 className="font-semibold text-navy mb-2">Aviso Importante sobre Uso de IA</h3>
                 <p className="text-navy/80 text-sm leading-relaxed">
-                  O GoHire Copilot utiliza inteligência artificial para gerar insights e recomendações. 
+                  O GoHire Copilot utiliza inteligência artificial para gerar análises e recomendações. 
                   Estes conteúdos são <strong>orientativos e não substituem</strong> aconselhamento profissional 
                   de carreira, jurídico ou financeiro. As decisões finais são sempre suas.
                 </p>
@@ -67,7 +67,7 @@ export default function TermosPage() {
                 O GoHire Copilot é uma plataforma que oferece:
               </p>
               <ul className="list-disc pl-4 sm:pl-6 space-y-2 text-navy/80">
-                <li>Insights personalizados de carreira gerados por IA</li>
+                <li>Análises personalizadas de carreira geradas por IA</li>
                 <li>Acompanhamento de candidaturas a vagas</li>
                 <li>Entrevistas simuladas com feedback automático</li>
                 <li>Assistente de carreira (Copilot) para dúvidas</li>
@@ -93,7 +93,7 @@ export default function TermosPage() {
                 Você reconhece e concorda que:
               </p>
               <ul className="list-disc pl-4 sm:pl-6 space-y-2 text-navy/80">
-                <li>Os insights e recomendações são gerados por IA e podem conter imprecisões</li>
+                <li>As análises e recomendações são geradas por IA e podem conter imprecisões</li>
                 <li>O conteúdo gerado não constitui aconselhamento profissional</li>
                 <li>Você é responsável por validar informações antes de tomar decisões</li>
                 <li>A IA pode não estar atualizada com as últimas tendências do mercado</li>

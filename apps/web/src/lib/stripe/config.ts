@@ -9,7 +9,7 @@ export const PLANS = {
     name: 'Free',
     price: 0,
     features: [
-      '3 insights por mês',
+      '3 análises por mês',
       'Tracking manual ilimitado',
       'Copilot básico',
     ],
@@ -19,7 +19,7 @@ export const PLANS = {
     price: 19,
     priceId: process.env.STRIPE_PRO_PRICE_ID,
     features: [
-      'Insights ilimitados',
+      'Análises ilimitadas',
       'Tracking manual ilimitado',
       'Copilot avançado',
       'Entrevista IA',

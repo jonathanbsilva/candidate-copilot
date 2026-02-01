@@ -10,7 +10,7 @@ export const insightInitialMessages: Record<string, string> = {
 
 // Mensagens iniciais para contextos do Hero Card
 export const heroInitialMessages: Record<string, string | ((company?: string, title?: string) => string)> = {
-  pending_insight: 'Você tem um insight pendente! Quer que eu te ajude a entender melhor as recomendações e como elas se conectam com seu objetivo?',
+  pending_insight: 'Você tem uma análise pendente! Quer que eu te ajude a entender melhor as recomendações e como elas se conectam com seu objetivo?',
   proposal_received: (company, title) => `Vi que você recebeu uma proposta${company ? ` da **${company}**` : ''}${title ? ` para **${title}**` : ''}!\n\nVamos analisar juntos? Me conta:\n- Qual a faixa salarial oferecida?\n- O que mais te atrai (ou preocupa) nessa oportunidade?`,
   interview_soon: (company, title) => `Vi que você tem uma entrevista${company ? ` na ${company}` : ''}${title ? ` para ${title}` : ''}. Essa pode ser a oportunidade de avançar pro seu objetivo. Quer praticar algumas perguntas?`,
   needs_followup: (company, title) => `Sua candidatura${company ? ` na ${company}` : ''}${title ? ` para ${title}` : ''} está sem retorno há alguns dias. Quer que eu te ajude a escrever um follow-up estratégico?`,
