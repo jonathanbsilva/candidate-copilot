@@ -275,7 +275,7 @@ export function CopilotDrawer() {
       {/* Drawer */}
       <div 
         className={`
-          fixed right-0 top-0 h-[100dvh] w-full sm:w-96 bg-white 
+          fixed inset-y-0 right-0 w-full sm:w-96 bg-white 
           border-l border-stone/30 z-50 flex flex-col
           transform transition-transform duration-300 ease-out
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
