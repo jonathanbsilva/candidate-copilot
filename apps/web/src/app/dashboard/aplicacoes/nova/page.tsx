@@ -64,7 +64,7 @@ export default function NovaAplicacaoPage() {
       </Link>
 
       <h1 className="text-2xl sm:text-3xl font-semibold text-navy mb-6">
-        Nova Aplicação
+        Nova Candidatura
       </h1>
 
       {/* Tabs */}

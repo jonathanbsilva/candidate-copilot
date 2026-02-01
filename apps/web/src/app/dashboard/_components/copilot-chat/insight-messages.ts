@@ -13,8 +13,8 @@ export const heroInitialMessages: Record<string, string | ((company?: string, ti
   pending_insight: 'Você tem um insight pendente! Quer que eu te ajude a entender melhor as recomendações e como elas se conectam com seu objetivo?',
   proposal_received: (company, title) => `Vi que você recebeu uma proposta${company ? ` da **${company}**` : ''}${title ? ` para **${title}**` : ''}!\n\nVamos analisar juntos? Me conta:\n- Qual a faixa salarial oferecida?\n- O que mais te atrai (ou preocupa) nessa oportunidade?`,
   interview_soon: (company, title) => `Vi que você tem uma entrevista${company ? ` na ${company}` : ''}${title ? ` para ${title}` : ''}. Essa pode ser a oportunidade de avançar pro seu objetivo. Quer praticar algumas perguntas?`,
-  needs_followup: (company, title) => `Sua aplicação${company ? ` na ${company}` : ''}${title ? ` para ${title}` : ''} está sem retorno há alguns dias. Quer que eu te ajude a escrever um follow-up estratégico?`,
-  stale_apps: 'Notei que algumas aplicações estão paradas. Quer revisar juntos e decidir onde vale investir energia?',
+  needs_followup: (company, title) => `Sua candidatura${company ? ` na ${company}` : ''}${title ? ` para ${title}` : ''} está sem retorno há alguns dias. Quer que eu te ajude a escrever um follow-up estratégico?`,
+  stale_apps: 'Notei que algumas candidaturas estão paradas. Quer revisar juntos e decidir onde vale investir energia?',
   low_activity: 'Faz um tempo desde sua última atividade. Seu objetivo mudou ou você está travado em algo? Me conta que te ajudo.',
   new_user: 'Olá! Sou seu Copilot de carreira. Antes de tudo, me conta: qual seu objetivo agora? Isso me ajuda a direcionar melhor as dicas.',
   active_summary: 'Vi a dica do dia! Quer conversar sobre como isso se conecta com seu objetivo? Estou aqui para ajudar.',
@@ -46,7 +46,7 @@ export const heroSuggestedQuestions: Record<string, string[]> = {
   stale_apps: [
     'Onde vale investir minha energia?',
     'Devo desistir de alguma?',
-    'Como priorizar minhas aplicações?',
+    'Como priorizar minhas candidaturas?',
   ],
   low_activity: [
     'O que está me travando?',

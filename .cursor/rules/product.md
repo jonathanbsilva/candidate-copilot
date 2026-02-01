@@ -30,7 +30,7 @@
 
 ### Free
 - 3 insights/mes
-- 5 aplicacoes/mes
+- 5 candidaturas/mes
 - 5 perguntas/dia no Copilot
 - 1 entrevista simulada (trial vitalicio)
 

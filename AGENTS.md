@@ -97,7 +97,7 @@ packages/
 - Pode criar conta depois para salvar
 
 ### Applications Tracking
-- CRUD de aplicacoes
+- CRUD de candidaturas
 - Status timeline (historico)
 - Metricas (taxa de conversao, etc.)
 

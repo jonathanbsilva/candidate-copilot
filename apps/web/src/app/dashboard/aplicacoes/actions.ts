@@ -56,12 +56,12 @@ export async function createApplication(data: CreateApplicationInput) {
     .single()
 
   if (appError) {
-    logger.error('Erro ao criar aplicação', { 
+    logger.error('Erro ao criar candidatura', { 
       error: appError.message, 
       userId: user.id,
       feature: 'applications'
     })
-    return { error: 'Erro ao criar aplicação. Tente novamente.' }
+    return { error: 'Erro ao criar candidatura. Tente novamente.' }
   }
 
   // Create initial status history entry
@@ -71,7 +71,7 @@ export async function createApplication(data: CreateApplicationInput) {
       application_id: application.id,
       from_status: null,
       to_status: initialStatus,
-      notes: 'Aplicação criada',
+      notes: 'Candidatura criada',
     })
 
   if (historyError) {
@@ -118,13 +118,13 @@ export async function updateApplication(data: UpdateApplicationInput) {
     .eq('user_id', user.id)
 
   if (error) {
-    logger.error('Erro ao atualizar aplicação', { 
+    logger.error('Erro ao atualizar candidatura', { 
       error: error.message, 
       applicationId: validated.data.id,
       userId: user.id,
       feature: 'applications'
     })
-    return { error: 'Erro ao atualizar aplicação. Tente novamente.' }
+    return { error: 'Erro ao atualizar candidatura. Tente novamente.' }
   }
 
   revalidatePath('/dashboard/aplicacoes')
@@ -151,13 +151,13 @@ export async function deleteApplication(id: string) {
     .eq('user_id', user.id)
 
   if (error) {
-    logger.error('Erro ao excluir aplicação', { 
+    logger.error('Erro ao excluir candidatura', { 
       error: error.message, 
       applicationId: validated.data.id,
       userId: user.id,
       feature: 'applications'
     })
-    return { error: 'Erro ao excluir aplicação. Tente novamente.' }
+    return { error: 'Erro ao excluir candidatura. Tente novamente.' }
   }
 
   revalidatePath('/dashboard/aplicacoes')
@@ -185,7 +185,7 @@ export async function changeStatus(data: ChangeStatusInput) {
     .single()
 
   if (fetchError || !currentApp) {
-    return { error: 'Aplicação não encontrada' }
+    return { error: 'Candidatura não encontrada' }
   }
 
   // Update application status
@@ -247,12 +247,12 @@ export async function getApplications() {
     .order('created_at', { ascending: false })
 
   if (error) {
-    logger.error('Erro ao carregar aplicações', { 
+    logger.error('Erro ao carregar candidaturas', { 
       error: error.message, 
       userId: user.id,
       feature: 'applications'
     })
-    return { error: 'Erro ao carregar aplicações', data: null }
+    return { error: 'Erro ao carregar candidaturas', data: null }
   }
 
   return { data, error: null }
@@ -278,13 +278,13 @@ export async function getApplication(id: string) {
     .single()
 
   if (error) {
-    logger.error('Erro ao buscar aplicação', { 
+    logger.error('Erro ao buscar candidatura', { 
       error: error.message, 
       applicationId: uuidValidation.data,
       userId: user.id,
       feature: 'applications'
     })
-    return { error: 'Aplicação não encontrada', data: null }
+    return { error: 'Candidatura não encontrada', data: null }
   }
 
   return { data, error: null }

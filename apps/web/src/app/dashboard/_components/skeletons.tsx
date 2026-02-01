@@ -78,7 +78,7 @@ export function StrategyCardSkeleton() {
 }
 
 /**
- * Skeleton do card de Aplicações no dashboard
+ * Skeleton do card de Candidaturas no dashboard
  */
 export function ApplicationsCardSkeleton() {
   return (
@@ -136,7 +136,7 @@ export function InterviewCardSkeleton() {
 }
 
 /**
- * Skeleton para a lista de aplicações
+ * Skeleton para a lista de candidaturas
  */
 export function ApplicationsListSkeleton() {
   return (

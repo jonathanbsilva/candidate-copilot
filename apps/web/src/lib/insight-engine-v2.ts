@@ -179,7 +179,7 @@ const diagnosticTemplates: Record<InsightType, TemplateGenerator> = {
     diagnosis: `Você quer ${objetivoLabels[data.objetivo]}, mas indicou que ${data.gargaloEntrevistas === 'nao_sei' ? 'não sabe onde trava' : 'trava na triagem inicial'}. Isso é comum e importante de identificar.`,
     pattern: `Quando não sabemos o gargalo, tendemos a otimizar o que é visível (currículo, LinkedIn) em vez do que é crítico (posicionamento, timing, fit).`,
     risk: `Investir energia no lugar errado cria a ilusão de progresso. O currículo perfeito não salva um posicionamento confuso.`,
-    nextStep: `Revise suas últimas 5 aplicações: quantas tiveram resposta? Se menos de 20%, o problema é posicionamento, não currículo.`,
+    nextStep: `Revise suas últimas 5 candidaturas: quantas tiveram resposta? Se menos de 20%, o problema é posicionamento, não currículo.`,
   }),
 
   desalinhamento_nivel: (data) => ({

@@ -33,10 +33,10 @@ export default async function MetricsPage() {
       {metrics.total === 0 ? (
         <Card className="p-4 sm:p-6">
           <p className="text-navy/70 mb-4">
-            Adicione suas primeiras aplicações para ver métricas da sua busca.
+            Adicione suas primeiras candidaturas para ver métricas da sua busca.
           </p>
           <Link href="/dashboard/aplicacoes/nova">
-            <Button>Adicionar primeira aplicação</Button>
+            <Button>Adicionar primeira candidatura</Button>
           </Link>
         </Card>
       ) : (
@@ -49,7 +49,7 @@ export default async function MetricsPage() {
             <div className="space-y-3">
               <MetricRow label="Total de vagas" value={metrics.total} />
               <MetricRow 
-                label="Aplicações" 
+                label="Candidaturas" 
                 value={(metrics.porStatus['aplicado'] || 0) + (metrics.porStatus['em_analise'] || 0)} 
               />
               <MetricRow label="Entrevistas" value={metrics.porStatus['entrevista'] || 0} />

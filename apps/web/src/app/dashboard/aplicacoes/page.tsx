@@ -206,7 +206,7 @@ function BenchmarkSection({
             <div className="inline-flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg border border-stone/10 mb-3">
               <Lock className="w-4 h-4 text-navy/50" />
               <span className="text-sm font-medium text-navy">
-                Adicione mais {appsNeeded} aplicaç{appsNeeded > 1 ? 'ões' : 'ão'} para desbloquear
+                Adicione mais {appsNeeded} candidatura{appsNeeded > 1 ? 's' : ''} para desbloquear
               </span>
             </div>
             <p className="text-sm text-navy/70 mb-4 max-w-xs">
@@ -215,7 +215,7 @@ function BenchmarkSection({
             <Link href="/dashboard/aplicacoes/nova">
               <Button size="sm">
                 <Plus className="w-4 h-4 mr-1.5" />
-                Adicionar aplicação
+                Adicionar candidatura
               </Button>
             </Link>
           </div>
@@ -362,15 +362,15 @@ async function ApplicationsListSection() {
           <Briefcase className="w-8 h-8 text-navy/40" />
         </div>
         <h2 className="text-xl font-semibold text-navy mb-2">
-          Nenhuma aplicação ainda
+          Nenhuma candidatura ainda
         </h2>
         <p className="text-navy/60 mb-6 max-w-md mx-auto">
-          Comece a rastrear suas candidaturas adicionando sua primeira aplicação.
+          Comece a rastrear suas candidaturas adicionando sua primeira candidatura.
         </p>
         <Link href="/dashboard/aplicacoes/nova">
           <Button>
             <Plus className="w-5 h-5 mr-2" />
-            Adicionar primeira aplicação
+            Adicionar primeira candidatura
           </Button>
         </Link>
       </Card>
@@ -396,7 +396,7 @@ async function HeaderActionsSection() {
       <Link href="/dashboard/aplicacoes/nova">
         <Button>
           <Plus className="w-5 h-5 mr-2" />
-          Nova aplicação
+          Nova candidatura
         </Button>
       </Link>
     )
@@ -437,7 +437,7 @@ export default async function AplicacoesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl sm:text-3xl font-semibold text-navy mb-1">
-            Suas Aplicações
+            Suas Candidaturas
           </h1>
           <p className="text-navy/70">
             Acompanhe o status de todas as suas candidaturas

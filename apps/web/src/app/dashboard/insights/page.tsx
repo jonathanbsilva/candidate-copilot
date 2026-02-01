@@ -42,7 +42,7 @@ export default async function InsightsPage() {
             <Lightbulb className="w-5 h-5 text-amber" />
           </div>
           <h1 className="text-2xl font-semibold text-navy">
-            Minhas Análises
+            Suas Análises
           </h1>
         </div>
         <p className="text-navy/70">

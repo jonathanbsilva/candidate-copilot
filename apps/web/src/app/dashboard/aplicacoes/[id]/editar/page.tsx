@@ -26,7 +26,7 @@ export default function EditarAplicacaoPage() {
       if (result.data) {
         setApplication(result.data as Application)
       } else {
-        setGeneralError(result.error || 'Aplicação não encontrada')
+        setGeneralError(result.error || 'Candidatura não encontrada')
       }
       setIsLoading(false)
     }
@@ -84,7 +84,7 @@ export default function EditarAplicacaoPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Card className="p-4 sm:p-6 text-center max-w-md">
-          <p role="alert" className="text-red-600 mb-4">{generalError || 'Aplicação não encontrada'}</p>
+          <p role="alert" className="text-red-600 mb-4">{generalError || 'Candidatura não encontrada'}</p>
           <Link href="/dashboard/aplicacoes">
             <Button>Voltar para lista</Button>
           </Link>
@@ -105,7 +105,7 @@ export default function EditarAplicacaoPage() {
       </Link>
 
       <h1 className="text-2xl sm:text-3xl font-semibold text-navy mb-8">
-        Editar Aplicação
+        Editar Candidatura
       </h1>
 
       <Card className="p-4 sm:p-6">
@@ -163,7 +163,7 @@ export default function EditarAplicacaoPage() {
           <Textarea
             name="notes"
             label="Notas pessoais"
-            placeholder="Adicione suas anotações sobre esta aplicação..."
+            placeholder="Adicione suas anotações sobre esta candidatura..."
             defaultValue={application.notes || ''}
             className="min-h-[100px]"
           />

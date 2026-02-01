@@ -59,7 +59,7 @@ const tips = [
   'Após uma rejeição, peça feedback. Nem todos respondem, mas quando respondem, é ouro.',
   
   // Mindset e estratégia
-  'Trate sua busca de emprego como um projeto. Defina metas semanais de aplicações e follow-ups.',
+  'Trate sua busca de emprego como um projeto. Defina metas semanais de candidaturas e follow-ups.',
   'Não coloque todos os ovos na mesma cesta. Continue aplicando mesmo quando uma vaga parece promissora.',
   'Rejeições fazem parte do processo. Cada "não" te aproxima do "sim" certo.',
   'Cuide da sua saúde mental durante a busca. Pausas e autocuidado não são luxo, são necessidade.',
@@ -95,16 +95,16 @@ const templates: Record<string, (metadata?: Record<string, unknown>) => HeroData
 
   stale_apps: (metadata) => ({
     context: 'stale_apps',
-    title: '⏰ Suas aplicações precisam de atenção',
-    message: `Você tem ${metadata?.count || 'várias'} aplicações sem atualização há mais de 2 semanas. Que tal revisar o status delas?`,
-    primaryCta: { label: 'Ver aplicações', href: '/dashboard/aplicacoes' },
+    title: '⏰ Suas candidaturas precisam de atenção',
+    message: `Você tem ${metadata?.count || 'várias'} candidaturas sem atualização há mais de 2 semanas. Que tal revisar o status delas?`,
+    primaryCta: { label: 'Ver candidaturas', href: '/dashboard/aplicacoes' },
     secondaryCta: { label: 'Dicas de follow-up', href: '/dashboard?chat=open&prompt=dicas-followup' },
   }),
 
   low_activity: (metadata) => ({
     context: 'low_activity',
     title: '🎯 Hora de continuar sua busca',
-    message: `Já faz ${metadata?.daysSinceLastApp || 'alguns'} dias desde sua última aplicação. Manter o ritmo é importante!`,
+    message: `Já faz ${metadata?.daysSinceLastApp || 'alguns'} dias desde sua última candidatura. Manter o ritmo é importante!`,
     primaryCta: { label: 'Adicionar vaga', href: '/dashboard/aplicacoes/nova' },
     secondaryCta: { label: 'Ver vagas salvas', href: '/dashboard/aplicacoes' },
   }),
@@ -112,7 +112,7 @@ const templates: Record<string, (metadata?: Record<string, unknown>) => HeroData
   new_user: () => ({
     context: 'new_user',
     title: '👋 Bem-vindo ao seu Copilot de carreira',
-    message: 'Comece adicionando suas aplicações ou gere um insight personalizado sobre sua carreira.',
+    message: 'Comece adicionando suas candidaturas ou gere um insight personalizado sobre sua carreira.',
     primaryCta: { label: 'Gerar insight', href: '/comecar' },
     secondaryCta: { label: 'Adicionar vaga', href: '/dashboard/aplicacoes/nova' },
   }),
@@ -138,7 +138,7 @@ Gere uma mensagem curta (máximo 2 frases) comentando o resultado e incentivando
     needs_followup: `O usuário aplicou para "${result.metadata?.title}" na "${result.metadata?.company}" há ${result.metadata?.daysSinceUpdate} dias e ainda não teve retorno.
 Gere uma mensagem curta (máximo 2 frases) sugerindo que ele faça um follow-up. Seja conciso e direto.`,
     
-    active_summary: `O usuário tem ${result.metadata?.totalApps} aplicações, sendo ${result.metadata?.activeApps} ativas.
+    active_summary: `O usuário tem ${result.metadata?.totalApps} candidaturas, sendo ${result.metadata?.activeApps} ativas.
 Gere uma dica do dia curta (máximo 2 frases) para quem está em busca de emprego. Seja motivacional mas prático.`,
   }
 
@@ -199,12 +199,12 @@ function buildHeroDataFromAI(result: ContextDetectionResult, message: string): H
     needs_followup: {
       title: '📬 Hora do follow-up',
       primaryCta: { label: 'Criar follow-up', href: '/dashboard?chat=open' },
-      secondaryCta: { label: 'Ver aplicação', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
+      secondaryCta: { label: 'Ver candidatura', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
     },
     active_summary: {
       title: '💡 Dica do Copilot',
       primaryCta: { label: 'Explorar no Copilot', href: '/dashboard?chat=open' },
-      secondaryCta: { label: 'Ver aplicações', href: '/dashboard/aplicacoes' },
+      secondaryCta: { label: 'Ver candidaturas', href: '/dashboard/aplicacoes' },
     },
   }
 
@@ -247,16 +247,16 @@ function getFallbackTemplate(result: ContextDetectionResult): HeroData {
     needs_followup: {
       context: 'needs_followup',
       title: '📬 Hora do follow-up',
-      message: `Sua aplicação para ${result.metadata?.title} na ${result.metadata?.company} está há ${result.metadata?.daysSinceUpdate} dias sem retorno. Um follow-up educado pode fazer a diferença!`,
+      message: `Sua candidatura para ${result.metadata?.title} na ${result.metadata?.company} está há ${result.metadata?.daysSinceUpdate} dias sem retorno. Um follow-up educado pode fazer a diferença!`,
       primaryCta: { label: 'Criar follow-up', href: '/dashboard?chat=open' },
-      secondaryCta: { label: 'Ver aplicação', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
+      secondaryCta: { label: 'Ver candidatura', href: `/dashboard/aplicacoes/${result.relevantApp?.id}` },
     },
     active_summary: {
       context: 'active_summary',
       title: '💡 Dica do Copilot',
       message: getRotatingTip(),
       primaryCta: { label: 'Explorar no Copilot', href: '/dashboard?chat=open' },
-      secondaryCta: { label: 'Ver aplicações', href: '/dashboard/aplicacoes' },
+      secondaryCta: { label: 'Ver candidaturas', href: '/dashboard/aplicacoes' },
     },
   }
 

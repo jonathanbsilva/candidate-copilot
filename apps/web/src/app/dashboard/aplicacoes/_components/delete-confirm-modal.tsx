@@ -65,11 +65,11 @@ export function DeleteConfirmModal({
           <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
             <AlertTriangle className="w-5 h-5 text-red-600" aria-hidden="true" />
           </div>
-          <h2 id="delete-modal-title" className="text-xl font-semibold text-navy">Excluir Aplicação</h2>
+          <h2 id="delete-modal-title" className="text-xl font-semibold text-navy">Excluir Candidatura</h2>
         </div>
 
         <p id="delete-modal-description" className="text-navy/70 mb-6">
-          Tem certeza que deseja excluir a aplicação para <strong>{companyName}</strong>? 
+          Tem certeza que deseja excluir a candidatura para <strong>{companyName}</strong>? 
           Esta ação não pode ser desfeita e todo o histórico de status será perdido.
         </p>
 

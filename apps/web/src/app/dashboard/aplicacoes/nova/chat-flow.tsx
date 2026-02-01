@@ -18,9 +18,9 @@ type Message = {
 }
 
 const steps: { id: ChatStep; question: string; type: StepType }[] = [
-  { id: 'company', question: 'Olá! Vamos registrar sua nova aplicação. Qual empresa você está aplicando?', type: 'text' },
+  { id: 'company', question: 'Olá! Vamos registrar sua nova candidatura. Para qual empresa você está aplicando?', type: 'text' },
   { id: 'title', question: 'Ótimo! E qual é o cargo ou vaga?', type: 'text' },
-  { id: 'status', question: 'Perfeito! Qual o status atual dessa aplicação?', type: 'select' },
+  { id: 'status', question: 'Perfeito! Qual o status atual dessa candidatura?', type: 'select' },
   { id: 'url', question: 'Quase lá! Tem o link da vaga? (pode pular se não tiver)', type: 'optional-text' },
 ]
 
@@ -112,7 +112,7 @@ export function ChatFlow() {
       addBotMessage(steps[nextStep].question)
     } else {
       setCurrentStep(nextStep)
-      addBotMessage('Perfeito! Tudo pronto para salvar sua aplicação. Clique no botão abaixo para confirmar.')
+      addBotMessage('Perfeito! Tudo pronto para salvar sua candidatura. Clique no botão abaixo para confirmar.')
     }
   }
 
@@ -174,7 +174,7 @@ export function ChatFlow() {
                 Salvando...
               </>
             ) : (
-              'Salvar aplicação'
+              'Salvar candidatura'
             )}
           </Button>
         </div>

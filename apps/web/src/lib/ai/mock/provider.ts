@@ -44,12 +44,12 @@ export class MockProvider implements AIProvider {
   private generateResponse(message: string): string {
     // Taxa de conversão
     if (message.includes('taxa') && (message.includes('conversao') || message.includes('conversão'))) {
-      return `Sua taxa de conversão está em **28%**, o que significa que aproximadamente 1 em cada 4 aplicações resulta em entrevista.
+      return `Sua taxa de conversão está em **28%**, o que significa que aproximadamente 1 em cada 4 candidaturas resulta em entrevista.
 
-Isso está dentro da média do mercado (25-30%). Continue focando em qualidade nas aplicações!
+Isso está dentro da média do mercado (25-30%). Continue focando em qualidade nas candidaturas!
 
 **Próximos passos:**
-1. Mantenha a estratégia atual de aplicações direcionadas
+1. Mantenha a estratégia atual de candidaturas direcionadas
 2. Prepare-se bem para as entrevistas que estão chegando`
     }
 
@@ -84,7 +84,7 @@ Se não receber resposta até sexta-feira, considere um follow-up gentil.`
 
 **Oportunidades de melhoria:**
 1. Diversifique os tipos de empresa (você está focado apenas em startups)
-2. Adicione mais detalhes às notas de cada aplicação
+2. Adicione mais detalhes às notas de cada candidatura
 3. Faça follow-up mais cedo (antes de 7 dias)
 
 Quer que eu detalhe algum desses pontos?`
@@ -123,16 +123,16 @@ Quer que eu detalhe algum desses pontos?`
 Quer dicas específicas para alguma empresa?`
     }
 
-    // Quantas aplicações
-    if (message.includes('quantas') && message.includes('aplica')) {
-      return `Você tem um total de **8 aplicações** registradas:
+    // Quantas candidaturas
+    if (message.includes('quantas') && message.includes('candidatura')) {
+      return `Você tem um total de **8 candidaturas** registradas:
 
 - **3** aguardando resposta
 - **2** em processo de entrevista
 - **2** rejeitadas
 - **1** oferta recebida
 
-Seu ritmo de aplicações está bom! Continue assim.`
+Seu ritmo de candidaturas está bom! Continue assim.`
     }
 
     // Status geral
@@ -140,7 +140,7 @@ Seu ritmo de aplicações está bom! Continue assim.`
       return `Aqui está um resumo do seu status atual:
 
 📊 **Métricas:**
-- Total de aplicações: 8
+- Total de candidaturas: 8
 - Taxa de conversão: 28%
 - Tempo médio de resposta: 6 dias
 
@@ -156,7 +156,7 @@ Faça follow-up com TechCorp (12 dias sem resposta)`
     return `Entendi sua pergunta sobre sua busca de emprego.
 
 Baseado nos seus dados atuais:
-- Você tem **8 aplicações** no total
+- Você tem **8 candidaturas** no total
 - **3** estão aguardando resposta
 - **2** processos ativos
 

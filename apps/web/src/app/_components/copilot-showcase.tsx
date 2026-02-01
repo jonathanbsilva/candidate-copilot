@@ -61,7 +61,7 @@ const CONVERSATIONS: ConversationContext[] = [
       },
       {
         role: 'assistant',
-        content: 'Suas métricas deste mês:\n\n• 12 aplicações\n• Taxa de conversão: 25% (vs 18% média)\n• 3 processos ativos\n\nVocê está 38% acima da média! Continue assim.'
+        content: 'Suas métricas deste mês:\n\n• 12 candidaturas\n• Taxa de conversão: 25% (vs 18% média)\n• 3 processos ativos\n\nVocê está 38% acima da média! Continue assim.'
       }
     ]
   },
@@ -91,7 +91,7 @@ const CONVERSATIONS: ConversationContext[] = [
       },
       {
         role: 'assistant',
-        content: '2 aplicações precisam de atenção:\n\n• TechCorp (12 dias sem resposta)\n• StartupABC (8 dias sem resposta)\n\nQuer que eu escreva os emails de follow-up?'
+        content: '2 candidaturas precisam de atenção:\n\n• TechCorp (12 dias sem resposta)\n• StartupABC (8 dias sem resposta)\n\nQuer que eu escreva os emails de follow-up?'
       }
     ]
   }

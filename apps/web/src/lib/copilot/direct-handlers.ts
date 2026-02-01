@@ -9,7 +9,7 @@ export const directHandlers: Record<string, DirectHandler> = {
     const entrevistas = ctx.metrics.processosAtivos
     
     if (total === 0) {
-      return `Você ainda não tem aplicações registradas. Adicione suas primeiras aplicações para começar a acompanhar sua taxa de conversão!`
+      return `Você ainda não tem candidaturas registradas. Adicione suas primeiras candidaturas para começar a acompanhar sua taxa de conversão!`
     }
     
     let analise = ''
@@ -23,22 +23,22 @@ export const directHandlers: Record<string, DirectHandler> = {
     
     return `Sua taxa de conversão atual é de **${taxa}%**.
 
-Isso significa que de **${total} aplicações**, você conseguiu **${entrevistas} entrevistas**.${analise}`
+Isso significa que de **${total} candidaturas**, você conseguiu **${entrevistas} entrevistas**.${analise}`
   },
 
-  'quantas aplicacoes': (ctx) => {
+  'quantas candidaturas': (ctx) => {
     const aguardando = ctx.metrics.aguardandoResposta
     const pending = ctx.pendingApplications
     
     if (aguardando === 0) {
-      return `Você não tem aplicações aguardando resposta no momento.
+      return `Você não tem candidaturas aguardando resposta no momento.
 
 ${ctx.metrics.processosAtivos > 0 
   ? `Você tem **${ctx.metrics.processosAtivos} processos ativos** (entrevistas ou propostas).`
   : 'Que tal aplicar para novas vagas?'}`
     }
     
-    let response = `Você tem **${aguardando} aplicações** aguardando resposta.`
+    let response = `Você tem **${aguardando} candidaturas** aguardando resposta.`
     
     if (pending.length > 0) {
       const oldest = pending[0]
@@ -59,7 +59,7 @@ ${ctx.metrics.processosAtivos > 0
     if (entrevistas === 0 && propostas === 0) {
       return `Você não tem entrevistas ou propostas ativas no momento.
 
-Continue aplicando! Com ${ctx.profile.totalApplications} aplicações e taxa de ${ctx.metrics.taxaConversao}%, você está no caminho.`
+Continue aplicando! Com ${ctx.profile.totalApplications} candidaturas e taxa de ${ctx.metrics.taxaConversao}%, você está no caminho.`
     }
     
     return `Você tem **${entrevistas} entrevistas** agendadas e **${propostas} propostas** em aberto.
@@ -142,10 +142,10 @@ Quantos desses você já completou?`
     const pending = ctx.pendingApplications
     
     if (pending.length === 0) {
-      return `Você não tem aplicações aguardando resposta no momento.`
+      return `Você não tem candidaturas aguardando resposta no momento.`
     }
     
-    let response = `**${pending.length} aplicações aguardando resposta:**\n`
+    let response = `**${pending.length} candidaturas aguardando resposta:**\n`
     
     pending.slice(0, 5).forEach((app, i) => {
       const urgency = app.daysSinceApplied > 10 ? ' ⚠️' : ''
@@ -168,7 +168,7 @@ Quantos desses você já completou?`
     const pending = ctx.pendingApplications
     
     if (pending.length === 0) {
-      return `Você não tem aplicações aguardando resposta no momento.`
+      return `Você não tem candidaturas aguardando resposta no momento.`
     }
     
     const oldest = pending[0]

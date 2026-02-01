@@ -222,7 +222,7 @@ export async function sendChatMessage(
   const topicCheck = checkTopic(inputValidation.sanitized)
   if (!topicCheck.onTopic) {
     return {
-      message: topicCheck.suggestedResponse || 'Sou focado em ajudar com sua carreira. Posso ajudar com suas aplicações, métricas, ou dicas de emprego?',
+      message: topicCheck.suggestedResponse || 'Sou focado em ajudar com sua carreira. Posso ajudar com suas candidaturas, métricas, ou dicas de emprego?',
       isDirect: true,
     }
   }

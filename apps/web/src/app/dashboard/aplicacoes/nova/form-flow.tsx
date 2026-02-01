@@ -126,7 +126,7 @@ export function FormFlow() {
       <Textarea
         name="notes"
         label="Notas pessoais"
-        placeholder="Adicione suas anotações sobre esta aplicação..."
+        placeholder="Adicione suas anotações sobre esta candidatura..."
         className="min-h-[100px]"
       />
 
@@ -141,7 +141,7 @@ export function FormFlow() {
           </Button>
         </Link>
         <Button type="submit" isLoading={isPending}>
-          Salvar aplicação
+          Salvar candidatura
         </Button>
       </div>
     </form>

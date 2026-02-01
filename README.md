@@ -81,7 +81,7 @@ docs/              # ROADMAP, decisões
 ## Funcionalidades
 
 - **Entry flow** – 3 perguntas sem cadastro → primeiro insight; opção de criar conta para salvar
-- **Tracking de vagas** – CRUD de aplicações, timeline de status, métricas
+- **Tracking de vagas** – CRUD de candidaturas, timeline de status, métricas
 - **Copilot** – Chat contextual (insight, hero card, feedback de entrevista); Free 5/dia, Pro ilimitado
 - **Entrevista IA** – Mock interviews em texto; Free 1 trial vitalício, Pro ilimitado
 - **Hero Card** – Card adaptativo no dashboard (proposta, entrevista, follow-up)

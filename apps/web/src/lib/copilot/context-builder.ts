@@ -253,9 +253,9 @@ Seja encorajador mas prático. Ofereça exemplos concretos e técnicas como o m�
       proposal_received: `O usuário recebeu uma proposta${heroContext.company ? ` da ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
       interview_soon: `O usuário tem uma entrevista${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''}`,
       interview_feedback: `O usuário completou uma entrevista simulada`,
-      needs_followup: `A aplicação${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''} precisa de follow-up`,
-      stale_apps: 'O usuário tem várias aplicações sem atualização',
-      low_activity: 'O usuário está com baixa atividade de aplicações',
+      needs_followup: `A candidatura${heroContext.company ? ` na ${heroContext.company}` : ''}${heroContext.title ? ` para ${heroContext.title}` : ''} precisa de follow-up`,
+      stale_apps: 'O usuário tem várias candidaturas sem atualização',
+      low_activity: 'O usuário está com baixa atividade de candidaturas',
       new_user: 'O usuário é novo na plataforma',
       active_summary: 'O usuário está vendo a dica do dia',
     }
@@ -300,7 +300,7 @@ IMPORTANTE:
 - O usuário quer entender o que essa comparação significa para sua busca de emprego
 - Se estiver acima da média, parabenize e sugira como manter/melhorar
 - Se estiver abaixo, seja encorajador e ofereça dicas práticas para melhorar
-- Explique que taxa de conversão é a % de aplicações que avançam para entrevistas
+- Explique que taxa de conversão é a % de candidaturas que avançam para entrevistas
 - Sugira ações concretas baseadas na posição do usuário`
   }
 
@@ -397,7 +397,7 @@ ${lastInsight.nextSteps.length > 0 ? `- Próximos passos: ${lastInsight.nextStep
 
   // 3. CONTEXTO DE VAGAS (secundário, conectado ao objetivo)
   prompt += `${prompt ? '\n\n' : ''}CONTEXTO DE VAGAS (para contextualizar a busca):
-- Total de aplicações: ${ctx.profile.totalApplications}
+- Total de candidaturas: ${ctx.profile.totalApplications}
 - Taxa de conversão: ${ctx.metrics.taxaConversao}% (entrevistas/total)
 - Processos ativos: ${ctx.metrics.processosAtivos}
 - Aguardando resposta: ${ctx.metrics.aguardandoResposta}
@@ -405,7 +405,7 @@ ${lastInsight.nextSteps.length > 0 ? `- Próximos passos: ${lastInsight.nextStep
 
   if (ctx.pendingApplications.length > 0) {
     const oldest = ctx.pendingApplications[0]
-    prompt += `\n- Aplicação mais antiga sem resposta: ${oldest.company} (${oldest.daysSinceApplied} dias)`
+    prompt += `\n- Candidatura mais antiga sem resposta: ${oldest.company} (${oldest.daysSinceApplied} dias)`
   }
   
   if (ctx.recentApplications.length > 0) {

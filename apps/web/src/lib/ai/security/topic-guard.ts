@@ -11,7 +11,7 @@ export type TopicCheckResult = {
 
 // Tópicos permitidos (relacionados a carreira)
 const ALLOWED_TOPICS = [
-  // Aplicações e processos seletivos
+  // Candidaturas e processos seletivos
   /aplica(cao|coes|r|ndo)/i,
   /candidatura/i,
   /processo\s*seletivo/i,
@@ -122,9 +122,9 @@ const BLOCKED_TOPICS = [
 
 // Respostas padrão para perguntas fora do tópico
 const OFF_TOPIC_RESPONSES = [
-  'Sou focado em ajudar com sua busca de emprego! Posso responder sobre suas aplicações, métricas, dicas de entrevista, ou análise do seu progresso. Como posso ajudar com sua carreira?',
-  'Essa pergunta está fora do meu escopo. Sou especializado em ajudar você a conseguir seu próximo emprego. Quer saber sobre suas aplicações ou receber dicas de carreira?',
-  'Minha especialidade é carreira e busca de emprego. Posso ajudar com análise das suas candidaturas, preparação para entrevistas, ou estratégias de aplicação. O que você precisa?',
+  'Sou focado em ajudar com sua busca de emprego! Posso responder sobre suas candidaturas, métricas, dicas de entrevista, ou análise do seu progresso. Como posso ajudar com sua carreira?',
+  'Essa pergunta está fora do meu escopo. Sou especializado em ajudar você a conseguir seu próximo emprego. Quer saber sobre suas candidaturas ou receber dicas de carreira?',
+  'Minha especialidade é carreira e busca de emprego. Posso ajudar com análise das suas candidaturas, preparação para entrevistas, ou estratégias de candidatura. O que você precisa?',
 ]
 
 /**

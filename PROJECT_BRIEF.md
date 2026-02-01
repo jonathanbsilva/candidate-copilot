@@ -11,7 +11,7 @@ Copilot de carreira que ajuda profissionais a tomar decisoes de emprego com clar
 
 ### MVP Completo
 - Entry flow → Insights de carreira (sem cadastro)
-- Tracking de aplicacoes (CRUD + timeline)
+- Tracking de candidaturas (CRUD + timeline)
 - Copilot chat contextual
 - Entrevista IA (mock interviews com IA)
 - Hero Card adaptativo
@@ -20,7 +20,7 @@ Copilot de carreira que ajuda profissionais a tomar decisoes de emprego com clar
 
 ### Limites Free
 - 3 insights/mes
-- 5 aplicacoes/mes
+- 5 candidaturas/mes
 - 5 perguntas/dia Copilot
 - 1 entrevista simulada (trial vitalicio)
 
@@ -32,7 +32,7 @@ Copilot de carreira que ajuda profissionais a tomar decisoes de emprego com clar
 **Plano**: `.cursor/plans/contextualizacao_entrevista_*.plan.md`
 
 Permitir usuario escolher contexto antes de iniciar entrevista:
-- Vaga cadastrada (das aplicacoes)
+- Vaga cadastrada (das candidaturas)
 - Ultimo insight
 - Manual
 

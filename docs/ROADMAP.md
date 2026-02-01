@@ -176,7 +176,7 @@
 
 ### Produto (MVP)
 - Landing + Entry flow (insight sem cadastro)
-- Tracking de aplicacoes (CRUD + timeline)
+- Tracking de candidaturas (CRUD + timeline)
 - Copilot contextual (insight/hero/interview)
 - Entrevista IA funcional + trial (1 free)
 - Assinatura Free/Pro (Stripe)

@@ -140,7 +140,7 @@ export function detectCTA(input: CTADetectorInput): CopilotCTA | null {
   }
   
   // PRIORIDADE 3: CTA Adicionar Vaga
-  // Condição: Fala de métricas mas tem poucas aplicações (menos de 3)
+  // Condição: Fala de métricas mas tem poucas candidaturas (menos de 3)
   if (containsKeyword(question, APPLICATION_KEYWORDS) && userContext.profile.totalApplications < 3) {
     return {
       type: 'add_application',
@@ -151,7 +151,7 @@ export function detectCTA(input: CTADetectorInput): CopilotCTA | null {
   }
   
   // CTA Entrevista IA por taxa baixa
-  // Condição: Taxa de conversão abaixo de 10% e tem pelo menos 5 aplicações
+  // Condição: Taxa de conversão abaixo de 10% e tem pelo menos 5 candidaturas
   if (
     containsKeyword(question, APPLICATION_KEYWORDS) &&
     userContext.metrics.taxaConversao < 10 &&

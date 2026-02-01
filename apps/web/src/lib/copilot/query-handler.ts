@@ -20,8 +20,7 @@ export type QueryResult = DirectQueryResult | AIQueryResult
 const directKeywords = [
   'taxa de conversao',
   'taxa de conversão',
-  'quantas aplicacoes',
-  'quantas aplicações',
+  'quantas candidaturas',
   'quantas entrevistas',
   'ultimo insight',
   'último insight',
