@@ -103,7 +103,9 @@ packages/
 
 ### Copilot Chat
 - Chat contextual no sidebar
-- Contextos: insight, hero card, interview feedback
+- Contextos: insight, hero card, interview feedback, application/proposta
+- CTAs contextuais baseados no objetivo do usuario
+- Verifica propostas ativas para sugerir adicionar nova
 - Respostas diretas do DB quando possivel (economia de tokens)
 - Limites: Free 5/dia, Pro ilimitado
 
@@ -195,6 +197,14 @@ IMPORTANTE: v9+ nao aceita `className`. Usar wrapper div:
 ```typescript
 <div className="prose"><ReactMarkdown>{content}</ReactMarkdown></div>
 ```
+
+### Componentes Utilitarios
+- `BottomSheet` - Modal mobile-friendly com drag-to-close (components/bottom-sheet.tsx)
+- `ActionBar` - Barra de acoes responsiva: dropdown no desktop, bottom bar no mobile (aplicacoes/[id]/action-bar.tsx)
+
+### Animacoes
+- `animate-fade-up` - Fade + slide up (Tailwind config)
+- `fadeUp` keyframe em globals.css (para inline styles)
 
 ---
 
