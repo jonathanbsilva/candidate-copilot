@@ -23,6 +23,7 @@ import {
   faseMaximaOptions,
   sinaisAlavancaOptions,
   tipoPivotOptions,
+  type EntryFlowData,
   type Step1Data,
   type Step2Data,
   type Step3Data,
