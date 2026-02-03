@@ -49,7 +49,7 @@ export async function POST(req: Request) {
       STRIPE_CONFIG.webhookSecret
     )
   } catch (err) {
-    logger.error('Webhook signature verification failed', { 
+    logger.error('Webhook signature verification failed', {
       error: err instanceof Error ? err.message : 'Unknown error',
       feature: 'stripe'
     })
@@ -97,7 +97,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ received: true })
   } catch (error) {
-    logger.error('Erro ao processar webhook Stripe', { 
+    logger.error('Erro ao processar webhook Stripe', {
       error: error instanceof Error ? error.message : 'Unknown error',
       eventType: event.type,
       feature: 'stripe'
@@ -112,7 +112,7 @@ export async function POST(req: Request) {
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.supabase_user_id
   if (!userId) {
-    logger.error('No user ID in checkout session metadata', { 
+    logger.error('No user ID in checkout session metadata', {
       sessionId: session.id,
       feature: 'stripe'
     })
@@ -153,7 +153,7 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     .single()
 
   if (!profile) {
-    logger.error('Nenhum usuário encontrado para customer Stripe', { 
+    logger.error('Nenhum usuário encontrado para customer Stripe', {
       customerId,
       subscriptionId: subscription.id,
       feature: 'stripe'
@@ -189,7 +189,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
     .single()
 
   if (!profile) {
-    logger.error('Nenhum usuário encontrado para customer Stripe (subscription deleted)', { 
+    logger.error('Nenhum usuário encontrado para customer Stripe (subscription deleted)', {
       customerId,
       subscriptionId: subscription.id,
       feature: 'stripe'
@@ -211,13 +211,102 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
 }
 
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
-  // Renewal payment succeeded - subscription status already handled by subscription.updated
-  logger.info('Pagamento de renovação bem-sucedido', { 
+  const customerId = invoice.customer as string | null
+
+  if (!customerId) {
+    logger.error('invoice.payment_succeeded sem customer', {
+      invoiceId: invoice.id,
+      feature: 'stripe',
+    })
+    return
+  }
+
+  const { data: profile, error: selectError } = await supabaseAdmin
+    .from('user_profiles')
+    .select('user_id, plan, subscription_status, subscription_id')
+    .eq('stripe_customer_id', customerId)
+    .single()
+
+  if (selectError || !profile) {
+    logger.error('Nenhum usuário encontrado para customer Stripe (payment_succeeded)', {
+      customerId,
+      invoiceId: invoice.id,
+      error: selectError?.message,
+      feature: 'stripe',
+    })
+    return
+  }
+
+  if (profile.plan === 'pro') {
+    logger.info('Pagamento bem-sucedido — usuário já é PRO', {
+      invoiceId: invoice.id,
+      customerId,
+      userId: profile.user_id,
+      feature: 'stripe',
+    })
+    return
+  }
+
+  const parent = (invoice).parent
+  const subscriptionIdFromParent =
+    parent?.type === 'subscription_details'
+      ? (parent?.subscription_details?.subscription as string | undefined)
+      : undefined
+
+  const subscriptionId = subscriptionIdFromParent ?? (profile.subscription_id ?? undefined)
+
+  if (!subscriptionId) {
+    logger.error('Invoice paid mas não consegui determinar subscriptionId (parent/banco)', {
+      invoiceId: invoice.id,
+      customerId,
+      userId: profile.user_id,
+      parentType: parent?.type,
+      feature: 'stripe',
+    })
+    return
+  }
+
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId)
+  const isActive = ['active', 'trialing'].includes(subscription.status)
+
+  const periodEnd = getCurrentPeriodEnd(subscription)
+  const currentPeriodEndIso = periodEnd
+    ? new Date(periodEnd * 1000).toISOString()
+    : null
+
+  const { error: updateError } = await supabaseAdmin
+    .from('user_profiles')
+    .update({
+      plan: isActive ? 'pro' : 'free',
+      subscription_id: subscription.id,
+      subscription_status: subscription.status,
+      current_period_end: currentPeriodEndIso,
+      upgrade_source: isActive ? 'stripe' : null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('user_id', profile.user_id)
+
+  if (updateError) {
+    logger.error('Falha ao atualizar user_profiles no invoice.payment_succeeded', {
+      invoiceId: invoice.id,
+      customerId,
+      userId: profile.user_id,
+      error: updateError.message,
+      feature: 'stripe',
+    })
+    return
+  }
+
+  logger.info('Usuário corrigido via invoice.payment_succeeded', {
     invoiceId: invoice.id,
-    customerId: invoice.customer as string,
-    feature: 'stripe'
+    customerId,
+    userId: profile.user_id,
+    newPlan: isActive ? 'pro' : 'free',
+    subscriptionStatus: subscription.status,
+    feature: 'stripe',
   })
 }
+
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   const customerId = invoice.customer as string
@@ -229,7 +318,7 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
     .single()
 
   if (!profile) {
-    logger.error('Nenhum usuário encontrado para customer Stripe (payment failed)', { 
+    logger.error('Nenhum usuário encontrado para customer Stripe (payment failed)', {
       customerId,
       invoiceId: invoice.id,
       feature: 'stripe'
