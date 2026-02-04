@@ -8,7 +8,7 @@ import { getHeroData } from './actions'
 import { getInterviewStats } from './interview-pro/actions'
 import { canUseInterviewPro } from '@/lib/subscription/check-access'
 import { PendingInsightSaver } from './_components/pending-insight-saver'
-import { HeroCard } from './_components/hero-card'
+import { CopilotAskSection } from './_components/copilot-ask-section'
 import { StrategyCard } from './_components/strategy-card'
 import {
   HeroCardSkeleton,
@@ -23,8 +23,7 @@ import {
 
 async function HeroCardSection() {
   const heroData = await getHeroData()
-  if (!heroData) return null
-  return <HeroCard data={heroData} />
+  return <CopilotAskSection heroData={heroData} />
 }
 
 async function StrategyCardSection() {

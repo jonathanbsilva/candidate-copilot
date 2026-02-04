@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useCallback } from 'react'
+import { useCallback } from 'react'
 import { Card, Button } from '@ui/components'
 import { X, Sparkles } from 'lucide-react'
 import { CopilotButton } from '@/components/copilot-button'
@@ -10,13 +10,13 @@ import type { HeroData } from '@/lib/hero'
 
 interface HeroCardProps {
   data: HeroData
+  onDismiss?: () => void
 }
 
-export function HeroCard({ data }: HeroCardProps) {
-  const [isDismissed, setIsDismissed] = useState(false)
+export function HeroCard({ data, onDismiss }: HeroCardProps) {
   const { openWithHeroContext } = useCopilotDrawer()
 
-  const handleOpenChat = useCallback(() => {
+  const handleOpenCopilot = useCallback(() => {
     openWithHeroContext({
       type: 'hero',
       context: data.context,
@@ -26,32 +26,26 @@ export function HeroCard({ data }: HeroCardProps) {
     })
   }, [openWithHeroContext, data])
 
-  if (isDismissed) {
-    return null
-  }
-
   const handleDismiss = () => {
-    setIsDismissed(true)
-    // Opcional: salvar no localStorage para não mostrar novamente por um tempo
+    // Salvar no localStorage para não mostrar novamente por um tempo
     const dismissKey = `hero_dismissed_${data.context}`
     localStorage.setItem(dismissKey, Date.now().toString())
+    onDismiss?.()
   }
 
-  // Check if the CTA should open the copilot chat
   const isChatCta = (href: string) => href.includes('chat=open')
 
-  const renderCta = (cta: { label: string; href: string }, isPrimary: boolean) => {
+  const renderCta = (cta: { label: string; href: string }) => {
     if (isChatCta(cta.href)) {
       return (
-        <CopilotButton size="sm" onClick={handleOpenChat}>
+        <CopilotButton size="sm" onClick={handleOpenCopilot} className="w-full sm:w-auto">
           {cta.label}
         </CopilotButton>
       )
     }
-    
     return (
-      <Link href={cta.href}>
-        <Button size="sm" variant="secondary">
+      <Link href={cta.href} className="block w-full sm:w-auto">
+        <Button size="sm" variant="secondary" className="w-full sm:w-auto">
           {cta.label}
         </Button>
       </Link>
@@ -82,10 +76,12 @@ export function HeroCard({ data }: HeroCardProps) {
         {data.message}
       </p>
 
-      {/* CTAs */}
+      {/* CTAs - todos os CTAs (Copilot com estilo gradiente, outros com secondary) */}
       <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-3">
-        {renderCta(data.primaryCta, true)}
-        {data.secondaryCta && renderCta(data.secondaryCta, false)}
+        <div className="w-full sm:w-auto">{renderCta(data.primaryCta)}</div>
+        {data.secondaryCta && (
+          <div className="w-full sm:w-auto">{renderCta(data.secondaryCta)}</div>
+        )}
       </div>
     </Card>
   )

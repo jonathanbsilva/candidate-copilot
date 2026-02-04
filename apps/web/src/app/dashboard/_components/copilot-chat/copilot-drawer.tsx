@@ -22,6 +22,8 @@ export function CopilotDrawer() {
     interviewContext,
     benchmarkContext,
     applicationContext,
+    pendingQuestion,
+    clearPendingQuestion,
     clearContext 
   } = useCopilotDrawer()
   
@@ -310,6 +312,15 @@ export function CopilotDrawer() {
     setHasShownInitialMessage(false)
     clearContext()
   }
+
+  // Process pending question from AskBox
+  useEffect(() => {
+    if (!isOpen || !pendingQuestion) return
+    const q = pendingQuestion
+    clearPendingQuestion()
+    // Small delay to ensure the drawer has rendered
+    setTimeout(() => handleSubmit(q), 50)
+  }, [isOpen, pendingQuestion, clearPendingQuestion, handleSubmit])
 
   return (
     <>

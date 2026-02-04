@@ -80,6 +80,7 @@ type CopilotDrawerStore = {
   interviewContext: InterviewContext | null
   benchmarkContext: BenchmarkContext | null
   applicationContext: ApplicationContext | null
+  pendingQuestion: string | null
   open: () => void
   close: () => void
   openWithContext: (context: InsightContext) => void
@@ -87,6 +88,8 @@ type CopilotDrawerStore = {
   openWithInterviewContext: (context: InterviewContext) => void
   openWithBenchmarkContext: (context: BenchmarkContext) => void
   openWithApplicationContext: (context: ApplicationContext) => void
+  openWithPendingQuestion: (question: string, heroContext?: HeroContext) => void
+  clearPendingQuestion: () => void
   clearContext: () => void
 }
 
@@ -97,12 +100,23 @@ export const useCopilotDrawer = create<CopilotDrawerStore>((set) => ({
   interviewContext: null,
   benchmarkContext: null,
   applicationContext: null,
-  open: () => set({ isOpen: true, insightContext: null, heroContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null }),
-  close: () => set({ isOpen: false, insightContext: null, heroContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null }),
-  openWithContext: (context) => set({ isOpen: true, insightContext: context, heroContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null }),
-  openWithHeroContext: (context) => set({ isOpen: true, heroContext: context, insightContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null }),
-  openWithInterviewContext: (context) => set({ isOpen: true, interviewContext: context, insightContext: null, heroContext: null, benchmarkContext: null, applicationContext: null }),
-  openWithBenchmarkContext: (context) => set({ isOpen: true, benchmarkContext: context, insightContext: null, heroContext: null, interviewContext: null, applicationContext: null }),
-  openWithApplicationContext: (context) => set({ isOpen: true, applicationContext: context, insightContext: null, heroContext: null, interviewContext: null, benchmarkContext: null }),
-  clearContext: () => set({ insightContext: null, heroContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null }),
+  pendingQuestion: null,
+  open: () => set({ isOpen: true, insightContext: null, heroContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null, pendingQuestion: null }),
+  close: () => set({ isOpen: false, insightContext: null, heroContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null, pendingQuestion: null }),
+  openWithContext: (context) => set({ isOpen: true, insightContext: context, heroContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null, pendingQuestion: null }),
+  openWithHeroContext: (context) => set({ isOpen: true, heroContext: context, insightContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null, pendingQuestion: null }),
+  openWithInterviewContext: (context) => set({ isOpen: true, interviewContext: context, insightContext: null, heroContext: null, benchmarkContext: null, applicationContext: null, pendingQuestion: null }),
+  openWithBenchmarkContext: (context) => set({ isOpen: true, benchmarkContext: context, insightContext: null, heroContext: null, interviewContext: null, applicationContext: null, pendingQuestion: null }),
+  openWithApplicationContext: (context) => set({ isOpen: true, applicationContext: context, insightContext: null, heroContext: null, interviewContext: null, benchmarkContext: null, pendingQuestion: null }),
+  openWithPendingQuestion: (question, heroCtx) => set({
+    isOpen: true,
+    pendingQuestion: question.trim() || null,
+    heroContext: heroCtx || null,
+    insightContext: null,
+    interviewContext: null,
+    benchmarkContext: null,
+    applicationContext: null,
+  }),
+  clearPendingQuestion: () => set({ pendingQuestion: null }),
+  clearContext: () => set({ insightContext: null, heroContext: null, interviewContext: null, benchmarkContext: null, applicationContext: null, pendingQuestion: null }),
 }))
