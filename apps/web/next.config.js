@@ -3,6 +3,10 @@ const { withSentryConfig } = require('@sentry/nextjs')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ['@ui/components'],
+  experimental: {
+    browsersListForSwc: true,
+    legacyBrowsers: false,
+  },
 }
 
 // Sentry configuration options

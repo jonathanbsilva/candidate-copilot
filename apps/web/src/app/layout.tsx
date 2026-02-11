@@ -1,9 +1,22 @@
 import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
+import dynamic from 'next/dynamic'
 import './globals.css'
-import { PostHogProvider } from '@/components/providers/posthog-provider'
 import { GoogleAnalytics } from '@/components/providers/google-analytics'
 import { GoogleTagManager } from '@/components/providers/google-tag-manager'
 import { CookieConsentBanner } from '@/components/cookie-consent-banner'
+
+const PostHogProvider = dynamic(
+  () => import('@/components/providers/posthog-provider').then(mod => ({ default: mod.PostHogProvider })),
+  { ssr: false }
+)
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -50,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={inter.variable}>
       <body>
         <GoogleTagManager />
         <GoogleAnalytics />

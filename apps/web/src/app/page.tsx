@@ -1,43 +1,78 @@
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
 import { Button, Card, Badge } from '@ui/components'
 import { Sparkles, Target, Clock, ArrowRight, Mic } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
-import { CopilotShowcase } from './_components/copilot-showcase'
 
-export default async function HomePage() {
+const CopilotShowcase = dynamic(
+  () => import('./_components/copilot-showcase').then(mod => ({ default: mod.CopilotShowcase })),
+  { ssr: false }
+)
+
+function HeaderSkeleton() {
+  return (
+    <header className="border-b border-stone/30 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+      <div className="container-wide py-4 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-amber rounded-lg flex items-center justify-center">
+            <Sparkles className="w-5 h-5 text-navy" />
+          </div>
+          <span className="font-semibold text-lg text-navy">GoHire Copilot</span>
+        </Link>
+        <div className="flex items-center gap-4">
+          <Link href="/pricing" className="text-sm text-navy/70 hover:text-navy transition-colors hidden sm:block">
+            Preços
+          </Link>
+          <div className="w-20 h-8 bg-stone/20 rounded animate-pulse" />
+        </div>
+      </div>
+    </header>
+  )
+}
+
+async function AuthHeader() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   return (
+    <header className="border-b border-stone/30 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+      <div className="container-wide py-4 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-amber rounded-lg flex items-center justify-center">
+            <Sparkles className="w-5 h-5 text-navy" />
+          </div>
+          <span className="font-semibold text-lg text-navy">GoHire Copilot</span>
+        </Link>
+        <div className="flex items-center gap-4">
+          <Link href="/pricing" className="text-sm text-navy/70 hover:text-navy transition-colors hidden sm:block">
+            Preços
+          </Link>
+          {user ? (
+            <Link href="/dashboard">
+              <Button variant="ghost" size="sm">
+                Dashboard
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/auth">
+              <Button variant="ghost" size="sm">
+                Entrar
+              </Button>
+            </Link>
+          )}
+        </div>
+      </div>
+    </header>
+  )
+}
+
+export default function HomePage() {
+  return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="border-b border-stone/30 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container-wide py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-amber rounded-lg flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-navy" />
-            </div>
-            <span className="font-semibold text-lg text-navy">GoHire Copilot</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/pricing" className="text-sm text-navy/70 hover:text-navy transition-colors hidden sm:block">
-              Preços
-            </Link>
-            {user ? (
-              <Link href="/dashboard">
-                <Button variant="ghost" size="sm">
-                  Dashboard
-                </Button>
-              </Link>
-            ) : (
-              <Link href="/auth">
-                <Button variant="ghost" size="sm">
-                  Entrar
-                </Button>
-              </Link>
-            )}
-          </div>
-        </div>
-      </header>
+      <Suspense fallback={<HeaderSkeleton />}>
+        <AuthHeader />
+      </Suspense>
 
       {/* Hero Section */}
       <main className="flex-1">
