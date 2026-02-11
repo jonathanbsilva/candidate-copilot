@@ -10,69 +10,55 @@ const CopilotShowcase = dynamic(
   { ssr: false }
 )
 
-function HeaderSkeleton() {
-  return (
-    <header className="border-b border-stone/30 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-      <div className="container-wide py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-amber rounded-lg flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-navy" />
-          </div>
-          <span className="font-semibold text-lg text-navy">GoHire Copilot</span>
-        </Link>
-        <div className="flex items-center gap-4">
-          <Link href="/pricing" className="text-sm text-navy/70 hover:text-navy transition-colors hidden sm:block">
-            Preços
-          </Link>
-          <div className="w-20 h-8 bg-stone/20 rounded animate-pulse" />
-        </div>
-      </div>
-    </header>
-  )
+function AuthButtonSkeleton() {
+  return <div className="w-20 h-8 bg-stone/20 rounded animate-pulse" />
 }
 
-async function AuthHeader() {
+async function AuthButton() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  
+  if (user) {
+    return (
+      <Link href="/dashboard">
+        <Button variant="ghost" size="sm">
+          Dashboard
+        </Button>
+      </Link>
+    )
+  }
+  
   return (
-    <header className="border-b border-stone/30 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-      <div className="container-wide py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-amber rounded-lg flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-navy" />
-          </div>
-          <span className="font-semibold text-lg text-navy">GoHire Copilot</span>
-        </Link>
-        <div className="flex items-center gap-4">
-          <Link href="/pricing" className="text-sm text-navy/70 hover:text-navy transition-colors hidden sm:block">
-            Preços
-          </Link>
-          {user ? (
-            <Link href="/dashboard">
-              <Button variant="ghost" size="sm">
-                Dashboard
-              </Button>
-            </Link>
-          ) : (
-            <Link href="/auth">
-              <Button variant="ghost" size="sm">
-                Entrar
-              </Button>
-            </Link>
-          )}
-        </div>
-      </div>
-    </header>
+    <Link href="/auth">
+      <Button variant="ghost" size="sm">
+        Entrar
+      </Button>
+    </Link>
   )
 }
 
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <Suspense fallback={<HeaderSkeleton />}>
-        <AuthHeader />
-      </Suspense>
+      {/* Header - renderiza imediatamente, apenas o botão de auth usa Suspense */}
+      <header className="border-b border-stone/30 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container-wide py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-amber rounded-lg flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-navy" />
+            </div>
+            <span className="font-semibold text-lg text-navy">GoHire Copilot</span>
+          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/pricing" className="text-sm text-navy/70 hover:text-navy transition-colors hidden sm:block">
+              Preços
+            </Link>
+            <Suspense fallback={<AuthButtonSkeleton />}>
+              <AuthButton />
+            </Suspense>
+          </div>
+        </div>
+      </header>
 
       {/* Hero Section */}
       <main className="flex-1">

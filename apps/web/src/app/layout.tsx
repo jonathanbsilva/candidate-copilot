@@ -2,12 +2,23 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import dynamic from 'next/dynamic'
 import './globals.css'
-import { GoogleAnalytics } from '@/components/providers/google-analytics'
-import { GoogleTagManager } from '@/components/providers/google-tag-manager'
-import { CookieConsentBanner } from '@/components/cookie-consent-banner'
-
 const PostHogProvider = dynamic(
   () => import('@/components/providers/posthog-provider').then(mod => ({ default: mod.PostHogProvider })),
+  { ssr: false }
+)
+
+const GoogleAnalytics = dynamic(
+  () => import('@/components/providers/google-analytics').then(mod => ({ default: mod.GoogleAnalytics })),
+  { ssr: false }
+)
+
+const GoogleTagManager = dynamic(
+  () => import('@/components/providers/google-tag-manager').then(mod => ({ default: mod.GoogleTagManager })),
+  { ssr: false }
+)
+
+const CookieConsentBanner = dynamic(
+  () => import('@/components/cookie-consent-banner').then(mod => ({ default: mod.CookieConsentBanner })),
   { ssr: false }
 )
 
@@ -16,6 +27,8 @@ const inter = Inter({
   weight: ['400', '500', '600', '700'],
   display: 'swap',
   variable: '--font-inter',
+  preload: true,
+  adjustFontFallback: true,
 })
 
 export const viewport: Viewport = {
